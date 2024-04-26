@@ -1,6 +1,9 @@
 from flask import Flask
+from models import db
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='static')
+app.config.from_object('conf.Config')
+db.init_app(app)
 
 
 @app.route('/')
