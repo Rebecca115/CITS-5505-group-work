@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, request, abort
 
 from models import Question
 
-index = Blueprint('index', __name__,
+index = Blueprint('quest', __name__,
                template_folder='templates',
                static_folder='../static')
 
@@ -13,13 +13,13 @@ def indexPage():
     return render_template('index.html')
 
 
-# @index.route('/write')
+# @quest.route('/write')
 # def write():
 #
 #     return render_template('write.html')
 
 
-# @index.route('/detail/<int:q_id>')
+# @quest.route('/detail/<int:q_id>')
 # def detail(q_id):
 #     # question detail
 #     question = Question.query.get(q_id)
