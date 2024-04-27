@@ -54,7 +54,7 @@ class WriteQuestionForm(FlaskForm):
             user=current_user
         )
         db.session.add(que_obj)
-
+        db.session.commit()
         return que_obj
 
 #

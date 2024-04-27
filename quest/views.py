@@ -13,8 +13,11 @@ quest = Blueprint('quest', __name__,
 
 @quest.route('/')
 def indexPage():
-
-    return render_template('index.html')
+    per_page = 5
+    page = int(request.args.get('page', 1))
+    page_data = Question.query.order_by(Question.created_at.desc()).paginate(
+        page=page, per_page=per_page)
+    return render_template('index.html', page_data=page_data)
 
 
 @quest.route('/post', methods=['GET', 'POST'])
@@ -43,9 +46,9 @@ def question_list():
     }
     """
     try:
-        per_page = 4  #
+        per_page = 5  #
         page = int(request.args.get('page', 1))
-        page_data = Question.query.filter_by().paginate(
+        page_data = Question.query.paginate(
             page=page, per_page=per_page)
         data = render_template('qa_list.html', page_data=page_data)
         print(data)
