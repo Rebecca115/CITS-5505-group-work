@@ -1,37 +1,85 @@
-{% extends 'base.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
 
-{% block layout %}
-    <div>
-        {% if current_user.is_authenticated %}
-            <div>Welcome back, {{ current_user.nickname }}</div>
-        {% endif %}
+<div>
+    {% if current_user.is_authenticated %}
+        <div>Welcome back, {{ current_user.nickname }}</div>
+    {% endif %}
 
-    </div>
+</div>
 
-    {% with messages = get_flashed_messages() %}
-        {% if messages %}
-            <ul class="flashes">
-                {% for message in messages %}
-                    <li>{{ message }}</li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-    {% endwith %}
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <ul class="flashes">
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endwith %}
 
-    <a href="user/register">Register</a>
-    <a href="user/login">Login</a>
-    <a href="user/logout">Logout</a>
-    <a href="/post">post</a>
-
-    <div>
-
-
-    </div>
-
-{% endblock %}
-
+<a href="user/register">Register</a>
+<a href="user/login">Login</a>
+<a href="user/logout">Logout</a>
+<a href="/post">post</a>
 
 
-{% block js_get_list %}
+<p>Question List</p>
+<div class="qa-ls" id="id-qa-ls">
 
-{% endblock %}
+</div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
+        integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
+        crossorigin="anonymous"></script>
+
+
+<script>
+
+
+    {#Use AJAX to get the question list#}
+    $(function () {
+        var container = $('#id-qa-ls');
+        var page = 1;
+
+
+        $.get('{{ url_for("quest.question_list") }}', {
+            page: page
+        }, function (result) {
+            if (result.code === 0) {
+                var res = result.data
+                console.log(res);
+
+
+                var html = $(res)
+
+
+                $('.show-desc', html).click(function () {
+                    $(this).addClass('hidden');
+                    $(this).next().removeClass('hidden')
+                })
+                $('.show-all', html).click(function () {
+                    $(this).addClass('hidden');
+                    $(this).prev().removeClass('hidden')
+                })
+
+                container.append(html);
+
+                page += 1
+            } else {
+                window.alert('API Failed')
+            }
+        })
+    })
+</script>
+</body>
+</html>
+

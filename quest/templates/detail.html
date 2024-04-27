@@ -1,5 +1,62 @@
-{% extends 'base.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
 
-{% block content %}
-<div>fuck</div>
-{% endblock %}
+<div class="layout-question">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-9">
+                <h3>{{ question.title }}</h3>
+                <h4>{{ question.user.nickname }}</h4>
+
+                <div class="show-all ">
+                    {% autoescape false %}
+                    {{ question.content|safe }}
+                    {% endautoescape %}
+                </div>
+            </div>
+        </div><!-- // row -->
+    </div>
+</div>
+
+
+<div class="layout-answer">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-9 left-content">
+
+                {% if answer %}
+                <div class="answer-content box-wrap">
+                    <div class="user-info">
+                        <div class="desc">
+                            <h4>{{ answer.user.nickname }}</h4>
+
+                        </div>
+                    </div>
+                    <div class="answer-txt">
+                        {% autoescape false %}
+                        {{ answer.content|safe }}
+                        {% endautoescape %}
+                    </div>
+                    <div class="answer-time">Answered at {{ answer.created_at }}</div>
+                </div>
+                {% else %}
+                <div class="answer-content box-wrap">
+                    No one answered yet.
+                </div>
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="layout-footer">
+    <a href="#" data-toggle="tooltip" title="Top"><i class="glyphicon glyphicon-arrow-up"></i></a>
+</div>
+</body>
+</html>
