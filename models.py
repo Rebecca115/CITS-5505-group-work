@@ -29,6 +29,11 @@ class User(db.Model):
     def is_anonymous(self):
         return False
 
+    @property
+    def is_active(self):
+        return True
+
+
     def get_id(self):
         return '{}'.format(self.id)
 
