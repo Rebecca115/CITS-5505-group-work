@@ -51,7 +51,7 @@ def question_list():
         page_data = Question.query.paginate(
             page=page, per_page=per_page)
         data = render_template('qa_list.html', page_data=page_data)
-        print(data)
+        # print(data)
 
         return {'code': 0, 'data': data}
     except Exception as e:
@@ -65,14 +65,28 @@ def detail(q_id):
 
 
     question = Question.query.get(q_id)
-    print(question, q_id)
 
-    answer = question.answer_list.filter_by().first()
-    print(answer)
+    answer = Answer.query.filter_by(q_id=q_id).order_by(Answer.created_at.desc()).all()
+
+    # answer = question.answer_list
+    form = WriteAnswerForm()
+
+    if form.validate_on_submit():
+        try:
+            if not current_user.is_authenticated:
+                flash('Please login', 'danger')
+                return redirect(url_for('user.login'))
+            form.save(question=question)
+            flash('Answer successfully', 'success')
+            return redirect(url_for('quest.detail', q_id=q_id))
+        except Exception as e:
+            print(e)
 
     return render_template('detail.html',
                            question=question,
                            answer=answer,
+                           form=form
+
                            )
 
 
