@@ -90,12 +90,12 @@ def initialize_answers(db):
             content="""
             Baby pigeons are usually not seen because they stay in their nests, which are often hidden in high and hard-to-reach places such as rooftops or building ledges. Additionally, baby pigeons grow rapidly and are capable of flying within a few weeks, so they may not stay in their nests for long periods.
             """,
-            user_id=1, q_id=1),
+            user_id=3, q_id=1),
         Answer(
             content="""
             Whether cereal qualifies as soup can be debated. While cereal and milk share some similarities with soup, such as being a mixture of solid and liquid ingredients, the key difference lies in their preparation and consumption. Soup is typically cooked and served hot as a savory dish, while cereal is eaten cold and is often considered a breakfast food.
             """,
-            user_id=2, q_id=2),
+            user_id=4, q_id=2),
         Answer(
             content="""
 The reason why there's usually a light in the fridge but not in the freezer is due to the way these
@@ -118,7 +118,7 @@ for something specific.
 In summary, the fridge needs lighting to help maintain its temperature and make contents visible, while
 the freezer doesn't require lighting due to its low temperatures and lack of food organization.
             """,
-            user_id=3, q_id=3),
+            user_id=5, q_id=3),
         Answer(
             content="""
 The answer is: None!
@@ -131,7 +131,7 @@ Think about it like this: when you take a picture with a camera, what's the colo
 whatever colors are reflected in the scene you're capturing! In the same way, mirrors reflect the colors
 around them, so they don't have an inherent color themselves.
             """,
-            user_id=4, q_id=4),
+            user_id=6, q_id=4),
         Answer(
             content="""
 A curious question!
@@ -173,7 +173,7 @@ produce odors.
 So, while it might seem like our noses and feet are somehow connected in terms of bodily functions,
 they're actually just responding to different stimuli and environmental factors!
             """,
-            user_id=5, q_id=5),
+            user_id=7, q_id=5),
         Answer(
             content="""
 Crying is a complex process that involves the release of tears from the lacrimal gland, which is located
@@ -195,7 +195,7 @@ like sadness or joy underwater.
 
 So, while you can technically cry underwater, it's not the same as crying on land. The pressure and
 density of the water make it a unique experience!            """,
-            user_id=6, q_id=6),
+            user_id=8, q_id=6),
         Answer(
             content="""
 Fish don't get thirsty in the same way humans do. Since they live in water, their bodies are adapted to
@@ -216,7 +216,7 @@ bodies are designed to thrive in an aquatic environment, and they've evolved to 
 their bodily functions accordingly.
 
 So, to answer your question: No, fish don't get thirsty!            """,
-            user_id=7, q_id=7),
+            user_id=9, q_id=7),
         Answer(
             content="""
 The reason we "park on driveways" and "drive on parkways" lies in the historical development of urban
@@ -243,7 +243,7 @@ distances.
 
 So, to summarize: the reason we "park on driveways" and "drive on parkways" is a result of historical
 context, urban planning decisions, and linguistic evolution, which have led to our modern understanding of
-these terms.""",            user_id=8, q_id=8),
+these terms.""",            user_id=1, q_id=8),
         Answer(
             content="""
 The idea that vampires can't see their reflection is a common myth or trope in folklore and popular
@@ -292,7 +292,7 @@ ambulance to stop and assist someone they've just run over, such as a child or p
 
 In general, though, the answer would still be "no," the ambulance would not typically stop to help the
 person they just ran over.            """,
-            user_id=10, q_id=10)
+            user_id=2, q_id=10)
     ]
 
     for answer in answers:
