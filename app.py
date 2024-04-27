@@ -1,23 +1,29 @@
 import os
 
 from flask import Flask, session, g
+from flask_ckeditor import CKEditor
 from flask_login import LoginManager
 
-from quest.view import index
+from quest.views import quest
 from models import db, User
 from user.views import user
-from utils import database_creator
+from utils import initialize_database
 
 app = Flask(__name__, static_folder='static')
 app.config.from_object('conf.Config')
 
-# create database
-database_creator.create_local_db(app, db)
+ckeditor = CKEditor()
+ckeditor.init_app(app)
+
 
 # init database
 db.init_app(app)
 
-app.register_blueprint(index, url_prefix='/')
+# create database
+initialize_database.create_local_db(app, db)
+
+
+app.register_blueprint(quest, url_prefix='/')
 app.register_blueprint(user, url_prefix='/user')
 
 # Login
@@ -32,15 +38,6 @@ login_manager.init_app(app)
 def load_user(user_id):
     return User.query.get(user_id)
 
-
-@app.before_request
-def before_request():
-    """ if there is a user id, set it to the global object"""
-    user_id = session.get('user_id', None)
-    if user_id:
-        user = User.query.get(user_id)
-        print(user)
-        g.current_user = user
 
     #
 # if __name__ == '__main__':
