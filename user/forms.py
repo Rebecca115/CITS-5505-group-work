@@ -47,7 +47,6 @@ class RegisterForm(FlaskForm):
         password = self.password.data
         nickname = self.nickname.data
         # 2. Add to db.session
-        print(username, password, nickname)
 
         try:
             # Encrypt the password before storing it

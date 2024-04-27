@@ -21,7 +21,7 @@ def login():
     if form.validate_on_submit():
         user = form.do_login()
         if user is not None:
-            flash('You have been successfully logged in.')
+            flash('You have been successfully logged in.', 'success')
             return redirect("/")
         else:
             flash('Login failed, please try again.', 'danger')
@@ -49,7 +49,7 @@ def register():
     form = RegisterForm()
     if form.validate_on_submit():
         user_obj = form.register()
-        print(user_obj)
+        # print(user_obj)
 
         if user_obj:
             # register successful, redirect to login page
