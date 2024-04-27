@@ -43,11 +43,13 @@ def question_list():
     }
     """
     try:
-        per_page = 2  # 每页数据的大小
+        per_page = 4  #
         page = int(request.args.get('page', 1))
         page_data = Question.query.filter_by().paginate(
             page=page, per_page=per_page)
-        data = render_template('q_list.html', page_data=page_data)
+        data = render_template('qa_list.html', page_data=page_data)
+        print(data)
+
         return {'code': 0, 'data': data}
     except Exception as e:
         print(e)
@@ -64,18 +66,7 @@ def detail(q_id):
 
     answer = question.answer_list.filter_by().first()
     print(answer)
-    # 添加回答
-    # form = WriteAnswerForm()
-    # if form.validate_on_submit():
-    #     try:
-    #         if not current_user.is_authenticated:
-    #             flash('请先登录', 'danger')
-    #             return redirect(url_for('accounts.login'))
-    #         form.save(question=question)
-    #         flash('回答问题成功', 'success')
-    #         return redirect(url_for('qa.detail', q_id=q_id))
-    #     except Exception as e:
-    #         print(e)
+
     return render_template('detail.html',
                            question=question,
                            answer=answer,
