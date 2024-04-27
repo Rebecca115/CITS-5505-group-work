@@ -1,8 +1,8 @@
-# **Flask Question and Answer Application**
+#  CITS5505 Flask Question and Answer Application
 
 This Flask application is a simple yet functional Question and Answer platform. It allows users to register, log in, post questions, and provide answers. The application uses Flask, Flask-SQLAlchemy, and Flask-Login for managing user sessions and interactions.
 
-## **Features**
+## Features
 
 - User registration and authentication
 - Post questions with descriptions and images
@@ -134,12 +134,3 @@ To register a new user, navigate to **`/user/register`**. The registration form 
 
 Existing users can log in by navigating to **`/user/login`**. The user must enter their username and password, which are validated against the stored data. If the credentials are correct, the user is authenticated and logged into the system. The application uses sessions to maintain the login state, ensuring that the user remains logged in while navigating between pages.
 
-## **Contributing**
-
-Contributions are what make the open-source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
-
-1. Fork the Project
-2. Create your Feature Branch (**`git checkout -b feature/AmazingFeature`**)
-3. Commit your Changes (**`git commit -m 'Add some AmazingFeature'`**)
-4. Push to the Branch (**`git push origin feature/AmazingFeature`**)
-5. Open a Pull Request
