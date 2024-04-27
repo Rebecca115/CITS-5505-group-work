@@ -82,6 +82,7 @@ class LoginForm(FlaskForm):
         user = User.query.filter_by(username=username.data).first()
         # print("database: ", user)
         if user is None:
+            print('username or password is incorrect')
             raise ValidationError('username or password is incorrect')
 
     def do_login(self):
@@ -93,6 +94,7 @@ class LoginForm(FlaskForm):
             password = hashlib.sha256(password.encode()).hexdigest()
             print(username,password)
             user = User.query.filter_by(username=username, password=password).first()
+
             login_user(user)
 
             return user

@@ -1,22 +1,37 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-        {% with messages = get_flashed_messages() %}
-          {% if messages %}
-            <ul class="flashes">
-            {% for message in messages %}
-              <li>{{ message }}</li>
-            {% endfor %}
-            </ul>
-          {% endif %}
-        {% endwith %}
+{% extends 'base.html' %}
 
-    <a href = "user/register">Register</a>
-<a href = "user/login">Login</a>
-</body>
-</html>
+{% block layout %}
+    <div>
+        {% if current_user.is_authenticated %}
+            <div>Welcome back, {{ current_user.nickname }}</div>
+        {% endif %}
+
+    </div>
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul class="flashes">
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+
+    <a href="user/register">Register</a>
+    <a href="user/login">Login</a>
+    <a href="user/logout">Logout</a>
+    <a href="/post">post</a>
+
+    <div>
+
+
+    </div>
+
+{% endblock %}
+
+
+
+{% block js_get_list %}
+
+{% endblock %}
