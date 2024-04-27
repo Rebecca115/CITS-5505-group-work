@@ -1,4 +1,5 @@
 import hashlib
+import time
 
 from flask import Blueprint, render_template, flash, redirect, url_for, session, request
 from flask_login import login_user, logout_user
@@ -18,23 +19,26 @@ def login():
     # print("form.validate_on_submit()",form.validate_on_submit())
     next_url = "index"
     if form.validate_on_submit():
-        print('form.is_submitted()',form.is_submitted())
         user = form.do_login()
-        print(user)
-        if user:
+        if user is not None:
             flash('You have been successfully logged in.')
-
             return redirect("/")
-
-    # else:
-    #     print(form.errors)
+        else:
+            flash('Login failed, please try again.', 'danger')
+            print('Login failed')
+            return redirect("login")
+    else:
+        print(form.errors)
     return render_template('login.html', form=form, next_url=next_url)
 
 
 
 @user.route('/logout')
 def logout():
-    pass
+    logout_user()
+    flash('You have logout.', 'success')
+    return redirect("/")
+
 
 
 
