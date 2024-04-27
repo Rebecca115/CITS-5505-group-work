@@ -1,8 +1,8 @@
-# ** CITS5505 Flask Question and Answer Application**
+#  CITS5505 Flask Question and Answer Application
 
 This Flask application is a simple yet functional Question and Answer platform. It allows users to register, log in, post questions, and provide answers. The application uses Flask, Flask-SQLAlchemy, and Flask-Login for managing user sessions and interactions.
 
-## **Features**
+## Features
 
 - User registration and authentication
 - Post questions with descriptions and images
