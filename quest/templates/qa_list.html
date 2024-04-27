@@ -1,29 +1,29 @@
 {% for question in page_data.items %}
 <div class="qa-item">
-  <a href="{{ url_for('quest.detail', q_id=question.id) }}" class="title">{{ question.title }}</a>
-  <div class="desc">
-    {% if question.img %}
-      <div class="left">
-        <img src="{{ question.get_img_url }}" alt="" srcset="">
-      </div>
-    {% endif %}
-    <div class="right">
-      <div class="show-desc">{{ question.desc|d('No description', True) }}...
-        <span class="more">Read more...<i class="glyphicon glyphicon-menu-down"></i></span>
-      </div>
-      <div class="show-all hidden">
-        {% autoescape false %}
-        {{ question.content|safe }}
-        {% endautoescape %}
-        <span class="more">collapse<i class="glyphicon glyphicon-menu-up"></i></span>
-      </div>
+    <a href="{{ url_for('quest.detail', q_id=question.id) }}" class="title">{{ question.title }}</a>
+    <div class="desc">
+        {% if question.img %}
+            <div class="left">
+                <img src="{{ question.get_img_url }}" alt="" srcset="">
+            </div>
+        {% endif %}
+        <div class="right">
+            <div class="show-desc">{{ question.desc|d('No description', True) }}...
+                <span class="more">Read more...</span>
+            </div>
+            <div class="show-all hidden">
+                {% autoescape false %}
+                {{ question.content|safe }}
+                {% endautoescape %}
+                <span class="more">collapse</span>
+            </div>
+        </div>
     </div>
-  </div>
-  <div class="qa-footer">
+    <div class="qa-footer">
 
-    <div class="txt-menu"><i class="glyphicon glyphicon-comment"></i> {{ question.comment_count|d('0', True) }} comment</div>
+        <div class="txt-menu">{{ question.comment_count|d('0', True) }} comment</div>
 
     </div>
-  </div>
+</div>
 </div>
 {% endfor %}
