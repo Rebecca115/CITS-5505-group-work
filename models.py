@@ -1,3 +1,4 @@
+import hashlib
 from datetime import datetime
 
 from flask_sqlalchemy import SQLAlchemy
@@ -39,6 +40,12 @@ class User(db.Model):
 
     def __str__(self):
         return self.nickname
+
+    def set_password(self, password):
+        self.password = hashlib.sha256(password.encode()).hexdigest()
+
+    def check_password(self, password):
+        return self.password == hashlib.sha256(password.encode()).hexdigest()
 
 
 class Question(db.Model):

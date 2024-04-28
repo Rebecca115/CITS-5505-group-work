@@ -16,7 +16,10 @@
 </head>
 <body>
 <div class="container">
+
     <div class="layout-question mt-5">
+            <a href="/" class="btn btn-success">Home</a>
+
         <h3 class="mb-3">{{ question.title }}</h3>
         <h4 class="mb-3">{{ question.user.nickname }}</h4>
 
@@ -107,7 +110,7 @@
                 error: function (xhr) {
                     if (xhr.status === 401) {
                         alert('Please login first.');
-                        window.location.href = '{{ url_for("user.login") }}';
+                        {#window.location.href = '{{ url_for("user.login") }}';#}
 
                     } else if (xhr.status === 404) {
                         alert('Answer not found.');

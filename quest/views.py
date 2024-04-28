@@ -7,8 +7,8 @@ from models import Question, Answer, db, AnswerLike
 from quest.form import WriteQuestionForm, WriteAnswerForm
 
 quest = Blueprint('quest', __name__,
-               template_folder='templates',
-               static_folder='../static')
+                  template_folder='templates',
+                  static_folder='../static')
 
 
 @quest.route('/')
@@ -36,6 +36,7 @@ def post():
         flash('Quest post failed', 'danger')
     return render_template('post.html', form=form)
 
+
 @quest.route('/q/list')
 def question_list():
     """
@@ -62,11 +63,9 @@ def question_list():
 
 @quest.route('/detail/<int:q_id>', methods=['GET', 'POST'])
 def detail(q_id):
-
     question = Question.query.get(q_id)
 
     answer = Answer.query.filter_by(q_id=q_id).order_by(Answer.created_at.desc()).all()
-    print(current_user)
     # check if the answer is liked by the current user
     if current_user.is_anonymous is False:
         for ans in answer:
@@ -103,7 +102,6 @@ from flask import jsonify
 # @login_required
 def answer_like(answer_id):
     if not current_user.is_authenticated:
-
         return jsonify({'error': 'Please login'}), 401
 
     try:
@@ -117,9 +115,8 @@ def answer_like(answer_id):
         db.session.add(new_like)
         db.session.commit()
 
-        # 正常的处理逻辑, 返回新的点赞计数
-        like_count = Answer.query.get(answer_id).like_count  # 假设存在like_count计算逻辑
-        return jsonify({'message': '点赞成功', 'like_count': like_count}), 201
+        like_count = Answer.query.get(answer_id).like_count
+        return jsonify({'message': 'Success', 'like_count': like_count}), 201
     except Exception as e:
         print(e)
-        return jsonify({'error': '服务器错误'}), 500
+        return jsonify({'error': 'Unknown error'}), 500

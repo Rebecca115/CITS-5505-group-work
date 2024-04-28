@@ -77,7 +77,6 @@ class LoginForm(FlaskForm):
     }, validators=[DataRequired('Please enter password')])
 
     def validate_username(self, username):
-        # print(username.data)
         user = User.query.filter_by(username=username.data).first()
         # print("database: ", user)
         if user is None:
@@ -88,12 +87,11 @@ class LoginForm(FlaskForm):
         username = self.username.data
         password = self.password.data
 
-        # print(username, password)
         try:
-            password = hashlib.sha256(password.encode()).hexdigest()
-            print(username,password)
-            user = User.query.filter_by(username=username, password=password).first()
+            user = User.query.filter_by(username=username).first()
 
+            if user.check_password(password) is False:
+                return None
             login_user(user)
 
             return user
