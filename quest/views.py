@@ -63,17 +63,17 @@ def question_list():
 @quest.route('/detail/<int:q_id>', methods=['GET', 'POST'])
 def detail(q_id):
 
-
     question = Question.query.get(q_id)
 
     answer = Answer.query.filter_by(q_id=q_id).order_by(Answer.created_at.desc()).all()
-
+    print(current_user)
     # check if the answer is liked by the current user
-    for ans in answer:
-        ans.already_liked = AnswerLike.query.filter_by(
-            user_id=current_user.id,
-            answer_id=ans.id
-        ).first() is not None
+    if current_user.is_anonymous is False:
+        for ans in answer:
+            ans.already_liked = AnswerLike.query.filter_by(
+                user_id=current_user.id,
+                answer_id=ans.id
+            ).first() is not None
 
     form = WriteAnswerForm()
 
