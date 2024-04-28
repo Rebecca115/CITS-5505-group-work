@@ -53,7 +53,7 @@ def register():
 
         if user_obj:
             # register successful, redirect to login page
-            flash('Registration successful', 'success')
+            flash('Registration successful!', 'success')
             return redirect(url_for('user.login'))
         else:
             # register failed, redirect to register page

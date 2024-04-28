@@ -3,47 +3,46 @@
 {% block title %}Login{% endblock %}
 
 {% block layout %}
-<div class="container">
-  <div class="row">
-    <div class="col-md-6 col-md-offset-3">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
 
 
+                <div class="login-header">
+                    <h2 class="title text-center">Login page</h2>
+                </div>
 
-      <div class="login-header">
-        <h2 class="title text-center">Login page</h2>
-      </div>
+                <div>
+                    {% for error in form.username.errors %}
+                        <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                    <br>
+                </div>
 
-    <div>
-    {% for error in form.username.errors %}
-    <span style="color: red;">[{{ error }}]</span>
-    {% endfor %}
-    <br>
+                <form class="login-form box-wrap" method="POST"
+                      action="{{ url_for('user.login') }}">
+                    {#        <input type="hidden" name="next" value="{{ next_url|d('') }}">#}
+                    {{ form.csrf_token }}
+
+
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        {{ form.username }}
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        {{ form.password }}
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-link">Login</button>
+                    </div>
+
+                </form>
+            <div>
+                Don't have an account? <a href="{{ url_for('user.register') }}">Register</a>
+            </div>
+
+            </div>
+        </div>
     </div>
-
-      <form class="login-form box-wrap" method="POST"
-            action="{{ url_for('user.login') }}">
-{#        <input type="hidden" name="next" value="{{ next_url|d('') }}">#}
-        {{ form.csrf_token }}
-
-
-
-        <div class="form-group">
-          <label for="username">Username</label>
-          {{ form.username }}
-        </div>
-        <div class="form-group">
-          <label for="password">Password</label>
-          {{ form.password }}
-        </div>
-        <div class="form-group">
-          <button type="submit" class="btn">Login</button>
-        </div>
-
-      </form>
-
-
-
-    </div>
-  </div>
-</div>
 {% endblock %}

@@ -73,8 +73,8 @@ class Question(db.Model):
         return self.answer_list.count()
 
     @property
-    def love_count(self):
-        return self.question_love_list.count()
+    def like_count(self):
+        return self.question_like_list.count()
 
 
 class Answer(db.Model):
@@ -97,8 +97,8 @@ class Answer(db.Model):
     question = db.relationship('Question', backref=db.backref('answer_list', lazy='dynamic'))
 
     @property
-    def love_count(self):
-        return self.answer_love_list.count()
+    def like_count(self):
+        return self.answer_like_list.count()
 
     def comment_list(self, reply_id=None):
         return self.answer_comment_list.filter_by(reply_id=reply_id)
@@ -108,8 +108,8 @@ class Answer(db.Model):
         return self.answer_comment_list.count()
 
 
-class AnswerLove(db.Model):
-    __tablename__ = 'qa_answer_love'
+class AnswerLike(db.Model):
+    __tablename__ = 'qa_answer_like'
     id = db.Column(db.Integer, primary_key=True)
     created_at = db.Column(db.DateTime, default=datetime.now)
 
@@ -118,8 +118,8 @@ class AnswerLove(db.Model):
     q_id = db.Column(db.Integer, db.ForeignKey('qa_question.id'))
 
     # one to many with user
-    user = db.relationship('User', backref=db.backref('answer_love_list', lazy='dynamic'))
+    user = db.relationship('User', backref=db.backref('answer_like_list', lazy='dynamic'))
     # one to many with answer
-    answer = db.relationship('Answer', backref=db.backref('answer_love_list', lazy='dynamic'))
+    answer = db.relationship('Answer', backref=db.backref('answer_like_list', lazy='dynamic'))
     # one to many with question
-    question = db.relationship('Question', backref=db.backref('question_love_list', lazy='dynamic'))
+    question = db.relationship('Question', backref=db.backref('question_like_list', lazy='dynamic'))

@@ -3,7 +3,7 @@ from flask_ckeditor import CKEditor
 from flask_login import login_required, current_user
 
 import app
-from models import Question, Answer
+from models import Question, Answer, db, AnswerLike
 from quest.form import WriteQuestionForm, WriteAnswerForm
 
 quest = Blueprint('quest', __name__,
@@ -68,7 +68,13 @@ def detail(q_id):
 
     answer = Answer.query.filter_by(q_id=q_id).order_by(Answer.created_at.desc()).all()
 
-    # answer = question.answer_list
+    # check if the answer is liked by the current user
+    for ans in answer:
+        ans.already_liked = AnswerLike.query.filter_by(
+            user_id=current_user.id,
+            answer_id=ans.id
+        ).first() is not None
+
     form = WriteAnswerForm()
 
     if form.validate_on_submit():
@@ -90,3 +96,30 @@ def detail(q_id):
                            )
 
 
+from flask import jsonify
+
+
+@quest.route('/answer/like/<int:answer_id>', methods=['POST'])
+# @login_required
+def answer_like(answer_id):
+    if not current_user.is_authenticated:
+
+        return jsonify({'error': 'Please login'}), 401
+
+    try:
+
+        existing_like = AnswerLike.query.filter_by(user_id=current_user.id,
+                                                   answer_id=answer_id).first()
+        if existing_like:
+            return jsonify({'error': 'You have liked this answer'}), 409
+
+        new_like = AnswerLike(user_id=current_user.id, answer_id=answer_id)
+        db.session.add(new_like)
+        db.session.commit()
+
+        # 正常的处理逻辑, 返回新的点赞计数
+        like_count = Answer.query.get(answer_id).like_count  # 假设存在like_count计算逻辑
+        return jsonify({'message': '点赞成功', 'like_count': like_count}), 201
+    except Exception as e:
+        print(e)
+        return jsonify({'error': '服务器错误'}), 500
