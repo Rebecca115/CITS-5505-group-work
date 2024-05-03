@@ -1,0 +1,88 @@
+@import "compass/css3";
+
+body, html {
+    background-color: rgb(248, 239, 229);
+    height:100%;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+  }
+h1{
+    font-size: 50px;
+    background: -webkit-linear-gradient(blue, purple);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+a{
+    font-size: 12px;
+    background: -webkit-linear-gradient(blue, purple);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-decoration: none;
+}
+input{
+    border: 1px solid black;
+    border-radius: 25px;
+    height: 35px;
+    width: 300px;
+   
+}
+#central_from{
+    margin-top: 150px;
+    text-align: center;
+}
+#loginbutton,#sendbutton{
+    background-image: linear-gradient(to right bottom, darkblue , purple );
+    font-size: larger;
+    border-radius: 25px;
+    width: 150px;
+    color: white;
+    border: 1px solid black;
+}
+#login label,#send label {
+    font-size:  10px;;
+}
+
+.cloud_one, .cloud_two{
+  animation: move 6s ease infinite;
+  border-radius: 50px;
+  position: absolute;
+  top: 5%; left: 5%;
+  margin-top: -30px;
+  background-color:darkblue ;
+  margin-left: -10px;
+  height: 80px; width: 80px;
+  box-shadow:
+  darkblue 65px -15px 0 -5px, 
+  darkblue 25px -25px, 
+  darkblue 30px 10px, 
+  darkblue 60px 15px 0 -10px, 
+  darkblue 85px 5px 0 -5px;
+}
+
+
+.cloud_three, .cloud_four{
+    animation: move 6s ease infinite;
+    border-radius: 50px;
+    position: absolute;
+    bottom: 10%; right: 5%;
+    background-color:purple ;
+    height: 60px; width: 60px;
+    box-shadow:
+    purple 65px -15px 0 -5px, 
+    purple 25px -25px, 
+    purple 30px 10px, 
+        purple 60px 15px 0 -10px, 
+        purple 85px 5px 0 -5px;
+  }
+
+.cloud_two{
+	top: 25%; left: 25%;
+  animation-duration: 8s;
+}
+.cloud_three{
+	bottom: 0%; right: 30%;
+  animation-duration: 8s;
+}
+
+@keyframes move{
+  50% { transform: translateY(-15px); }
+}
