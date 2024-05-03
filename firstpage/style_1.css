@@ -5,6 +5,11 @@ body, html {
     height:100%;
     font-family:Verdana, Geneva, Tahoma, sans-serif;
   }
+
+img{
+  width: 220px;
+}
+
 h1{
     font-size: 50px;
     color: #715CF8;
@@ -23,12 +28,11 @@ input{
    
 }
 #central_from{
-    margin-top: 150px;
     text-align: center;
     z-index: -1;
 }
 #loginbutton,#sendbutton{
-    border-color:#9584FF;
+    border-color:white;
     background-color: #715CF8;
     font-size: larger;
     border-radius: 25px;
@@ -39,28 +43,21 @@ input{
 #login label,#send label {
     font-size:  10px;;
 }
-
-
-.cloud_one, .cloud_two{
-    animation: move 6s ease infinite;
-    border-radius: 50px;
-    position: absolute;
-    top: 60%; left: 20%;
-    background-color:#715CF8 ;
-    height: 60px; width: 60px;
-    box-shadow:
-    #715CF8 65px -15px 0 -5px, 
-    #715CF8 25px -25px, 
-    #715CF8 30px 10px, 
-    #715CF8 60px 15px 0 -10px, 
-    #715CF8 85px 5px 0 -5px;
-  }
-
-.cloud_one{
-	top:40%; left: 65%;
-  animation-duration: 8s;
+#cloud{
+  animation: move 6s ease infinite;
+  border-radius: 50px;
+  position: absolute;
+  top: 23%; left: 43%;
+  background-color:#715CF8 ;
+  height: 60px; width: 60px;
+  box-shadow:
+  #715CF8 65px -15px 0 -5px, 
+  #715CF8 25px -25px, 
+  #715CF8 30px 10px, 
+  #715CF8 60px 15px 0 -10px, 
+  #715CF8 85px 5px 0 -5px;
 }
 
 @keyframes move{
-  50% { transform: translateY(-15px); }
+  50% { transform: translateY(-15px); } /* 50% 处的位置 */
 }
