@@ -7,15 +7,12 @@ body, html {
   }
 h1{
     font-size: 50px;
-    background: -webkit-linear-gradient(blue, purple);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: #715CF8;
+   
 }
 a{
     font-size: 12px;
-    background: -webkit-linear-gradient(blue, purple);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: #715CF8;
     text-decoration: none;
 }
 input{
@@ -28,9 +25,11 @@ input{
 #central_from{
     margin-top: 150px;
     text-align: center;
+    z-index: -1;
 }
 #loginbutton,#sendbutton{
-    background-image: linear-gradient(to right bottom, darkblue , purple );
+    border-color:#9584FF;
+    background-color: #715CF8;
     font-size: larger;
     border-radius: 25px;
     width: 150px;
@@ -41,45 +40,24 @@ input{
     font-size:  10px;;
 }
 
+
 .cloud_one, .cloud_two{
-  animation: move 6s ease infinite;
-  border-radius: 50px;
-  position: absolute;
-  top: 5%; left: 5%;
-  margin-top: -30px;
-  background-color:darkblue ;
-  margin-left: -10px;
-  height: 80px; width: 80px;
-  box-shadow:
-  darkblue 65px -15px 0 -5px, 
-  darkblue 25px -25px, 
-  darkblue 30px 10px, 
-  darkblue 60px 15px 0 -10px, 
-  darkblue 85px 5px 0 -5px;
-}
-
-
-.cloud_three, .cloud_four{
     animation: move 6s ease infinite;
     border-radius: 50px;
     position: absolute;
-    bottom: 10%; right: 5%;
-    background-color:purple ;
+    top: 60%; left: 20%;
+    background-color:#715CF8 ;
     height: 60px; width: 60px;
     box-shadow:
-    purple 65px -15px 0 -5px, 
-    purple 25px -25px, 
-    purple 30px 10px, 
-        purple 60px 15px 0 -10px, 
-        purple 85px 5px 0 -5px;
+    #715CF8 65px -15px 0 -5px, 
+    #715CF8 25px -25px, 
+    #715CF8 30px 10px, 
+    #715CF8 60px 15px 0 -10px, 
+    #715CF8 85px 5px 0 -5px;
   }
 
-.cloud_two{
-	top: 25%; left: 25%;
-  animation-duration: 8s;
-}
-.cloud_three{
-	bottom: 0%; right: 30%;
+.cloud_one{
+	top:40%; left: 65%;
   animation-duration: 8s;
 }
 
