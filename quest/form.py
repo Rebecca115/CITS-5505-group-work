@@ -57,17 +57,14 @@ class WriteQuestionForm(FlaskForm):
         db.session.commit()
         return que_obj
 
-#
-class WriteAnswerForm(FlaskForm):
 
+class WriteAnswerForm(FlaskForm):
     content = CKEditorField(label='answer_content', validators=[
         DataRequired('Please enter the text'),
         Length(min=5, message='Cannot be less than 5 characters')
     ])
 
     def save(self, question):
-
-
         content = self.content.data
         user = current_user
         answer_obj = Answer(content=content, user=user, question=question)

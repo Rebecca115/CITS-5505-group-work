@@ -5,10 +5,12 @@ from flask_login import login_required, current_user
 import app
 from models import Question, Answer, db, AnswerLike
 from quest.form import WriteQuestionForm, WriteAnswerForm
+from flask import jsonify
 
 quest = Blueprint('quest', __name__,
                   template_folder='templates',
                   static_folder='../static')
+
 
 
 @quest.route('/')
@@ -95,7 +97,6 @@ def detail(q_id):
                            )
 
 
-from flask import jsonify
 
 
 @quest.route('/answer/like/<int:answer_id>', methods=['POST'])

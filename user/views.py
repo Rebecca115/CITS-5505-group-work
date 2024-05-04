@@ -1,8 +1,10 @@
 import hashlib
 import time
 
-from flask import Blueprint, render_template, flash, redirect, url_for, session, request, jsonify
+from flask import Blueprint, render_template, flash, redirect, url_for, session, request, jsonify, current_app
 from flask_login import login_user, logout_user, login_required, current_user
+from flask_mail import Mail, Message
+from itsdangerous import SignatureExpired, BadSignature, URLSafeTimedSerializer
 
 from user.forms import RegisterForm, LoginForm
 from models import User, db
@@ -17,6 +19,7 @@ def login():
     form = LoginForm()
 
     next_url = "index"
+
     if form.validate_on_submit():
         user = form.do_login()
         if user is not None:
@@ -26,10 +29,10 @@ def login():
             flash('Login failed, please try again.', 'danger')
 
     else:
-        print("Login error1",form.errors)
+        flash(f'Login failed, please try again.', 'danger')
+
 
     return render_template('login.html', form=form, next_url=next_url)
-
 
 
 @user.route('/logout')
@@ -40,14 +43,11 @@ def logout():
     return redirect("/")
 
 
-
-
-
 @user.route('/register', methods=['GET', 'POST'])
 def register():
-
     form = RegisterForm()
     if form.validate_on_submit():
+        print("Register form data", form.data)
         user_obj = form.register()
         # print(user_obj)
 
@@ -58,13 +58,16 @@ def register():
         else:
             # register failed, redirect to register page
             flash('Registration failed, please try again', 'danger')
+    else:
+        for fieldName, errorMessages in form.errors.items():
+            for err in errorMessages:
+                print(f'Error in {fieldName}: {err}')
     return render_template('register.html', form=form)
 
 
 @user.route('/mine/<int:id>')
 @login_required
 def mine(id):
-
     user = User.query.filter_by(id=id).first()
     if not user:
         return 'User not found!', 404
@@ -94,3 +97,27 @@ def change_password():
 
     return jsonify({'message': 'Password updated successfully'}), 200
 
+
+@user.route('/send-confirmation')
+def send_confirmation_email():
+    pass
+
+
+@user.route('/confirm-email/<token>')
+def confirm_email(token):
+    try:
+        serializer = URLSafeTimedSerializer(current_app.config['SECRET_KEY'])
+        email = serializer.loads(token, salt='email-confirm', max_age=3600)
+        user = User.query.filter_by(email=email).first()
+        if not user:
+            return 'User not found.', 404
+        else:
+            user.email_verified = True
+            db.session.commit()
+    except SignatureExpired:
+        return 'The confirmation link has expired.'
+    except BadSignature:
+        return 'Invalid confirmation link.'
+
+    # 这里添加验证逻辑
+    return 'You have successfully confirmed your email.'

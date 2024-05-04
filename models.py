@@ -16,8 +16,9 @@ class User(db.Model):
     password = db.Column(db.String(256), nullable=False)
     avatar = db.Column(db.String(256))
     gender = db.Column(db.String(16))
+    email = db.Column(db.String(64), nullable=False, unique=True)
     sex = db.Column(db.String(16))
-
+    email_verified = db.Column(db.Boolean, default=False)
     created_at = db.Column(db.DateTime, default=datetime.now)
     updated_at = db.Column(db.DateTime,
                            default=datetime.now, onupdate=datetime.now)
@@ -32,8 +33,7 @@ class User(db.Model):
 
     @property
     def is_active(self):
-        return True
-
+        return self.email_verified
 
     def get_id(self):
         return '{}'.format(self.id)

@@ -1,8 +1,11 @@
 import os
 
-from flask import Flask, session, g
+from flask import Flask
 from flask_ckeditor import CKEditor
 from flask_login import LoginManager
+from flask_mail import Mail
+from flask_migrate import Migrate
+from itsdangerous import URLSafeTimedSerializer
 
 from quest.views import quest
 from models import db, User
@@ -18,6 +21,10 @@ ckeditor.init_app(app)
 
 # init database
 db.init_app(app)
+migrate = Migrate(app, db)
+
+mail = Mail(app)
+s = URLSafeTimedSerializer(app.config['SECRET_KEY'])
 
 # create database
 initialize_database.create_local_db(app, db)
@@ -32,7 +39,6 @@ login_manager.login_view = "user.login"
 login_manager.login_message = 'Please login'
 login_manager.login_message_category = "danger"
 login_manager.init_app(app)
-
 
 @login_manager.user_loader
 def load_user(user_id):
