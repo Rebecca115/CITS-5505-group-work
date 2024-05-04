@@ -3,8 +3,7 @@ from flask_login import login_user, logout_user, login_required, current_user
 from flask_mail import Mail, Message
 from itsdangerous import SignatureExpired, BadSignature, URLSafeTimedSerializer
 from user.forms import RegisterForm, LoginForm
-from models import User, db
-
+from models import User, db, Question
 
 user = Blueprint('user', __name__, template_folder='templates', static_folder='../assets')
 
@@ -63,7 +62,7 @@ def register():
     # Render the registration template on GET or failed form submission
     return render_template('register.html', form=form)
 
-@user.route('/mine/<int:id>')
+@user.route('/<int:id>/mine')
 @login_required
 def mine(id):
     """Route for displaying user profile information"""
@@ -71,6 +70,23 @@ def mine(id):
     user = User.query.filter_by(id=id).first_or_404(description='User not found.')
     # Render the user profile template
     return render_template('mine.html', user=user)
+
+@user.route('/<int:id>/questions')
+@login_required
+def my_questions(id):
+    """Retrieve and display questions posted by the current logged-in user."""
+    try:
+        user_id = id
+
+        questions = Question.query.filter_by(user_id=user_id).all()
+        questions_data = [
+            {'title': question.title, 'description': question.content, 'id': question.id}
+            for question in questions
+        ]
+        return jsonify(questions_data)
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
 
 @user.route('/change_password', methods=['POST'])
 @login_required
