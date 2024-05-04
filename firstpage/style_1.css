@@ -41,13 +41,14 @@ input{
     border: 1px solid black;
 }
 #login label,#send label {
-    font-size:  10px;;
+    font-size:  12px;;
 }
 #cloud{
   animation: move 6s ease infinite;
   border-radius: 50px;
   position: absolute;
-  top: 23%; left: 43%;
+  top: 120px;
+  left: 470px;
   background-color:#715CF8 ;
   height: 60px; width: 60px;
   box-shadow:

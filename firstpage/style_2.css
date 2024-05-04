@@ -38,14 +38,16 @@ input{
     border: 1px solid black;
 }
 #signup label {
-    font-size:  10px;;
+    font-size:  12px;
 }
 
 #cloud{
     animation: move 6s ease infinite;
     border-radius: 50px;
     position: absolute;
-    top: 25%; left: 43%;
+    align-items: center;
+    top: 120px;
+    align-items:center;
     background-color:#715CF8 ;
     height: 60px; width: 60px;
     box-shadow:
