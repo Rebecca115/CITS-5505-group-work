@@ -56,6 +56,8 @@ def detail(q_id):
     question = Question.query.get_or_404(q_id)
 
     answers = Answer.query.filter_by(q_id=q_id).order_by(Answer.created_at.desc()).all()
+    print(answers)
+
     # Check if the answer is liked by the current user
     if not current_user.is_anonymous:
         for ans in answers:
