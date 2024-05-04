@@ -30,16 +30,7 @@ class WriteQuestionForm(FlaskForm):
             Length(min=3, max=50, message='Title must be between 3 and 50 characters')
         ]
     )
-    desc = TextAreaField(
-        'Description',
-        render_kw={
-            'class': "form-group",
-            'placeholder': "简述"
-        },
-        validators=[
-            Length(max=150, message='Description cannot exceed 150 characters')
-        ]
-    )
+
     content = CKEditorField(
         'Content',
         render_kw={
@@ -68,7 +59,6 @@ class WriteQuestionForm(FlaskForm):
         # Save the question details
         question = Question(
             title=self.title.data,
-            desc=self.desc.data,
             img=img_name,
             content=self.content.data,
             user=current_user
