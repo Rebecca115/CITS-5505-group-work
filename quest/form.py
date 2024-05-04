@@ -1,4 +1,5 @@
 import os
+from uuid import uuid4
 
 from flask import current_app
 from flask_login import current_user
@@ -13,61 +14,91 @@ from models import Question, db, Answer
 
 
 class WriteQuestionForm(FlaskForm):
-    img = FileField(label='upload picture', render_kw={
-        'accept': ".jpeg, .jpg, .png"
-    }, validators=[
-        FileAllowed(['png', 'jpg', 'jpeg'], 'Please select the appropriate image type')
-    ])
-    title = StringField(label='title', render_kw={
-        'class': "form-group",
-        'placeholder': "Enter title (up to 50 characters)"
-    }, validators=[DataRequired('Please enter the title'),
-                   Length(min=3, max=50, message='Title length is 1-50 characters')])
-
-    desc = TextAreaField(label='description', render_kw={
-        'class': "form-group",
-        'placeholder': "简述"
-    }, validators=[Length(max=150, message='Description is up to 150 characters')])
-    content = CKEditorField(label='content', render_kw={
-        'class': "form-group",
-        'placeholder': "Enter the text"
-    }, validators=[DataRequired('Please enter the text'),
-                   Length(min=5, message='Cannot be less than 5 characters')])
+    img = FileField(
+        'Upload Picture',
+        render_kw={'accept': ".jpeg, .jpg, .png"},
+        validators=[FileAllowed(['png', 'jpg', 'jpeg'], 'Images only!')]
+    )
+    title = StringField(
+        'Title',
+        render_kw={
+            'class': "form-group",
+            'placeholder': "Enter title (up to 50 characters)"
+        },
+        validators=[
+            DataRequired('Title is required'),
+            Length(min=3, max=50, message='Title must be between 3 and 50 characters')
+        ]
+    )
+    desc = TextAreaField(
+        'Description',
+        render_kw={
+            'class': "form-group",
+            'placeholder': "简述"
+        },
+        validators=[
+            Length(max=150, message='Description cannot exceed 150 characters')
+        ]
+    )
+    content = CKEditorField(
+        'Content',
+        render_kw={
+            'class': "form-group",
+            'placeholder': "Enter your content"
+        },
+        validators=[
+            DataRequired('Content is required'),
+            Length(min=5, message='Content must be at least 5 characters')
+        ]
+    )
 
     def save(self):
-        # 1. Get the image
+        """ Save the posted question with image if provided.
+            The function returns the question object after saving it to the database.
+        """
+        # Get the image if uploaded
         img = self.img.data
         img_name = ''
         if img:
-            img_name = secure_filename(img.filename)
-            img_path = os.path.join(current_app.config['MEDIA_ROOT'], img_name)
+            filename_base, file_extension = os.path.splitext(secure_filename(img.filename))
+            img_name = f"{uuid4().hex}{file_extension}"
+            img_path = os.path.join(current_app.config['UPLOAD_FOLDER'], img_name)
             img.save(img_path)
-        # 2. Save the question
-        title = self.title.data
-        desc = self.desc.data
-        content = self.content.data
-        que_obj = Question(
-            title=title,
-            desc=desc,
+
+        # Save the question details
+        question = Question(
+            title=self.title.data,
+            desc=self.desc.data,
             img=img_name,
-            content=content,
+            content=self.content.data,
             user=current_user
         )
-        db.session.add(que_obj)
+        db.session.add(question)
         db.session.commit()
-        return que_obj
+
+        return question
 
 
 class WriteAnswerForm(FlaskForm):
-    content = CKEditorField(label='answer_content', validators=[
-        DataRequired('Please enter the text'),
-        Length(min=5, message='Cannot be less than 5 characters')
-    ])
+    content = CKEditorField(
+        'Answer Content',
+        validators=[
+            DataRequired('Content is required'),
+            Length(min=5, message='Content must be at least 5 characters')
+        ]
+    )
 
     def save(self, question):
-        content = self.content.data
-        user = current_user
-        answer_obj = Answer(content=content, user=user, question=question)
-        db.session.add(answer_obj)
+        """ Save the provided answer to a question.
+            Requires passing the associated question object.
+            Returns the answer object after saving it to the database.
+        """
+        answer = Answer(
+            content=self.content.data,
+            user=current_user,
+            question=question
+        )
+        db.session.add(answer)
         db.session.commit()
-        return answer_obj
+
+        return answer

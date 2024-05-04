@@ -12,126 +12,103 @@ from models import User, db
 from utils import constants
 
 
-
 class RegisterForm(FlaskForm):
+    """Form for user registration with validations and email confirmation."""
     FORM_CLASS = 'form-control'
 
-    username = StringField(label='username', render_kw={
-        'class': FORM_CLASS,
-        'placeholder': 'Please enter username'
-    }, validators=[DataRequired('Please enter username')])
-    nickname = StringField(label='nickname', render_kw={
-        'class': FORM_CLASS,
-        'placeholder': 'Please enter nickname'
-    }, validators=[DataRequired('Please enter nickname'),
-                   Length(min=2, max=20, message='Length of nickname is between 2 and 20')])
-    email = StringField(label='email', render_kw={
-        'class': FORM_CLASS,
-        'placeholder': 'Please enter email'
-    }, validators=[DataRequired('Please enter email')])
-    password = PasswordField(label='password', render_kw={
-        'class': FORM_CLASS,
-        'placeholder': 'Please enter password'
-    }, validators=[DataRequired('Please enter password')])
-    confirm_password = PasswordField(label='confirm password', render_kw={
-        'class': FORM_CLASS,
-        'placeholder': 'Please enter confirm password'
-    }, validators=[DataRequired('Please enter confirm password'),
-                   EqualTo('password', message='passwords do not match')])
+    username = StringField(
+        'Username',
+        render_kw={'class': FORM_CLASS, 'placeholder': 'Please enter username'},
+        validators=[DataRequired('Please enter username')]
+    )
+
+    nickname = StringField(
+        'Nickname',
+        render_kw={'class': FORM_CLASS, 'placeholder': 'Please enter nickname'},
+        validators=[
+            DataRequired('Please enter nickname'),
+            Length(min=2, max=20, message='Length of nickname is between 2 and 20')
+        ]
+    )
+
+    email = StringField(
+        'Email',
+        render_kw={'class': FORM_CLASS, 'placeholder': 'Please enter email'},
+        validators=[DataRequired('Please enter email')]
+    )
+
+    password = PasswordField(
+        'Password',
+        render_kw={'class': FORM_CLASS, 'placeholder': 'Please enter password'},
+        validators=[DataRequired('Please enter password')]
+    )
+
+    confirm_password = PasswordField(
+        'Confirm Password',
+        render_kw={'class': FORM_CLASS, 'placeholder': 'Please enter confirm password'},
+        validators=[
+            DataRequired('Please enter confirm password'),
+            EqualTo('password', message='Passwords do not match')
+        ]
+    )
 
     def validate_username(self, field):
-        # if the username already exists, raise an error
-        user = User.query.filter_by(username=field.data).first()
-        if user:
+        """Validate the uniqueness of username."""
+        if User.query.filter_by(username=field.data).first():
             raise ValidationError('The username already exists')
-        return field
 
     def validate_email(self, field):
-        # if the username already exists, raise an error
-        user = User.query.filter_by(email=field.data).first()
-        if user:
+        """Validate the uniqueness of email."""
+        if User.query.filter_by(email=field.data).first():
             raise ValidationError('The email address already exists')
-        return field
 
     def register(self):
+        """Registers a new user with email confirmation."""
+        username, password, nickname, email = (self.username.data, self.password.data,
+                                               self.nickname.data, self.email.data)
+        password = hashlib.sha256(password.encode()).hexdigest()  # Encrypt the password
+        user_obj = User(username=username, password=password, nickname=nickname,
+                        email=email, email_verified=False)
 
-        # 1. Get form information
-        username = self.username.data
-        password = self.password.data
-        nickname = self.nickname.data
-        email = self.email.data
+        serializer = URLSafeTimedSerializer(current_app.config['SECRET_KEY'])
+        token = serializer.dumps(email, salt='email-confirm')
+        confirm_url = url_for('user.confirm_email', token=token, _external=True)
 
+        msg = Message('Confirm Your Email', recipients=[email])
+        msg.body = f'Please click on the link to confirm your email: {confirm_url}'
+        Mail(current_app).send(msg)
 
-        try:
-            # Encrypt the password before storing it
-            password = hashlib.sha256(password.encode()).hexdigest()
-            user_obj = User(username=username, password=password, nickname=nickname, email=email, email_verified=False)
-            print(user_obj)
-
-            user_email = email
-
-            serializer = URLSafeTimedSerializer(current_app.config['SECRET_KEY'])
-            token = serializer.dumps(user_email, salt='email-confirm')
-
-            confirm_url = url_for('user.confirm_email', token=token, _external=True)
-
-            msg = Message('Confirm Your Email', recipients=[user_email])
-            msg.body = f'Please click on the link to confirm your email: {confirm_url}'
-
-            mail = Mail(current_app)
-            mail.send(msg)
-
-
-            db.session.add(user_obj)
-            db.session.commit()
-            return user_obj
-        except Exception as e:
-            print(e)
-        return None
+        db.session.add(user_obj)
+        db.session.commit()
+        return user_obj
 
 
 class LoginForm(FlaskForm):
+    """Form for user login with validations."""
     FORM_CLASS = 'form-group'
 
-    username = StringField(label='username', render_kw={
+    username = StringField('Username', render_kw={
         'class': FORM_CLASS,
         'placeholder': 'Please enter username',
         'id': 'username'
-
     }, validators=[DataRequired('Please enter username')])
-    password = PasswordField(label='password', render_kw={
+
+    password = PasswordField('Password', render_kw={
         'class': FORM_CLASS,
         'placeholder': 'Please enter password',
         'id': 'password'
-
     }, validators=[DataRequired('Please enter password')])
 
     def validate_username(self, username):
-        user = User.query.filter_by(username=username.data).first()
-        # print("database: ", user)
-        if user is None:
-            print('username or password is incorrect')
-            raise ValidationError('username or password is incorrect')
-
-    def validate_email(self, username):
-        user = User.query.filter_by(username=username.data).first()
-        if user.is_active is False:
-            raise ValidationError('Email not verified.')
-
+        """Validate the existence of username."""
+        if not User.query.filter_by(username=username.data).first():
+            raise ValidationError('Username or password is incorrect')
 
     def do_login(self):
-        username = self.username.data
-        password = self.password.data
-
-        try:
-            user = User.query.filter_by(username=username).first()
-
-            if user.check_password(password) is False:
-                return None
+        """Performs user login."""
+        username, password = self.username.data, self.password.data
+        user = User.query.filter_by(username=username).first()
+        if user and user.check_password(password):
             login_user(user)
-
             return user
-        except Exception as e:
-            print(e)
-
         return None
