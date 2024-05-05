@@ -1,3 +1,4 @@
+import hashlib
 from datetime import datetime
 
 from flask_sqlalchemy import SQLAlchemy
@@ -15,8 +16,9 @@ class User(db.Model):
     password = db.Column(db.String(256), nullable=False)
     avatar = db.Column(db.String(256))
     gender = db.Column(db.String(16))
+    email = db.Column(db.String(64), nullable=False, unique=True)
     sex = db.Column(db.String(16))
-
+    email_verified = db.Column(db.Boolean, default=False)
     created_at = db.Column(db.DateTime, default=datetime.now)
     updated_at = db.Column(db.DateTime,
                            default=datetime.now, onupdate=datetime.now)
@@ -29,11 +31,21 @@ class User(db.Model):
     def is_anonymous(self):
         return False
 
+    @property
+    def is_active(self):
+        return self.email_verified
+
     def get_id(self):
         return '{}'.format(self.id)
 
     def __str__(self):
         return self.nickname
+
+    def set_password(self, password):
+        self.password = hashlib.sha256(password.encode()).hexdigest()
+
+    def check_password(self, password):
+        return self.password == hashlib.sha256(password.encode()).hexdigest()
 
 
 class Question(db.Model):
@@ -68,8 +80,8 @@ class Question(db.Model):
         return self.answer_list.count()
 
     @property
-    def love_count(self):
-        return self.question_love_list.count()
+    def like_count(self):
+        return self.question_like_list.count()
 
 
 class Answer(db.Model):
@@ -92,8 +104,8 @@ class Answer(db.Model):
     question = db.relationship('Question', backref=db.backref('answer_list', lazy='dynamic'))
 
     @property
-    def love_count(self):
-        return self.answer_love_list.count()
+    def like_count(self):
+        return self.answer_like_list.count()
 
     def comment_list(self, reply_id=None):
         return self.answer_comment_list.filter_by(reply_id=reply_id)
@@ -103,8 +115,8 @@ class Answer(db.Model):
         return self.answer_comment_list.count()
 
 
-class AnswerLove(db.Model):
-    __tablename__ = 'qa_answer_love'
+class AnswerLike(db.Model):
+    __tablename__ = 'qa_answer_like'
     id = db.Column(db.Integer, primary_key=True)
     created_at = db.Column(db.DateTime, default=datetime.now)
 
@@ -113,8 +125,8 @@ class AnswerLove(db.Model):
     q_id = db.Column(db.Integer, db.ForeignKey('qa_question.id'))
 
     # one to many with user
-    user = db.relationship('User', backref=db.backref('answer_love_list', lazy='dynamic'))
+    user = db.relationship('User', backref=db.backref('answer_like_list', lazy='dynamic'))
     # one to many with answer
-    answer = db.relationship('Answer', backref=db.backref('answer_love_list', lazy='dynamic'))
+    answer = db.relationship('Answer', backref=db.backref('answer_like_list', lazy='dynamic'))
     # one to many with question
-    question = db.relationship('Question', backref=db.backref('question_love_list', lazy='dynamic'))
+    question = db.relationship('Question', backref=db.backref('question_like_list', lazy='dynamic'))
