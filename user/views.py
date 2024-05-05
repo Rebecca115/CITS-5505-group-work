@@ -128,4 +128,8 @@ def confirm_email(token):
     except SignatureExpired:
         return jsonify({'error': "The confirmation link has expired."}), 400
     except BadSignature:
+
         return jsonify({'error': "Invalid confirmation link."}), 400
+        return 'Invalid confirmation link.'
+
+    return 'You have successfully confirmed your email.'
