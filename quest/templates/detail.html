@@ -60,20 +60,20 @@
     </div>
 
     <div class="layout-answer mt-5">
-        {% for ans in answer %}
+        {% for answer in answers %}
             <div class="answer-content box-wrap mb-3">
                 <div class="user-info mb-3">
-                    <h4>{{ ans.user.nickname }}</h4>
+                    <h4>{{ answer.user.nickname }}</h4>
                 </div>
                 <div class="answer-txt">
-                    {{ ans.content|safe }}
+                    {{ answer.content|safe }}
                 </div>
-                <div class="answer-time">Answered at {{ ans.created_at }}</div>
+                <div class="answer-time">Answered at {{ answer.created_at }}</div>
                 <div class="like">
 
-        <button type="button" class="btn btn-light btn-sm link-like {% if ans.already_liked %}liked{% endif %}" data-answer-id="{{ ans.id }}">
+        <button type="button" class="btn btn-light btn-sm link-like {% if answer.already_liked %}liked{% endif %}" data-answer-id="{{ answer.id }}">
 
-                        👍 <span class="like-count">{{ ans.like_count }}</span> Like
+                        👍 <span class="like-count">{{ answer.like_count }}</span> Like
                     </button>
                 </div>
 

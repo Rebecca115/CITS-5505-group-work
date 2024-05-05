@@ -52,7 +52,6 @@ class Question(db.Model):
     __tablename__ = 'qa_question'
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(128), nullable=False)
-    desc = db.Column(db.String(256))
     img = db.Column(db.String(256))
     content = db.Column(db.Text, nullable=False)
 

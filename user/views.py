@@ -1,122 +1,135 @@
-import hashlib
-import time
-
 from flask import Blueprint, render_template, flash, redirect, url_for, session, request, jsonify, current_app
 from flask_login import login_user, logout_user, login_required, current_user
 from flask_mail import Mail, Message
 from itsdangerous import SignatureExpired, BadSignature, URLSafeTimedSerializer
-
 from user.forms import RegisterForm, LoginForm
-from models import User, db
+from models import User, db, Question
 
-user = Blueprint('user', __name__,
-                 template_folder='templates',
-                 static_folder='../assets')
-
+user = Blueprint('user', __name__, template_folder='templates', static_folder='../assets')
 
 @user.route('/login', methods=['GET', 'POST'])
 def login():
+    """Route for logging in the user"""
     form = LoginForm()
 
-    next_url = "index"
-
+    # Process the form submission
     if form.validate_on_submit():
         user = form.do_login()
-        if user is not None:
-            # flash('You have been successfully logged in.', 'success')
+        if user:
+            # Successful login
             return redirect("/")
         else:
+            # Login failed, show message
             flash('Login failed, please try again.', 'danger')
-
     else:
-        flash(f'Login failed, please try again.', 'danger')
+        # Form validation failed, show message
+        flash('Login failed, please try again.', 'danger')
 
+    # Render the login template on GET or failed form submission
+    return render_template('login.html', form=form)
 
-    return render_template('login.html', form=form, next_url=next_url)
-
-
+# Route for handling logout
 @user.route('/logout')
 @login_required
 def logout():
-    logout_user()
-    flash('You have logout.', 'success')
+    """Route for logging out the user"""
+    logout_user()  # Logout the current user
+    flash('You have been logged out.', 'success')
     return redirect("/")
 
-
+# Route for handling registration
 @user.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegisterForm()
+
+    # Process the form submission
     if form.validate_on_submit():
-        print("Register form data", form.data)
         user_obj = form.register()
-        # print(user_obj)
 
         if user_obj:
-            # register successful, redirect to login page
+            # Registration successful
             flash('Registration successful!', 'success')
             return redirect(url_for('user.login'))
         else:
-            # register failed, redirect to register page
-            flash('Registration failed, please try again', 'danger')
+            # Registration failed
+            flash('Registration failed, please try again.', 'danger')
     else:
+        # Form errors handling
         for fieldName, errorMessages in form.errors.items():
             for err in errorMessages:
-                print(f'Error in {fieldName}: {err}')
+                flash(f'Error in {fieldName}: {err}', 'danger')
+
+    # Render the registration template on GET or failed form submission
     return render_template('register.html', form=form)
 
-
-@user.route('/mine/<int:id>')
+@user.route('/<int:id>/mine')
 @login_required
 def mine(id):
-    user = User.query.filter_by(id=id).first()
-    if not user:
-        return 'User not found!', 404
+    """Route for displaying user profile information"""
+    # Fetch user by ID
+    user = User.query.filter_by(id=id).first_or_404(description='User not found.')
+    # Render the user profile template
     return render_template('mine.html', user=user)
+
+@user.route('/<int:id>/questions')
+@login_required
+def my_questions(id):
+    """Retrieve and display questions posted by the current logged-in user."""
+    try:
+        user_id = id
+
+        questions = Question.query.filter_by(user_id=user_id).all()
+        questions_data = [
+            {'title': question.title, 'description': question.content, 'id': question.id}
+            for question in questions
+        ]
+        return jsonify(questions_data)
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 
 @user.route('/change_password', methods=['POST'])
-@login_required  # Ensure the user is logged in
+@login_required
 def change_password():
+    """Route for changing the user's password"""
+
     data = request.get_json()
     current_password = data.get('current_password')
     new_password = data.get('new_password')
 
-    print(current_password)
-    print(new_password)
-
-    # Verify current password is correct
+    # Verify and update password logic
     if not current_user.check_password(current_password):
         return jsonify({'error': 'Current password is incorrect.'}), 400
 
     if current_user.check_password(new_password):
-        return jsonify({'error': 'New password can not be the same current password.'}), 400
+        return jsonify({'error': 'New password cannot be the same as current password.'}), 400
 
-    # Update the user's password
     current_user.set_password(new_password)
     db.session.commit()
 
     return jsonify({'message': 'Password updated successfully'}), 200
 
-
-@user.route('/send-confirmation')
-def send_confirmation_email():
-    pass
-
-
 @user.route('/confirm-email/<token>')
 def confirm_email(token):
+    """Route for confirming the user's email address"""
     try:
         serializer = URLSafeTimedSerializer(current_app.config['SECRET_KEY'])
         email = serializer.loads(token, salt='email-confirm', max_age=3600)
-        user = User.query.filter_by(email=email).first()
-        if not user:
-            return 'User not found.', 404
+
+        user = User.query.filter_by(email=email).first_or_404(description='User not found.')
+
+        if user.email_verified:
+            return jsonify(message="This email is already confirmed."), 200
         else:
             user.email_verified = True
             db.session.commit()
+            return jsonify(message="You have successfully confirmed your email."), 200
+
     except SignatureExpired:
-        return 'The confirmation link has expired.'
+        return jsonify({'error': "The confirmation link has expired."}), 400
     except BadSignature:
+
+        return jsonify({'error': "Invalid confirmation link."}), 400
         return 'Invalid confirmation link.'
 
     return 'You have successfully confirmed your email.'
