@@ -119,5 +119,4 @@ def confirm_email(token):
     except BadSignature:
         return 'Invalid confirmation link.'
 
-    # 这里添加验证逻辑
     return 'You have successfully confirmed your email.'
