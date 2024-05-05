@@ -1,0 +1,64 @@
+@import "compass/css3";
+
+body, html {
+    background-color: rgb(248, 239, 229);
+    height:100%;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+  }
+
+img{
+  width: 220px;
+}
+
+h1{
+    font-size: 50px;
+    color: #715CF8;
+   
+}
+a{
+    font-size: 12px;
+    color: #715CF8;
+    text-decoration: none;
+}
+input{
+    border: 1px solid black;
+    border-radius: 25px;
+    height: 35px;
+    width: 300px;
+   
+}
+#central_from{
+    text-align: center;
+    z-index: -1;
+}
+#loginbutton,#sendbutton{
+    border-color:white;
+    background-color: #715CF8;
+    font-size: larger;
+    border-radius: 25px;
+    width: 150px;
+    color: white;
+    border: 1px solid black;
+}
+#login label,#send label {
+    font-size:  12px;;
+}
+#cloud{
+  animation: move 6s ease infinite;
+  border-radius: 50px;
+  position: absolute;
+  top: 120px;
+  left: 470px;
+  background-color:#715CF8 ;
+  height: 60px; width: 60px;
+  box-shadow:
+  #715CF8 65px -15px 0 -5px, 
+  #715CF8 25px -25px, 
+  #715CF8 30px 10px, 
+  #715CF8 60px 15px 0 -10px, 
+  #715CF8 85px 5px 0 -5px;
+}
+
+@keyframes move{
+  50% { transform: translateY(-15px); } 
+}
