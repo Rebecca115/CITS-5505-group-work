@@ -19,7 +19,6 @@
           <div class="form-group">
             <label class="upload-file">
               {{ form.img }}
-
             </label>
           </div>
           {{ form_field_errors(form.img.errors) }}
@@ -28,7 +27,6 @@
           </div>
           {{ form_field_errors(form.title.errors) }}
 
-          {{ form_field_errors(form.desc.errors) }}
           <div class="form-group">
             {{ form.content }}
             {{ ckeditor.load() }}
