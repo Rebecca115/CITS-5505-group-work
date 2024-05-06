@@ -1,10 +1,14 @@
 import hashlib
+import os
+import uuid
 
 from flask import request, current_app, url_for
 from flask_login import login_user
 from flask_mail import Message, Mail
 from flask_wtf import FlaskForm
+from flask_wtf.file import FileField, FileRequired, FileAllowed
 from itsdangerous import URLSafeTimedSerializer
+from werkzeug.utils import secure_filename
 from wtforms import StringField, PasswordField, ValidationError
 from wtforms.validators import DataRequired, Length, EqualTo
 
@@ -20,6 +24,14 @@ class RegisterForm(FlaskForm):
         'Username',
         render_kw={'class': FORM_CLASS, 'placeholder': 'Please enter username'},
         validators=[DataRequired('Please enter username')]
+    )
+
+    avatar = FileField(
+        'Avatar',
+        render_kw={'class': FORM_CLASS, 'placeholder': 'Please upload avatar'},
+        validators=[
+            FileAllowed(['jpg', 'png'], 'Images only!')
+        ]
     )
 
     nickname = StringField(
@@ -64,11 +76,19 @@ class RegisterForm(FlaskForm):
 
     def register(self):
         """Registers a new user with email confirmation."""
-        username, password, nickname, email = (self.username.data, self.password.data,
-                                               self.nickname.data, self.email.data)
-        password = hashlib.sha256(password.encode()).hexdigest()  # Encrypt the password
+        username, password, nickname, email, avatar_file = (self.username.data, self.password.data,
+                                                       self.nickname.data, self.email.data, self.avatar.data)
+        password = hashlib.sha256(password.encode()).hexdigest()
+
+        file_extension = os.path.splitext(avatar_file.filename)[1]
+        random_filename = str(uuid.uuid4()) + file_extension
+        secure_random_filename = secure_filename(random_filename)
+
+        save_path = os.path.join(current_app.config['UPLOAD_FOLDER'], secure_random_filename)
+        avatar_file.save(save_path)
+
         user_obj = User(username=username, password=password, nickname=nickname,
-                        email=email, email_verified=False)
+                        email=email, email_verified=False, avatar=secure_random_filename)
 
         serializer = URLSafeTimedSerializer(current_app.config['SECRET_KEY'])
         token = serializer.dumps(email, salt='email-confirm')

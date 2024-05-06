@@ -45,7 +45,7 @@
         <a href="/post" class="btn btn-success">Post a quest</a>
 
         {% if current_user.is_authenticated %}
-                    <a href="/user/{{ current_user.id }}/mine" class="btn btn-success">Mine</a>
+            <a href="/user/{{ current_user.id }}/mine" class="btn btn-success">Mine</a>
 
             <a href="/user/logout" class="btn btn-danger">Logout</a>
 
@@ -63,7 +63,10 @@
                 <div class="desc">
                     {% if question.img %}
                         <div class="left">
-                            <img src="{{ question.get_img_url }}" alt="" srcset="">
+                            <img src="{{ url_for('static', filename='uploads/' + question.img) }}"
+                                 class="img-fluid mb-3 shadow-sm"
+                                 style="height: 100px; width: auto;" alt="">
+
                         </div>
                     {% endif %}
                     <div class="right">

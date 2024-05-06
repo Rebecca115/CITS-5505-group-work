@@ -1,7 +1,11 @@
+import os
+
 from flask import Blueprint, render_template, flash, redirect, url_for, session, request, jsonify, current_app
 from flask_login import login_user, logout_user, login_required, current_user
 from flask_mail import Mail, Message
 from itsdangerous import SignatureExpired, BadSignature, URLSafeTimedSerializer
+from werkzeug.utils import secure_filename
+
 from user.forms import RegisterForm, LoginForm
 from models import User, db, Question
 
@@ -41,14 +45,15 @@ def logout():
 @user.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegisterForm()
-
     # Process the form submission
     if form.validate_on_submit():
         user_obj = form.register()
 
         if user_obj:
             # Registration successful
+
             flash('Registration successful!', 'success')
+
             return redirect(url_for('user.login'))
         else:
             # Registration failed
