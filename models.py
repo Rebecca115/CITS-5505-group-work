@@ -66,9 +66,6 @@ class Question(db.Model):
     # one to many
     user = db.relationship('User', backref=db.backref('question_list', lazy='dynamic'))
 
-    @property
-    def get_img_url(self):
-        return 'statics/' + self.img if self.img else ''
 
     @property
     def comment_count(self):
