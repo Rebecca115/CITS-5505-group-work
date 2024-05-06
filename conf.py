@@ -15,6 +15,8 @@ class Config(object):
     MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
     MAIL_DEFAULT_SENDER = os.environ.get('MAIL_DEFAULT_SENDER')
+    UPLOAD_FOLDER = os.path.join(os.path.dirname(__file__), 'static/uploads')
+
 
 
     # File upload path

@@ -1,4 +1,5 @@
 import os
+import uuid
 from uuid import uuid4
 
 from flask import current_app
@@ -52,9 +53,16 @@ class WriteQuestionForm(FlaskForm):
         img_name = ''
         if img:
             filename_base, file_extension = os.path.splitext(secure_filename(img.filename))
-            img_name = f"{uuid4().hex}{file_extension}"
+            img_name = secure_filename(f"{uuid.uuid4()}{file_extension}")
             img_path = os.path.join(current_app.config['UPLOAD_FOLDER'], img_name)
             img.save(img_path)
+
+            # file_extension = os.path.splitext(avatar_file.filename)[1]
+            # random_filename = str(uuid.uuid4()) + file_extension
+            # secure_random_filename = secure_filename(random_filename)
+            #
+            # save_path = os.path.join(current_app.config['UPLOAD_FOLDER'], secure_random_filename)
+            # avatar_file.save(save_path)
 
         # Save the question details
         question = Question(

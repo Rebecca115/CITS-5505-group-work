@@ -1,11 +1,9 @@
-from flask import Blueprint, render_template, request, abort, redirect, url_for, flash, jsonify
-from flask_ckeditor import CKEditor
+from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify
 from flask_login import login_required, current_user
+from sqlalchemy import or_
 
-import app
 from models import Question, Answer, db, AnswerLike
 from quest.form import WriteQuestionForm, WriteAnswerForm
-from flask import jsonify
 
 quest = Blueprint('quest', __name__,
                   template_folder='templates',
@@ -107,3 +105,146 @@ def answer_like(answer_id):
         return jsonify({'message': 'Success', 'like_count': like_count}), 201
     except Exception as e:
         return jsonify({'error': 'Unknown error: {}'.format(e)}), 500
+
+
+@quest.route('/answer/unlike/<int:answer_id>', methods=['POST'])
+def answer_unlike(answer_id):
+    """ Route to unlike an answer, requires user to be logged in. """
+    if not current_user.is_authenticated:
+        return jsonify({'error': 'Please login'}), 401
+
+    try:
+        # Check for existing like
+        existing_like = AnswerLike.query.filter_by(user_id=current_user.id,
+                                                   answer_id=answer_id).first()
+        if not existing_like:
+            return jsonify({'error': 'You have not liked this answer'}), 409
+
+        # Remove the like
+        db.session.delete(existing_like)
+        db.session.commit()
+
+        # Fetch the new like count
+        like_count = Answer.query.get(answer_id).like_count - 1 # Assuming like_count is a field
+        return jsonify({'message': 'Success', 'like_count': like_count}), 200
+    except Exception as e:
+        return jsonify({'error': 'Unknown error: {}'.format(e)}), 500
+
+@quest.route('/answer/delete/<int:answer_id>', methods=['POST'])
+def answer_delete(answer_id):
+    """ Route to delete an answer, requires user to be logged in. """
+    if not current_user.is_authenticated:
+        return jsonify({'error': 'Please login'}), 401
+
+    try:
+        # Check if the answer exists
+        answer = Answer.query.get(answer_id)
+        if not answer:
+            return jsonify({'error': 'Answer not found'}), 404
+
+        # Check if the user owns the answer
+        if answer.user_id != current_user.id:
+            return jsonify({'error': 'You do not own this answer'}), 403
+
+        # Delete the answer
+        db.session.delete(answer)
+        db.session.commit()
+
+        return jsonify({'message': 'Success'}), 200
+    except Exception as e:
+        return jsonify({'error': 'Unknown error: {}'.format(e)}), 500
+
+@quest.route('/answer/edit/<int:answer_id>', methods=['GET', 'POST'])
+def answer_edit(answer_id):
+    """ Route to edit an answer, requires user to be logged in. """
+    if not current_user.is_authenticated:
+        return jsonify({'error': 'Please login'}), 401
+
+    answer = Answer.query.get(answer_id)
+    if not answer:
+        return jsonify({'error': 'Answer not found'}), 404
+
+    if answer.user_id != current_user.id:
+        return jsonify({'error': 'You do not own this answer'}), 403
+
+    form = WriteAnswerForm(obj=answer)
+
+    if form.validate_on_submit():
+        try:
+            answer.content = form.content.data
+            db.session.commit()
+            return jsonify({'message': 'Success'}), 200
+        except Exception as e:
+            return jsonify({'error': 'Unknown error: {}'.format(e)}), 500
+
+    return render_template('edit_answer.html', form=form, answer=answer)
+
+@quest.route('/answer/<int:answer_id>')
+def answer_detail(answer_id):
+    """ Route to get details of an answer. """
+    answer = Answer.query.get(answer_id)
+    if not answer:
+        return jsonify({'error': 'Answer not found'}), 404
+
+    return jsonify({'message': 'Success', 'data': answer.to_dict()}), 200
+
+@quest.route('/answer/list/<int:q_id>')
+def answer_list(q_id):
+    """ Route to list answers to a question. """
+    answers = Answer.query.filter_by(q_id=q_id).all()
+    return jsonify({'message': 'Success', 'data': [ans.to_dict() for ans in answers]}), 200
+
+@quest.route('/answer/like/list/<int:answer_id>')
+def answer_like_list(answer_id):
+    """ Route to list users who liked an answer. """
+    likes = AnswerLike.query.filter_by(answer_id=answer_id).all()
+    return jsonify({'message': 'Success', 'data': [like.to_dict() for like in likes]}), 200
+
+
+
+
+@quest.route('/search', methods=['GET'])
+def search():
+    """ Route to globally search within all question titles, question contents, and all answers. """
+    query = request.args.get('query', '')
+
+    if not query:
+        return jsonify({'error': 'Empty search query'}), 400
+
+    try:
+        matched_questions = Question.query.filter(
+            or_(
+                Question.title.ilike(f'%{query}%'),
+                Question.content.ilike(f'%{query}%')
+            )
+        ).all()
+
+        matched_answers = Answer.query.filter(
+            Answer.content.ilike(f'%{query}%')
+        ).all()
+
+        question_results = [
+            {
+                'type': 'question',
+                'id': question.id,
+                'title': question.title,
+                'content': question.content
+            }
+            for question in matched_questions
+        ]
+
+        answer_results = [
+            {
+                'type': 'answer',
+                'id': answer.id,
+                'content': answer.content,
+                'question_id': answer.q_id
+            }
+            for answer in matched_answers
+        ]
+
+        results = question_results + answer_results
+
+        return jsonify(results), 200
+    except Exception as e:
+        return jsonify({'error': f'Unknown error: {e}'}), 500
