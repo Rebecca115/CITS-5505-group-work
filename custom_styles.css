@@ -9,10 +9,10 @@ body {
     min-height: 100vh;
 }
 
-/* body.modal-open {
-    overflow: visible !important;
-} */
-
+input[type="text"] {
+    max-width: 100%;
+    box-sizing: border-box;
+}
 
 .top-bar {
     background-image: linear-gradient(90deg, #fff7ad, #ffa9f9), url('background.png');
