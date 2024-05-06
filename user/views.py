@@ -6,10 +6,11 @@ from flask_mail import Mail, Message
 from itsdangerous import SignatureExpired, BadSignature, URLSafeTimedSerializer
 from werkzeug.utils import secure_filename
 
-from user.forms import RegisterForm, LoginForm
+from user.forms import RegisterForm, LoginForm, RestPassForm, ForgotPassForm
 from models import User, db, Question
 
 user = Blueprint('user', __name__, template_folder='templates', static_folder='../assets')
+
 
 @user.route('/login', methods=['GET', 'POST'])
 def login():
@@ -32,6 +33,7 @@ def login():
     # Render the login template on GET or failed form submission
     return render_template('login.html', form=form)
 
+
 # Route for handling logout
 @user.route('/logout')
 @login_required
@@ -40,6 +42,7 @@ def logout():
     logout_user()  # Logout the current user
     flash('You have been logged out.', 'success')
     return redirect("/")
+
 
 # Route for handling registration
 @user.route('/register', methods=['GET', 'POST'])
@@ -67,6 +70,7 @@ def register():
     # Render the registration template on GET or failed form submission
     return render_template('register.html', form=form)
 
+
 @user.route('/<int:id>/mine')
 @login_required
 def mine(id):
@@ -75,6 +79,7 @@ def mine(id):
     user = User.query.filter_by(id=id).first_or_404(description='User not found.')
     # Render the user profile template
     return render_template('mine.html', user=user)
+
 
 @user.route('/<int:id>/questions')
 @login_required
@@ -114,6 +119,7 @@ def change_password():
 
     return jsonify({'message': 'Password updated successfully'}), 200
 
+
 @user.route('/confirm-email/<token>')
 def confirm_email(token):
     """Route for confirming the user's email address"""
@@ -135,6 +141,32 @@ def confirm_email(token):
     except BadSignature:
 
         return jsonify({'error': "Invalid confirmation link."}), 400
-        return 'Invalid confirmation link.'
 
-    return 'You have successfully confirmed your email.'
+
+
+@user.route('/forgot-password', methods=['POST', 'GET'])
+def forgot_password():
+    """Route for handling forgot password request"""
+    form = ForgotPassForm()
+    if form.validate_on_submit():
+        user = form.forgot_password()
+        if user:
+            return redirect(url_for('user.login'))
+        else:
+            flash('Password reset failed, please try again.', 'danger')
+    return render_template('forget_password.html', form=form)
+
+
+
+@user.route('/reset-password/<token>', methods=['GET', 'POST'])
+def reset_password(token):
+    """Route for handling password reset"""
+    form = RestPassForm()
+    if form.validate_on_submit():
+        user = form.reset_password(token)
+        if user:
+            return redirect(url_for('user.login'))
+        else:
+            flash('Password reset failed, please try again.', 'danger')
+
+    return render_template('reset_password.html', form=form, token=token)
