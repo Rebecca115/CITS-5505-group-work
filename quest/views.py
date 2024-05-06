@@ -1,11 +1,9 @@
-from flask import Blueprint, render_template, request, abort, redirect, url_for, flash, jsonify
-from flask_ckeditor import CKEditor
+from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify
 from flask_login import login_required, current_user
+from sqlalchemy import or_
 
-import app
 from models import Question, Answer, db, AnswerLike
 from quest.form import WriteQuestionForm, WriteAnswerForm
-from flask import jsonify
 
 quest = Blueprint('quest', __name__,
                   template_folder='templates',
@@ -107,3 +105,51 @@ def answer_like(answer_id):
         return jsonify({'message': 'Success', 'like_count': like_count}), 201
     except Exception as e:
         return jsonify({'error': 'Unknown error: {}'.format(e)}), 500
+
+
+
+@quest.route('/search', methods=['GET'])
+def search():
+    """ Route to globally search within all question titles, question contents, and all answers. """
+    query = request.args.get('query', '')
+
+    if not query:
+        return jsonify({'error': 'Empty search query'}), 400
+
+    try:
+        matched_questions = Question.query.filter(
+            or_(
+                Question.title.ilike(f'%{query}%'),
+                Question.content.ilike(f'%{query}%')
+            )
+        ).all()
+
+        matched_answers = Answer.query.filter(
+            Answer.content.ilike(f'%{query}%')
+        ).all()
+
+        question_results = [
+            {
+                'type': 'question',
+                'id': question.id,
+                'title': question.title,
+                'content': question.content
+            }
+            for question in matched_questions
+        ]
+
+        answer_results = [
+            {
+                'type': 'answer',
+                'id': answer.id,
+                'content': answer.content,
+                'question_id': answer.q_id
+            }
+            for answer in matched_answers
+        ]
+
+        results = question_results + answer_results
+
+        return jsonify(results), 200
+    except Exception as e:
+        return jsonify({'error': f'Unknown error: {e}'}), 500
