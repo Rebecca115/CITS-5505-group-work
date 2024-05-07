@@ -45,6 +45,16 @@ class User(db.Model):
     def check_password(self, password):
         return self.password == hashlib.sha256(password.encode()).hexdigest()
 
+    def to_dict(self):
+       return{
+              'id': self.id,
+                'username': self.username,
+                'nickname': self.nickname,
+                'avatar': self.avatar,
+                'gender' : self.gender
+       }
+
+
 
 class Task(db.Model):
     __tablename__ = 'task'
