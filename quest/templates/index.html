@@ -88,9 +88,9 @@
 
 
     <div class="d-flex justify-content-between mt-4">
-        <a href="{{ url_for('quest.indexPage', page=page_data.page-1 if page_data.has_prev else page_data.page) }}"
+        <a href="{{ url_for('quest.index_page', page=page_data.page-1 if page_data.has_prev else page_data.page) }}"
            class="btn btn-info" {% if not page_data.has_prev %}disabled{% endif %}>Previous</a>
-        <a href="{{ url_for('quest.indexPage', page=page_data.page+1 if page_data.has_next else page_data.page) }}"
+        <a href="{{ url_for('quest.index_page', page=page_data.page+1 if page_data.has_next else page_data.page) }}"
            class="btn btn-info" {% if not page_data.has_next %}disabled{% endif %}>Next</a>
     </div>
 
