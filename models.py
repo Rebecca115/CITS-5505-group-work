@@ -16,7 +16,6 @@ class User(db.Model):
     avatar = db.Column(db.String(256))
     gender = db.Column(db.String(16))
     email = db.Column(db.String(64), unique=True)
-    sex = db.Column(db.String(16))
     email_verified = db.Column(db.Boolean, default=False)
     created_at = db.Column(db.DateTime, default=datetime.now)
     updated_at = db.Column(db.DateTime,
@@ -73,7 +72,20 @@ class Task(db.Model):
     accepted_user = db.relationship('User', backref=db.backref('accepted_list', lazy='dynamic'),
                                     foreign_keys=[accepted_user_id])
 
-
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'title': self.title,
+            'content': self.content,
+            'view_count': self.view_count,
+            'reorder': self.reorder,
+            'category': self.category,
+            'created_at': self.created_at,
+            'updated_at': self.updated_at,
+            'date_to_finish': self.date_to_finish,
+            'user': self.user.username,
+            'accepted_user': self.accepted_user.username if self.accepted_user else None
+        }
 
 
 
@@ -118,6 +130,18 @@ class Answer(db.Model):
     @property
     def comment_count(self):
         return self.answer_comment_list.count()
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'content': self.content,
+            'created_at': self.created_at,
+            'updated_at': self.updated_at,
+            'user': self.user.username,
+            'task': self.task.title,
+            'like_count': self.like_count,
+            'comment_count': self.comment_count
+        }
 
 
 class AnswerLike(db.Model):
