@@ -201,8 +201,6 @@ def answer_like_list(answer_id):
     return jsonify({'message': 'Success', 'data': [like.to_dict() for like in likes]}), 200
 
 
-
-
 @quest.route('/search', methods=['GET'])
 def search():
     """ Route to globally search within all question titles, question contents, and all answers. """
@@ -248,3 +246,74 @@ def search():
         return jsonify(results), 200
     except Exception as e:
         return jsonify({'error': f'Unknown error: {e}'}), 500
+
+@quest.route('/question/delete/<int:q_id>', methods=['POST'])
+def question_delete(q_id):
+    """ Route to delete a question, requires user to be logged in. """
+    if not current_user.is_authenticated:
+        return jsonify({'error': 'Please login'}), 401
+
+    try:
+        # Check if the question exists
+        question = Question.query.get(q_id)
+        if not question:
+            return jsonify({'error': 'Question not found'}), 404
+
+        # Check if the user owns the question
+        if question.user_id != current_user.id:
+            return jsonify({'error': 'You do not own this question'}), 403
+
+        # Delete the question
+        db.session.delete(question)
+        db.session.commit()
+
+        return jsonify({'message': 'Success'}), 200
+
+    except Exception as e:
+        return jsonify({'error': f'Unknown error: {e}'}), 500
+
+@quest.route('/question/edit/<int:q_id>', methods=['GET', 'POST'])
+def question_edit(q_id):
+    """ Route to edit a question, requires user to be logged in. """
+    if not current_user.is_authenticated:
+        return jsonify({'error': 'Please login'}), 401
+
+    question = Question.query.get(q_id)
+    if not question:
+        return jsonify({'error': 'Question not found'}), 404
+
+    if question.user_id != current_user.id:
+        return jsonify({'error': 'You do not own this question'}), 403
+
+    form = WriteQuestionForm(obj=question)
+    if form.validate_on_submit():
+        try:
+            form.save(question=question)
+            return jsonify({'message': 'Success'}), 200
+        except Exception as e:
+            return jsonify({'error': f'Unknown error: {e}'}), 500
+
+@quest.route('/question/<int:q_id>')
+def question_detail(q_id):
+    """ Route to get details of a question. """
+    question = Question.query.get(q_id)
+    if not question:
+        return jsonify({'error': 'Question not found'}), 404
+
+    return jsonify({'message': 'Success', 'data': question.to_dict()}), 200
+
+@quest.route('/question/category/<category>')
+def question_by_category(category):
+    """ Route to list questions by category. """
+    questions = Question.query.filter_by(category=category).all()
+    return jsonify({'message': 'Success', 'data': [q.to_dict() for q in questions]}), 200
+
+
+
+
+    #TODO
+    # questions list for the user
+    # question category
+    # Scoreborad for the top 10 users who achieved the highest score
+    #
+    #

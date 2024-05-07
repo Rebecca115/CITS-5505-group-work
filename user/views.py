@@ -4,10 +4,11 @@ from flask import Blueprint, render_template, flash, redirect, url_for, session,
 from flask_login import login_user, logout_user, login_required, current_user
 from flask_mail import Mail, Message
 from itsdangerous import SignatureExpired, BadSignature, URLSafeTimedSerializer
+from sqlalchemy import func
 from werkzeug.utils import secure_filename
 
 from user.forms import RegisterForm, LoginForm, RestPassForm, ForgotPassForm
-from models import User, db, Question
+from models import User, db, Question, Answer
 
 user = Blueprint('user', __name__, template_folder='templates', static_folder='../assets')
 
@@ -143,7 +144,6 @@ def confirm_email(token):
         return jsonify({'error': "Invalid confirmation link."}), 400
 
 
-
 @user.route('/forgot-password', methods=['POST', 'GET'])
 def forgot_password():
     """Route for handling forgot password request"""
@@ -155,7 +155,6 @@ def forgot_password():
         else:
             flash('Password reset failed, please try again.', 'danger')
     return render_template('forget_password.html', form=form)
-
 
 
 @user.route('/reset-password/<token>', methods=['GET', 'POST'])
@@ -170,3 +169,18 @@ def reset_password(token):
             flash('Password reset failed, please try again.', 'danger')
 
     return render_template('reset_password.html', form=form, token=token)
+
+
+@user.route('/get_top_users')
+def get_top_users():
+    """Route for getting top users"""
+    top_user_ids_subquery = (db.session.query(Answer.user_id)
+                             .join(User)
+                             .group_by(Answer.user_id)
+                             .order_by(func.count(Answer.id).desc())
+                             .limit(10)
+                             .subquery())
+
+    top_users = User.query.filter(User.id.in_(top_user_ids_subquery)).all()
+
+    return jsonify({"users": top_users}), 200
