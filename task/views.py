@@ -10,6 +10,7 @@ quest = Blueprint('task', __name__,
                   static_folder='../static')
 
 
+
 @quest.route('/')
 def index_page():
     """ Home page route, display a list of paginated tasks. """
@@ -37,7 +38,7 @@ def post():
     return render_template('post.html', form=form)
 
 
-@quest.route('/q/list')
+@quest.route('/task/list')
 def task_list():
     """ Route to list tasks in a paginated manner and return as JSON. """
     try:
