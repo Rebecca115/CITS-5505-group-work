@@ -10,7 +10,6 @@ class User(db.Model):
     # User Model
     __tablename__ = 'accounts_user'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-
     username = db.Column(db.String(64), unique=True, nullable=False)
     nickname = db.Column(db.String(64))
     password = db.Column(db.String(256), nullable=False)
@@ -57,14 +56,24 @@ class Question(db.Model):
 
     view_count = db.Column(db.Integer, default=0)
     reorder = db.Column(db.Integer, default=0)
+    category = db.Column(db.String(64))
 
     created_at = db.Column(db.DateTime, default=datetime.now)
     updated_at = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
 
     # relation with user
     user_id = db.Column(db.Integer, db.ForeignKey('accounts_user.id'))
+    accepted_user_id = db.Column(db.Integer, db.ForeignKey('accounts_user.id'))
+
     # one to many
-    user = db.relationship('User', backref=db.backref('question_list', lazy='dynamic'))
+    user = db.relationship('User', backref=db.backref('question_list', lazy='dynamic'),
+                           foreign_keys=[user_id])
+
+    accepted_user = db.relationship('User', backref=db.backref('accepted_list', lazy='dynamic'),
+                                    foreign_keys=[accepted_user_id])
+
+    date_to_answer = db.Column(db.DateTime)
+
 
 
     @property
