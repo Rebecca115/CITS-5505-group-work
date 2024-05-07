@@ -57,7 +57,6 @@ def detail(t_id):
     task = Task.query.get_or_404(t_id)
 
     answers = Answer.query.filter_by(t_id=t_id).order_by(Answer.created_at.desc()).all()
-    print(answers)
 
     # Check if the answer is liked by the current user
     if not current_user.is_anonymous:
@@ -87,6 +86,7 @@ def detail(t_id):
 
 
 @quest.route('/answer/like/<int:answer_id>', methods=['POST'])
+@login_required
 def answer_like(answer_id):
     """ Route to like an answer, requires user to be logged in. """
     if not current_user.is_authenticated:
@@ -105,13 +105,14 @@ def answer_like(answer_id):
         db.session.commit()
 
         # Fetch the new like count
-        like_count = Answer.query.get(answer_id).like_count + 1  # Assuming like_count is a field
+        like_count = Answer.query.get(answer_id).like_count  # Assuming like_count is a field
         return jsonify({'message': 'Success', 'like_count': like_count}), 201
     except Exception as e:
         return jsonify({'error': 'Unknown error: {}'.format(e)}), 500
 
 
 @quest.route('/answer/unlike/<int:answer_id>', methods=['POST'])
+@login_required
 def answer_unlike(answer_id):
     """ Route to unlike an answer, requires user to be logged in. """
     if not current_user.is_authenticated:
@@ -121,6 +122,7 @@ def answer_unlike(answer_id):
         # Check for existing like
         existing_like = AnswerLike.query.filter_by(user_id=current_user.id,
                                                    answer_id=answer_id).first()
+        print(existing_like)
         if not existing_like:
             return jsonify({'error': 'You have not liked this answer'}), 409
 
@@ -129,7 +131,7 @@ def answer_unlike(answer_id):
         db.session.commit()
 
         # Fetch the new like count
-        like_count = Answer.query.get(answer_id).like_count - 1  # Assuming like_count is a field
+        like_count = Answer.query.get(answer_id).like_count # Assuming like_count is a field
         return jsonify({'message': 'Success', 'like_count': like_count}), 200
     except Exception as e:
         return jsonify({'error': 'Unknown error: {}'.format(e)}), 500
@@ -203,11 +205,11 @@ def answer_list(t_id):
     return jsonify({'message': 'Success', 'data': [ans.to_dict() for ans in answers]}), 200
 
 
-@quest.route('/answer/like/list/<int:answer_id>')
-def answer_like_list(answer_id):
-    """ Route to list users who liked an answer. """
-    likes = AnswerLike.query.filter_by(answer_id=answer_id).all()
-    return jsonify({'message': 'Success', 'data': [like.to_dict() for like in likes]}), 200
+# @quest.route('/answer/like/list/<int:answer_id>')
+# def answer_like_list(answer_id):
+#     """ Route to list users who liked an answer. """
+#     likes = AnswerLike.query.filter_by(answer_id=answer_id).all()
+#     return jsonify({'message': 'Success', 'data': [like.to_dict() for like in likes]}), 200
 
 
 @quest.route('/search', methods=['GET'])

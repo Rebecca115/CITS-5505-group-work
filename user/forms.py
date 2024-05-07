@@ -76,6 +76,9 @@ class RegisterForm(FlaskForm):
 
     def register(self):
         """Registers a new user with email confirmation."""
+        if self.avatar.data is None:
+            # self.avatar.data = request.files[constants.DEFAULT_AVATAR]
+            self.avatar.data = 'None'
         username, password, nickname, email, avatar_file = (self.username.data, self.password.data,
                                                             self.nickname.data, self.email.data, self.avatar.data)
         password = hashlib.sha256(password.encode()).hexdigest()

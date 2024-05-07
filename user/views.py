@@ -1,12 +1,9 @@
 import os
 
-from flask import Blueprint, render_template, flash, redirect, url_for, session, request, jsonify, current_app
-from flask_login import login_user, logout_user, login_required, current_user
-from flask_mail import Mail, Message
+from flask import Blueprint, render_template, flash, redirect, url_for, request, jsonify, current_app
+from flask_login import logout_user, login_required, current_user
 from itsdangerous import SignatureExpired, BadSignature, URLSafeTimedSerializer
 from sqlalchemy import func
-from werkzeug.utils import secure_filename
-
 from user.forms import RegisterForm, LoginForm, RestPassForm, ForgotPassForm
 from models import User, db, Task, Answer
 
