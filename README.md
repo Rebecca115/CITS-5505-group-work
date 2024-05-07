@@ -2,13 +2,13 @@
 
 This Flask application is a simple yet functional Question and Answer platform. It allows users to register, log in, post questions, and provide answers. The application uses Flask, Flask-SQLAlchemy, and Flask-Login for managing user sessions and interactions.
 
-## Features
+## **Features**
 
-- User registration and authentication
-- Post questions with descriptions and images
-- Answer questions posted by other users
-- View and manage user profiles
-- Automatic tracking of views, answers, and likes for questions and answers
+- **User Registration and Authentication**: Secure signup and login system for users.
+- **Post Questions**: Users can post questions including descriptions and optionally attach images.
+- **Provide Answers**: Users can answer questions posted by others.
+- **Profile Management**: Users can view and manage their profiles.
+- **Interactive Elements**: Automatic tracking of views, answers, and likes for questions and answers.
 
 ## Technologies Used
 
@@ -81,7 +81,7 @@ pip install -r requirements.txt
 
 4. **Configuration**
 
-Create a **`conf.py`** file in your project directory and update it with your settings:
+Create a `conf.py` file in your project directory and update it with your settings:
 
 ```python
 pythonCopy code
@@ -113,24 +113,31 @@ flask run
 
 ```
 
-Your application should now be running on **`http://localhost:5000`**.
+Your application should now be running on `http://localhost:5000`.
 
 ## **URL Endpoints**
 
-The application is structured around several key routes:
+### **User Endpoints**
 
-- **`/`**: The home page.
-- **`/user/register`**: Registration page where new users can create an account.
-- **`/user/login`**: Login page for existing users.
-- **`/user/logout`**: Logout endpoint that terminates the current user session.
+- `/`: Home page, displays all questions.
+- `/user/register`: User registration page.
+- `/user/login`: User login page.
+- `/user/logout`: Logs out the current user.
+
+### **Quest Endpoints**
+
+- `/post`: Allows logged-in users to post new questions. Accessible through the `Post` button once logged in.
+- `/q/list`: Provides a paginated list of all questions. This can be accessed to view questions in a list format.
+- `/detail/<int:q_id>`: Displays the detail page for a specific question, where users can view all the answers and post their own answer.
+- `/answer/like/<int:answer_id>`: Endpoint for liking an answer. Only accessible to logged-in users and increases the like count for the specified answer.
 
 ## **User Registration and Login**
 
 ### **Registration Process**
 
-To register a new user, navigate to **`/user/register`**. The registration form requires a username, nickname, password, and password confirmation. Upon submission, the application checks for existing usernames and validates the data. If successful, the user's password is encrypted for security and the new user account is created.
+To register a new user, navigate to `/user/register`. The registration form requires a username, nickname, password, and password confirmation. Upon submission, the application checks for existing usernames and validates the data. If successful, the user's password is encrypted for security and the new user account is created.
 
 ### **Login Process**
 
-Existing users can log in by navigating to **`/user/login`**. The user must enter their username and password, which are validated against the stored data. If the credentials are correct, the user is authenticated and logged into the system. The application uses sessions to maintain the login state, ensuring that the user remains logged in while navigating between pages.
+Existing users can log in by navigating to `/user/login`. The user must enter their username and password, which are validated against the stored data. If the credentials are correct, the user is authenticated and logged into the system. The application uses sessions to maintain the login state, ensuring that the user remains logged in while navigating between pages.
 
