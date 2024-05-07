@@ -194,3 +194,23 @@ def get_top_users():
         users_data.append(user_dict)
 
     return jsonify({"users": users_data}), 200
+
+# @user.route('/upload/<int:id>', methods=['POST'])
+# @login_required
+# def upload(id):
+#     """Route for uploading user profile picture"""
+#     if current_user.id != id:
+#         return jsonify({'error': 'You are not authorized to perform this action'}), 403
+#     user = User.query.filter_by(id=id).first_or_404(description='User not found.')
+#     if 'file' not in request.files:
+#         return jsonify({'error': 'No file part'}), 400
+#     file = request.files['file']
+#     if file.filename == '':
+#         return jsonify({'error': 'No selected file'}), 400
+#     if file and allowed_file(file.filename):
+#         filename = secure_filename(file.filename)
+#         file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
+#         user.profile_picture = filename
+#         db.session.commit()
+#         return jsonify({'message': 'Profile picture uploaded successfully'}), 200
+#     return jsonify({'error': 'Invalid file type'}), 400
