@@ -60,6 +60,7 @@ class Question(db.Model):
 
     created_at = db.Column(db.DateTime, default=datetime.now)
     updated_at = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
+    date_to_finish = db.Column(db.DateTime)
 
     # relation with user
     user_id = db.Column(db.Integer, db.ForeignKey('accounts_user.id'))
@@ -72,7 +73,7 @@ class Question(db.Model):
     accepted_user = db.relationship('User', backref=db.backref('accepted_list', lazy='dynamic'),
                                     foreign_keys=[accepted_user_id])
 
-    date_to_answer = db.Column(db.DateTime)
+
 
 
 
