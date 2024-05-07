@@ -3,10 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <title>Title</title>
-    <style>
+    <title>Task List</title>
+        <style>
         .hidden {
             display: none;
         }
@@ -14,16 +13,44 @@
 </head>
 <body>
 
-<div class="container my-4">
-    {% if current_user.is_authenticated %}
-        <div class="alert alert-success" role="alert">
-            Welcome back, {{ current_user.nickname }}
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container">
+        <a class="navbar-brand" href="#">Task List</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/post">Post a Task</a>
+                </li>
+            </ul>
+            <label for="searchInput"></label><input class="form-control me-2" type="search" placeholder="Search" id="searchInput">
+            <ul class="navbar-nav">
+                {% if current_user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/user/{{ current_user.id }}/mine">Mine</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/user/logout">Logout</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/user/login">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/user/register">Register</a>
+                    </li>
+                {% endif %}
+            </ul>
         </div>
-    {% endif %}
+    </div>
+</nav>
 
+<div class="container my-4">
     {% with messages = get_flashed_messages() %}
         {% if messages %}
-            <div class="alert alert-danger" role="alert">
+            <div class="alert alert-danger">
                 {% for message in messages %}
                     {{ message }}
                 {% endfor %}
@@ -31,87 +58,70 @@
         {% endif %}
     {% endwith %}
 
-    <div class="d-flex justify-content-between my-2">
+    <h3 class="my-3">Task List</h3>
 
-        {% if current_user.is_anonymous %}
-            <a href="/user/login" class="btn btn-primary">Login</a>
-
-            <a href="/user/register" class="btn btn-primary">Register</a>
-        {% endif %}
-
-
-
-
-        <a href="/post" class="btn btn-success">Post a quest</a>
-
-        {% if current_user.is_authenticated %}
-            <a href="/user/{{ current_user.id }}/mine" class="btn btn-success">Mine</a>
-
-            <a href="/user/logout" class="btn btn-danger">Logout</a>
-
-        {% endif %}
-
-    </div>
-
-    <h3 class="my-3">Task(Task) List</h3>
-
-
-    <div class="qa-ls">
-        {% for task in page_data.items %}
-            <div class="qa-item">
-                <a href="{{ url_for('task.detail', t_id=task.id) }}" class="title">{{ task.title }}</a>
-                <div class="desc">
-                    {% if task.img %}
-                        <div class="left">
-                            <img src="{{ url_for('static', filename='uploads/' + task.img) }}"
-                                 class="img-fluid mb-3 shadow-sm"
-                                 style="height: 100px; width: auto;" alt="">
-
+    {% for task in page_data.items %}
+        <div class="card mb-3">
+            <div class="row g-0">
+                {% if task.img %}
+                    <div class="col-md-4">
+                        <img src="{{ url_for('static', filename='uploads/' + task.img) }}"
+                             class="img-fluid rounded-start" alt="Task Image">
+                    </div>
+                {% endif %}
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title"><a href="{{ url_for('task.detail', t_id=task.id) }}">{{ task.title }}</a>
+                        </h5>
+                        <p class="card-text">{{ task.content|safe|truncate(200) }}</p>
+                        <a href="#" class="btn btn-primary show-desc">Read More</a>
+                        <div class="hidden">
+                            <p class="card-text">{{ task.content|safe }}</p>
+                            <a href="#" class="btn btn-secondary show-all">Collapse</a>
                         </div>
-                    {% endif %}
-                    <div class="right">
-
-                        <div class="show-desc">{{ task.content|safe|truncate(40) }}
-                            <span class="more btn-link">Read more</span>
-                        </div>
-                        <div class="show-all hidden ">
-                            {{ task.content|safe }}
-                            <span class="more btn-link">Collapse</span>
-                        </div>
-
                     </div>
                 </div>
-
             </div>
-        {% endfor %}
-    </div>
+        </div>
+    {% endfor %}
 
-
-    <div class="d-flex justify-content-between mt-4">
-        <a href="{{ url_for('task.index_page', page=page_data.page-1 if page_data.has_prev else page_data.page) }}"
-           class="btn btn-info" {% if not page_data.has_prev %}disabled{% endif %}>Previous</a>
-        <a href="{{ url_for('task.index_page', page=page_data.page+1 if page_data.has_next else page_data.page) }}"
-           class="btn btn-info" {% if not page_data.has_next %}disabled{% endif %}>Next</a>
-    </div>
-
-
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+            <li class="page-item{% if not page_data.has_prev %} disabled{% endif %}">
+                <a class="page-link"
+                   href="{{ url_for('task.index_page', page=page_data.page-1 if page_data.has_prev else page_data.page) }}">Previous</a>
+            </li>
+            <li class="page-item{% if not page_data.has_next %} disabled{% endif %}">
+                <a class="page-link" href="
+                        {{ url_for('task.index_page', page=page_data.page+1 if page_data.has_next else page_data.page) }}">Next</a>
+            </li>
+        </ul>
+    </nav>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
-        crossorigin="anonymous"></script>
-
+<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
 <script>
-    $('.show-desc').click(function () {
-        $(this).addClass('hidden');
-        $(this).next().removeClass('hidden')
-    })
+    $(function () {
+        $('.show-desc').click(function () {
+            $(this).parent().find('.hidden').removeClass('hidden');
+            $(this).hide();
+        });
 
-    $('.show-all').click(function () {
-        $(this).addClass('hidden');
-        $(this).prev().removeClass('hidden')
-    })
+        $('.show-all').click(function () {
+            $(this).parent().addClass('hidden');
+            $(this).parent().parent().find('.show-desc').show();
+        });
+
+        $('#searchInput').on('keypress', function (e) {
+            if (e.which === 13) {
+                var query = $(this).val()
+                if (query) {
+                    window.location.href = `/search?query=${encodeURIComponent(query)}`;
+                }
+            }
+        });
+    });
 </script>
 
 </body>
