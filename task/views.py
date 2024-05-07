@@ -257,6 +257,7 @@ def search():
 
 
 @quest.route('/task/delete/<int:t_id>', methods=['POST'])
+@login_required
 def task_delete(t_id):
     """ Route to delete a task, requires user to be logged in. """
     if not current_user.is_authenticated:
@@ -283,6 +284,7 @@ def task_delete(t_id):
 
 
 @quest.route('/task/edit/<int:t_id>', methods=['GET', 'POST'])
+@login_required
 def task_edit(t_id):
     """ Route to edit a task, requires user to be logged in. """
     if not current_user.is_authenticated:
@@ -317,6 +319,7 @@ def task_detail(t_id):
 @quest.route('/task/category/<category>')
 def task_by_category(category):
     """ Route to list tasks by category. """
+    print(category)
     tasks = Task.query.filter_by(category=category).all()
     return jsonify({'message': 'Success', 'data': [q.to_dict() for q in tasks]}), 200
 
