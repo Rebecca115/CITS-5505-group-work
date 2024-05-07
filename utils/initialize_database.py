@@ -2,7 +2,7 @@ import hashlib
 import os
 from random import random
 
-from models import User, Question, Answer
+from models import User, Task, Answer
 
 
 def create_local_db(app, db):
@@ -10,7 +10,7 @@ def create_local_db(app, db):
         with app.app_context():
             db.create_all()
             initialize_user(db)
-            initialize_questions(db)
+            initialize_tasks(db)
             initialize_answers(db)
             print('Database initialized successfully!')
 
@@ -45,41 +45,38 @@ def initialize_user(db):
     db.session.commit()
 
 
-def initialize_questions(db):
-    questions = [
-        Question(title="Why do we never see baby pigeons?", desc="Exploring urban wildlife mysteries.",
-                 content="It seems pigeons appear out of nowhere as adults. Where are all the baby pigeons hiding?",
-                 user_id=1),
-        Question(title="Is cereal soup?", desc="A culinary conundrum.",
-                 content="What defines a soup? Does cereal qualify when served with milk?", user_id=2),
-        Question(title="Why is there a light in the fridge but not in the freezer?",
-                 desc="Household appliance mysteries.",
-                 content="Have you ever wondered why refrigerators commonly have a light, but freezers do not?",
-                 user_id=3),
-        Question(title="What color is a mirror?", desc="A reflection on colors.",
-                 content="Mirrors show us a multitude of colors, but what color are they inherently?", user_id=4),
-        Question(title="Why do our noses run and our feet smell?", desc="A humorous look at human body expressions.",
-                 content="The English language can be peculiar with expressions. Why do we say that noses run and feet smell?",
-                 user_id=5),
-        Question(title="Can you cry underwater?", desc="Physical reactions in different environments.",
-                 content="What happens when you try to cry while submerged in water?", user_id=6),
-        Question(title="Do fish ever get thirsty?", desc="Aquatic life curiosities.",
-                 content="If fish live in water, do they experience thirst in the way land-dwelling creatures do?",
-                 user_id=7),
-        Question(title="Why do we park on driveways and drive on parkways?", desc="The ironies of English terminology.",
-                 content="Exploring the peculiarities of English language in terms of space and movement.", user_id=8),
-        Question(title="If vampires can't see their reflection, why is their hair always so neat?",
-                 desc="A supernatural fashion mystery.",
-                 content="Considering vampires’ lack of reflection, how do they manage to keep their appearance so meticulously groomed?",
-                 user_id=9),
-        Question(
+def initialize_tasks(db):
+    tasks = [
+        Task(title="Why do we never see baby pigeons?",
+             content="It seems pigeons appear out of nowhere as adults. Where are all the baby pigeons hiding?",
+             user_id=1),
+        Task(title="Is cereal soup?",
+             content="What defines a soup? Does cereal qualify when served with milk?", user_id=2),
+        Task(title="Why is there a light in the fridge but not in the freezer?",
+             content="Have you ever wondered why refrigerators commonly have a light, but freezers do not?",
+             user_id=3),
+        Task(title="What color is a mirror?",
+             content="Mirrors show us a multitude of colors, but what color are they inherently?", user_id=4),
+        Task(title="Why do our noses run and our feet smell?",
+             content="The English language can be peculiar with expressions. Why do we say that noses run and feet smell?",
+             user_id=5),
+        Task(title="Can you cry underwater?",
+             content="What happens when you try to cry while submerged in water?", user_id=6),
+        Task(title="Do fish ever get thirsty?",
+             content="If fish live in water, do they experience thirst in the way land-dwelling creatures do?",
+             user_id=7),
+        Task(title="Why do we park on driveways and drive on parkways?",
+             content="Exploring the peculiarities of English language in terms of space and movement.", user_id=8),
+        Task(title="If vampires can't see their reflection, why is their hair always so neat?",
+             content="Considering vampires’ lack of reflection, how do they manage to keep their appearance so meticulously groomed?",
+             user_id=9),
+        Task(
             title="If an ambulance is on its way to save someone, and it runs someone over, does it stop to help them?",
-            desc="Ethical and logistical dilemmas in emergencies.",
             content="A thought experiment on the complexities of emergency responses.", user_id=10)
     ]
 
-    for question in questions:
-        db.session.add(question)
+    for task in tasks:
+        db.session.add(task)
 
     db.session.commit()
 
@@ -90,12 +87,12 @@ def initialize_answers(db):
             content="""
             Baby pigeons are usually not seen because they stay in their nests, which are often hidden in high and hard-to-reach places such as rooftops or building ledges. Additionally, baby pigeons grow rapidly and are capable of flying within a few weeks, so they may not stay in their nests for long periods.
             """,
-            user_id=3, q_id=1),
+            user_id=3, t_id=1),
         Answer(
             content="""
             Whether cereal qualifies as soup can be debated. While cereal and milk share some similarities with soup, such as being a mixture of solid and liquid ingredients, the key difference lies in their preparation and consumption. Soup is typically cooked and served hot as a savory dish, while cereal is eaten cold and is often considered a breakfast food.
             """,
-            user_id=4, q_id=2),
+            user_id=4, t_id=2),
         Answer(
             content="""
 The reason why there's usually a light in the fridge but not in the freezer is due to the way these
@@ -118,7 +115,7 @@ for something specific.
 In summary, the fridge needs lighting to help maintain its temperature and make contents visible, while
 the freezer doesn't require lighting due to its low temperatures and lack of food organization.
             """,
-            user_id=5, q_id=3),
+            user_id=5, t_id=3),
         Answer(
             content="""
 The answer is: None!
@@ -131,10 +128,10 @@ Think about it like this: when you take a picture with a camera, what's the colo
 whatever colors are reflected in the scene you're capturing! In the same way, mirrors reflect the colors
 around them, so they don't have an inherent color themselves.
             """,
-            user_id=6, q_id=4),
+            user_id=6, t_id=4),
         Answer(
             content="""
-A curious question!
+A curious task!
 
 The reasons behind our noses running and our feet smelling are quite different, but I'll try to provide
 some insight:
@@ -173,7 +170,7 @@ produce odors.
 So, while it might seem like our noses and feet are somehow connected in terms of bodily functions,
 they're actually just responding to different stimuli and environmental factors!
             """,
-            user_id=7, q_id=5),
+            user_id=7, t_id=5),
         Answer(
             content="""
 Crying is a complex process that involves the release of tears from the lacrimal gland, which is located
@@ -195,7 +192,7 @@ like sadness or joy underwater.
 
 So, while you can technically cry underwater, it's not the same as crying on land. The pressure and
 density of the water make it a unique experience!            """,
-            user_id=8, q_id=6),
+            user_id=8, t_id=6),
         Answer(
             content="""
 Fish don't get thirsty in the same way humans do. Since they live in water, their bodies are adapted to
@@ -215,8 +212,8 @@ In short, fish don't need to drink water like humans do because they're constant
 bodies are designed to thrive in an aquatic environment, and they've evolved to conserve water and manage
 their bodily functions accordingly.
 
-So, to answer your question: No, fish don't get thirsty!            """,
-            user_id=9, q_id=7),
+So, to answer your task: No, fish don't get thirsty!            """,
+            user_id=9, t_id=7),
         Answer(
             content="""
 The reason we "park on driveways" and "drive on parkways" lies in the historical development of urban
@@ -243,7 +240,7 @@ distances.
 
 So, to summarize: the reason we "park on driveways" and "drive on parkways" is a result of historical
 context, urban planning decisions, and linguistic evolution, which have led to our modern understanding of
-these terms.""",            user_id=1, q_id=8),
+these terms.""",            user_id=1, t_id=8),
         Answer(
             content="""
 The idea that vampires can't see their reflection is a common myth or trope in folklore and popular
@@ -267,7 +264,7 @@ tendencies, as they're more concerned with appearances than actual self-reflecti
 
 In any case, the connection between vampires not seeing themselves in the mirror and their hair being neat
 is purely fictional and doesn't hold water outside of creative storytelling!            """,
-            user_id=9, q_id=9),
+            user_id=9, t_id=9),
         Answer(
             content="""
 In most cases, the answer would be "no," the ambulance would not stop to help the person they just ran
@@ -292,7 +289,7 @@ ambulance to stop and assist someone they've just run over, such as a child or p
 
 In general, though, the answer would still be "no," the ambulance would not typically stop to help the
 person they just ran over.            """,
-            user_id=2, q_id=10)
+            user_id=2, t_id=10)
     ]
 
     for answer in answers:

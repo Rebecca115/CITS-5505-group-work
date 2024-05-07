@@ -53,17 +53,17 @@
 
     </div>
 
-    <h3 class="my-3">Question(Task) List</h3>
+    <h3 class="my-3">Task(Task) List</h3>
 
 
     <div class="qa-ls">
-        {% for question in page_data.items %}
+        {% for task in page_data.items %}
             <div class="qa-item">
-                <a href="{{ url_for('quest.detail', q_id=question.id) }}" class="title">{{ question.title }}</a>
+                <a href="{{ url_for('task.detail', t_id=task.id) }}" class="title">{{ task.title }}</a>
                 <div class="desc">
-                    {% if question.img %}
+                    {% if task.img %}
                         <div class="left">
-                            <img src="{{ url_for('static', filename='uploads/' + question.img) }}"
+                            <img src="{{ url_for('static', filename='uploads/' + task.img) }}"
                                  class="img-fluid mb-3 shadow-sm"
                                  style="height: 100px; width: auto;" alt="">
 
@@ -71,11 +71,11 @@
                     {% endif %}
                     <div class="right">
 
-                        <div class="show-desc">{{ question.content|safe|truncate(40) }}
+                        <div class="show-desc">{{ task.content|safe|truncate(40) }}
                             <span class="more btn-link">Read more</span>
                         </div>
                         <div class="show-all hidden ">
-                            {{ question.content|safe }}
+                            {{ task.content|safe }}
                             <span class="more btn-link">Collapse</span>
                         </div>
 
@@ -88,9 +88,9 @@
 
 
     <div class="d-flex justify-content-between mt-4">
-        <a href="{{ url_for('quest.index_page', page=page_data.page-1 if page_data.has_prev else page_data.page) }}"
+        <a href="{{ url_for('task.index_page', page=page_data.page-1 if page_data.has_prev else page_data.page) }}"
            class="btn btn-info" {% if not page_data.has_prev %}disabled{% endif %}>Previous</a>
-        <a href="{{ url_for('quest.index_page', page=page_data.page+1 if page_data.has_next else page_data.page) }}"
+        <a href="{{ url_for('task.index_page', page=page_data.page+1 if page_data.has_next else page_data.page) }}"
            class="btn btn-info" {% if not page_data.has_next %}disabled{% endif %}>Next</a>
     </div>
 
