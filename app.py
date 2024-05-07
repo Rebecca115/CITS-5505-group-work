@@ -7,7 +7,7 @@ from flask_mail import Mail
 from flask_migrate import Migrate
 from itsdangerous import URLSafeTimedSerializer
 
-from quest.views import quest
+from task.views import quest
 from models import db, User
 from user.views import user
 from utils import initialize_database
@@ -40,12 +40,10 @@ login_manager.init_app(app)
 def load_user(user_id):
     return User.query.get(user_id)
 
-
-
+if not os.path.exists('instance/data.db'):
+    initialize_database.create_local_db(app,db)
 
 if __name__ == '__main__':
 
     app.run(host="0.0.0.0", port=5000, debug=True)
 
-    if not os.path.exists('instance/db.sqlite'):
-        create_database(app)

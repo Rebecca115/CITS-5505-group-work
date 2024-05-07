@@ -17,21 +17,21 @@
 <body>
 <div class="container">
 
-    <div class="layout-question mt-5">
+    <div class="layout-task mt-5">
             <a href="/" class="btn btn-success">Home</a>
 
-        <h3 class="mb-3">{{ question.title }}</h3>
-        <h4 class="mb-3">{{ question.user.nickname }}</h4>
+        <h3 class="mb-3">{{ task.title }}</h3>
+        <h4 class="mb-3">{{ task.user.nickname }}</h4>
 
         <div class="show-all mb-3">
-            {{ question.content|safe }}
+            {{ task.content|safe }}
         </div>
     </div>
 
 {#    write answer modal#}
     <div class="modal fade" id="addComment" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <form class="modal-dialog" role="document"
-              method="post" action="{{ url_for('quest.detail', q_id=question.id) }}">
+              method="post" action="{{ url_for('task.detail', t_id=task.id) }}">
             {{ form.csrf_token }}
             <div class="modal-content">
                 <div class="modal-header">

@@ -11,10 +11,10 @@ from wtforms import StringField, TextAreaField, FileField
 from wtforms.validators import DataRequired, Length
 from flask_ckeditor import CKEditorField
 
-from models import Question, db, Answer
+from models import Task, db, Answer
 
 
-class WriteQuestionForm(FlaskForm):
+class WriteTaskForm(FlaskForm):
     img = FileField(
         'Upload Picture',
         render_kw={'accept': ".jpeg, .jpg, .png"},
@@ -45,8 +45,8 @@ class WriteQuestionForm(FlaskForm):
     )
 
     def save(self):
-        """ Save the posted question with image if provided.
-            The function returns the question object after saving it to the database.
+        """ Save the posted task with image if provided.
+            The function returns the task object after saving it to the database.
         """
         # Get the image if uploaded
         img = self.img.data
@@ -64,17 +64,17 @@ class WriteQuestionForm(FlaskForm):
             # save_path = os.path.join(current_app.config['UPLOAD_FOLDER'], secure_random_filename)
             # avatar_file.save(save_path)
 
-        # Save the question details
-        question = Question(
+        # Save the task details
+        task = Task(
             title=self.title.data,
             img=img_name,
             content=self.content.data,
             user=current_user
         )
-        db.session.add(question)
+        db.session.add(task)
         db.session.commit()
 
-        return question
+        return task
 
 
 class WriteAnswerForm(FlaskForm):
@@ -86,15 +86,15 @@ class WriteAnswerForm(FlaskForm):
         ]
     )
 
-    def save(self, question):
-        """ Save the provided answer to a question.
-            Requires passing the associated question object.
+    def save(self, task):
+        """ Save the provided answer to a task.
+            Requires passing the associated task object.
             Returns the answer object after saving it to the database.
         """
         answer = Answer(
             content=self.content.data,
             user=current_user,
-            question=question
+            task=task
         )
         db.session.add(answer)
         db.session.commit()

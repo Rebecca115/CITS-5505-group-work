@@ -1,14 +1,14 @@
-#  CITS5505 Flask Question and Answer Application
+#  CITS5505 Flask Task and Answer Application
 
-This Flask application is a simple yet functional Question and Answer platform. It allows users to register, log in, post questions, and provide answers. The application uses Flask, Flask-SQLAlchemy, and Flask-Login for managing user sessions and interactions.
+This Flask application is a simple yet functional Task and Answer platform. It allows users to register, log in, post tasks, and provide answers. The application uses Flask, Flask-SQLAlchemy, and Flask-Login for managing user sessions and interactions.
 
 ## **Features**
 
 - **User Registration and Authentication**: Secure signup and login system for users.
-- **Post Questions**: Users can post questions including descriptions and optionally attach images.
-- **Provide Answers**: Users can answer questions posted by others.
+- **Post Tasks**: Users can post tasks including descriptions and optionally attach images.
+- **Provide Answers**: Users can answer tasks posted by others.
 - **Profile Management**: Users can view and manage their profiles.
-- **Interactive Elements**: Automatic tracking of views, answers, and likes for questions and answers.
+- **Interactive Elements**: Automatic tracking of views, answers, and likes for tasks and answers.
 
 ## Technologies Used
 
@@ -34,7 +34,7 @@ Copy codeproject/
 │   ├── index.html
 │   ├── login.html
 │   ├── mine.html
-│   ├── question_detail.html
+│   ├── task_detail.html
 │   └── register.html
 ├── user/
 │   ├── __init__.py
@@ -119,16 +119,16 @@ Your application should now be running on `http://localhost:5000`.
 
 ### **User Endpoints**
 
-- `/`: Home page, displays all questions.
+- `/`: Home page, displays all tasks.
 - `/user/register`: User registration page.
 - `/user/login`: User login page.
 - `/user/logout`: Logs out the current user.
 
 ### **Quest Endpoints**
 
-- `/post`: Allows logged-in users to post new questions. Accessible through the `Post` button once logged in.
-- `/q/list`: Provides a paginated list of all questions. This can be accessed to view questions in a list format.
-- `/detail/<int:q_id>`: Displays the detail page for a specific question, where users can view all the answers and post their own answer.
+- `/post`: Allows logged-in users to post new tasks. Accessible through the `Post` button once logged in.
+- `/q/list`: Provides a paginated list of all tasks. This can be accessed to view tasks in a list format.
+- `/detail/<int:t_id>`: Displays the detail page for a specific task, where users can view all the answers and post their own answer.
 - `/answer/like/<int:answer_id>`: Endpoint for liking an answer. Only accessible to logged-in users and increases the like count for the specified answer.
 
 ## **User Registration and Login**

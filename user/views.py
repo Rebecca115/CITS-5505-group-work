@@ -8,7 +8,7 @@ from sqlalchemy import func
 from werkzeug.utils import secure_filename
 
 from user.forms import RegisterForm, LoginForm, RestPassForm, ForgotPassForm
-from models import User, db, Question, Answer
+from models import User, db, Task, Answer
 
 user = Blueprint('user', __name__, template_folder='templates', static_folder='../assets')
 
@@ -82,19 +82,19 @@ def mine(id):
     return render_template('mine.html', user=user)
 
 
-@user.route('/<int:id>/questions')
+@user.route('/<int:id>/tasks')
 @login_required
-def my_questions(id):
-    """Retrieve and display questions posted by the current logged-in user."""
+def my_tasks(id):
+    """Retrieve and display tasks posted by the current logged-in user."""
     try:
         user_id = id
 
-        questions = Question.query.filter_by(user_id=user_id).all()
-        questions_data = [
-            {'title': question.title, 'description': question.content, 'id': question.id}
-            for question in questions
+        tasks = Task.query.filter_by(user_id=user_id).all()
+        tasks_data = [
+            {'title': task.title, 'description': task.content, 'id': task.id}
+            for task in tasks
         ]
-        return jsonify(questions_data)
+        return jsonify(tasks_data)
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
