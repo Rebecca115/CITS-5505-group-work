@@ -10,15 +10,15 @@ quest = Blueprint('quest', __name__,
                   static_folder='../static')
 
 
-
 @quest.route('/')
-def indexPage():
+def index_page():
     """ Home page route, display a list of paginated questions. """
     per_page = 5
     page = request.args.get('page', 1, type=int)
     page_data = Question.query.order_by(Question.created_at.desc()).paginate(
         page=page, per_page=per_page)
     return render_template('index.html', page_data=page_data)
+
 
 @quest.route('/post', methods=['GET', 'POST'])
 @login_required
@@ -36,6 +36,7 @@ def post():
             flash('Error posting Quest: {}'.format(e), 'danger')
     return render_template('post.html', form=form)
 
+
 @quest.route('/q/list')
 def question_list():
     """ Route to list questions in a paginated manner and return as JSON. """
@@ -47,6 +48,7 @@ def question_list():
         return jsonify(code=0, data=data)
     except Exception as e:
         return jsonify(code=1, data=str(e)), 400
+
 
 @quest.route('/detail/<int:q_id>', methods=['GET', 'POST'])
 def detail(q_id):
@@ -82,6 +84,7 @@ def detail(q_id):
                            answers=answers,
                            form=form)
 
+
 @quest.route('/answer/like/<int:answer_id>', methods=['POST'])
 def answer_like(answer_id):
     """ Route to like an answer, requires user to be logged in. """
@@ -101,7 +104,7 @@ def answer_like(answer_id):
         db.session.commit()
 
         # Fetch the new like count
-        like_count = Answer.query.get(answer_id).like_count + 1 # Assuming like_count is a field
+        like_count = Answer.query.get(answer_id).like_count + 1  # Assuming like_count is a field
         return jsonify({'message': 'Success', 'like_count': like_count}), 201
     except Exception as e:
         return jsonify({'error': 'Unknown error: {}'.format(e)}), 500
@@ -125,10 +128,11 @@ def answer_unlike(answer_id):
         db.session.commit()
 
         # Fetch the new like count
-        like_count = Answer.query.get(answer_id).like_count - 1 # Assuming like_count is a field
+        like_count = Answer.query.get(answer_id).like_count - 1  # Assuming like_count is a field
         return jsonify({'message': 'Success', 'like_count': like_count}), 200
     except Exception as e:
         return jsonify({'error': 'Unknown error: {}'.format(e)}), 500
+
 
 @quest.route('/answer/delete/<int:answer_id>', methods=['POST'])
 def answer_delete(answer_id):
@@ -153,6 +157,7 @@ def answer_delete(answer_id):
         return jsonify({'message': 'Success'}), 200
     except Exception as e:
         return jsonify({'error': 'Unknown error: {}'.format(e)}), 500
+
 
 @quest.route('/answer/edit/<int:answer_id>', methods=['GET', 'POST'])
 def answer_edit(answer_id):
@@ -179,6 +184,7 @@ def answer_edit(answer_id):
 
     return render_template('edit_answer.html', form=form, answer=answer)
 
+
 @quest.route('/answer/<int:answer_id>')
 def answer_detail(answer_id):
     """ Route to get details of an answer. """
@@ -188,11 +194,13 @@ def answer_detail(answer_id):
 
     return jsonify({'message': 'Success', 'data': answer.to_dict()}), 200
 
+
 @quest.route('/answer/list/<int:q_id>')
 def answer_list(q_id):
     """ Route to list answers to a question. """
     answers = Answer.query.filter_by(q_id=q_id).all()
     return jsonify({'message': 'Success', 'data': [ans.to_dict() for ans in answers]}), 200
+
 
 @quest.route('/answer/like/list/<int:answer_id>')
 def answer_like_list(answer_id):
@@ -247,6 +255,7 @@ def search():
     except Exception as e:
         return jsonify({'error': f'Unknown error: {e}'}), 500
 
+
 @quest.route('/question/delete/<int:q_id>', methods=['POST'])
 def question_delete(q_id):
     """ Route to delete a question, requires user to be logged in. """
@@ -272,6 +281,7 @@ def question_delete(q_id):
     except Exception as e:
         return jsonify({'error': f'Unknown error: {e}'}), 500
 
+
 @quest.route('/question/edit/<int:q_id>', methods=['GET', 'POST'])
 def question_edit(q_id):
     """ Route to edit a question, requires user to be logged in. """
@@ -293,6 +303,7 @@ def question_edit(q_id):
         except Exception as e:
             return jsonify({'error': f'Unknown error: {e}'}), 500
 
+
 @quest.route('/question/<int:q_id>')
 def question_detail(q_id):
     """ Route to get details of a question. """
@@ -302,18 +313,39 @@ def question_detail(q_id):
 
     return jsonify({'message': 'Success', 'data': question.to_dict()}), 200
 
+
 @quest.route('/question/category/<category>')
 def question_by_category(category):
     """ Route to list questions by category. """
     questions = Question.query.filter_by(category=category).all()
     return jsonify({'message': 'Success', 'data': [q.to_dict() for q in questions]}), 200
 
+@quest.route('/question/accept/<int:q_id>', methods=['POST'])
+@login_required
+def question_accept(q_id):
+    """ Route to accept an answer to a question. """
+    if not current_user.is_authenticated:
+        return jsonify({'error': 'Please login'}), 401
 
+    try:
+        question = Question.query.get(q_id)
+        if not question:
+            return jsonify({'error': 'Question not found'}), 404
 
+        if question.user_id != current_user.id:
+            return jsonify({'error': 'You do not own this question'}), 403
 
-    #TODO
-    # questions list for the user
-    # question category
-    # Scoreborad for the top 10 users who achieved the highest score
-    #
-    #
+        answer_id = request.json.get('answer_id')
+        if not answer_id:
+            return jsonify({'error': 'Missing answer_id'}), 400
+
+        answer = Answer.query.get(answer_id)
+        if not answer:
+            return jsonify({'error': 'Answer not found'}), 404
+
+        question.accepted_user_id = answer.user_id
+        db.session.commit()
+
+        return jsonify({'message': 'Success'}), 200
+    except Exception as e:
+        return jsonify({'error': f'Unknown error: {e}'}), 500
