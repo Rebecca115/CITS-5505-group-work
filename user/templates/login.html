@@ -21,7 +21,6 @@
 
                 <form class="login-form box-wrap" method="POST"
                       action="{{ url_for('user.login') }}">
-                    {#        <input type="hidden" name="next" value="{{ next_url|d('') }}">#}
                     {{ form.csrf_token }}
 
 
