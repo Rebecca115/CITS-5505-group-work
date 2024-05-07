@@ -174,13 +174,26 @@ def reset_password(token):
 @user.route('/get_top_users')
 def get_top_users():
     """Route for getting top users"""
-    top_user_ids_subquery = (db.session.query(Answer.user_id)
+    top_user_ids_subquery = (db.session.query(
+        Answer.user_id,
+        func.count(Answer.id).label('answer_count'))
                              .join(User)
                              .group_by(Answer.user_id)
                              .order_by(func.count(Answer.id).desc())
                              .limit(10)
                              .subquery())
 
-    top_users = User.query.filter(User.id.in_(top_user_ids_subquery)).all()
+    top_users = db.session.query(
+        User,
+        top_user_ids_subquery.c.answer_count
+    ).join(
+        top_user_ids_subquery, User.id == top_user_ids_subquery.c.user_id
+    ).all()
 
-    return jsonify({"users": top_users}), 200
+    users_data = []
+    for user, answer_count in top_users:
+        user_dict = user.to_dict()
+        user_dict['answer_count'] = answer_count
+        users_data.append(user_dict)
+
+    return jsonify({"users": users_data}), 200
