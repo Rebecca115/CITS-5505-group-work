@@ -25,6 +25,11 @@
             <input type="text" id="location" name="location"><br>
             <label for="university">University:</label><br>
             <input type="text" id="university" name="university"><br>
+            <!-- Avatar upload field -->
+            <label for="avatar">Avatar:</label><br>
+            <input type="file" id="avatar" name="avatar" accept="image/*"><br>
+            <img id="avatar-preview" src="" alt="Avatar preview" style="display: none;"><br>
+    
             <button type="button" id="cancel-button">Cancel</button>
             <button type="submit" id="submit-button">Submit</button>
         </form>
@@ -73,7 +78,10 @@
                 <!-- User Information Section -->
                 <div class="row user-info">
                     <div class="col-md-3 d-flex flex-column align-items-center">
-                        <img src="profile_icon.png" alt="User photo" class="rounded-circle" style="width: 80px; height: 80px;">
+                        <div class="rounded-circle">
+                            <img src="profile_icon.png" alt="User photo">
+                        </div>
+        
                         <h3>Username</h3>
                     </div>
                     <div class="col-md-9">
@@ -189,6 +197,31 @@
         window.location.href = 'homepage.html'; // Replace 'homepage.html' with the URL of your homepage
     }
 });
+
+document.getElementById('avatar').addEventListener('change', function(e) {
+    var reader = new FileReader();
+    reader.onload = function(e) {
+        document.getElementById('avatar-preview').src = e.target.result;
+        document.getElementById('avatar-preview').style.display = 'block';
+    };
+    reader.readAsDataURL(this.files[0]);
+});
+
+    document.getElementById('submit-button').addEventListener('click', function(e) {
+        var avatar = document.getElementById('avatar').files[0];
+        if (avatar) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                document.querySelector('.rounded-circle img').src = e.target.result;
+            };
+            reader.readAsDataURL(avatar);
+        }
+        // Close the form here
+        document.getElementById('edit-form').style.display = 'none';
+        // Prevent the form from being submitted
+        e.preventDefault();
+    });
+
 </script>
 </html>
         
