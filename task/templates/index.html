@@ -22,24 +22,26 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="/post">Post a Task</a>
+                    <a class="nav-link" href="/post">Post a Task</a>    <!-- Change this link as needed -->
                 </li>
             </ul>
-            <label for="searchInput"></label><input class="form-control me-2" type="search" placeholder="Search" id="searchInput">
+            <form class="d-flex">
+                <input class="form-control me-2" type="search" placeholder="Search" id="searchInput">
+            </form>
             <ul class="navbar-nav">
                 {% if current_user.is_authenticated %}
                     <li class="nav-item">
-                        <a class="nav-link" href="/user/{{ current_user.id }}/mine">Mine</a>
+                        <a class="nav-link" href="/user/{{ current_user.id }}/mine">Mine</a>   <!-- Change this link as needed -->
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/user/logout">Logout</a>
+                        <a class="nav-link" href="/user/logout">Logout</a>    <!-- Change this link as needed -->
                     </li>
                 {% else %}
                     <li class="nav-item">
-                        <a class="nav-link" href="/user/login">Login</a>
+                        <a class="nav-link" href="/user/login">Login</a>    <!-- Change this link as needed -->
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/user/register">Register</a>
+                        <a class="nav-link" href="/user/register">Register</a>    <!-- Change this link as needed -->
                     </li>
                 {% endif %}
             </ul>
