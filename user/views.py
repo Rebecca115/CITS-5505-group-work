@@ -112,6 +112,7 @@ def change_password():
     return jsonify({'message': 'Password updated successfully'}), 200
 
 
+
 @user.route('/confirm-email/<token>')
 def confirm_email(token):
     """Route for confirming the user's email address"""
