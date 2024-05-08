@@ -16,7 +16,6 @@ class User(db.Model):
     avatar = db.Column(db.String(256))
     gender = db.Column(db.String(16))
     email = db.Column(db.String(64), unique=True)
-    sex = db.Column(db.String(16))
     email_verified = db.Column(db.Boolean, default=False)
     created_at = db.Column(db.DateTime, default=datetime.now)
     updated_at = db.Column(db.DateTime,
@@ -46,6 +45,14 @@ class User(db.Model):
     def check_password(self, password):
         return self.password == hashlib.sha256(password.encode()).hexdigest()
 
+    def to_dict(self):
+       return{
+                'nickname': self.nickname,
+                'avatar': self.avatar,
+                'gender' : self.gender
+       }
+
+
 
 class Task(db.Model):
     __tablename__ = 'task'
@@ -55,7 +62,6 @@ class Task(db.Model):
     content = db.Column(db.Text, nullable=False)
 
     view_count = db.Column(db.Integer, default=0)
-    reorder = db.Column(db.Integer, default=0)
     category = db.Column(db.String(64))
 
     created_at = db.Column(db.DateTime, default=datetime.now)
@@ -73,6 +79,18 @@ class Task(db.Model):
     accepted_user = db.relationship('User', backref=db.backref('accepted_list', lazy='dynamic'),
                                     foreign_keys=[accepted_user_id])
 
+    def to_dict(self):
+        return {
+            'title': self.title,
+            'content': self.content,
+            'view_count': self.view_count,
+            'category': self.category,
+            'created_at': self.created_at,
+            'updated_at': self.updated_at,
+            'date_to_finish': self.date_to_finish,
+            'nickname': self.user.nickname,
+            'accepted_user': self.accepted_user.username if self.accepted_user else None
+        }
 
 
 
@@ -112,12 +130,17 @@ class Answer(db.Model):
     def like_count(self):
         return self.answer_like_list.count()
 
-    def comment_list(self, reply_id=None):
-        return self.answer_comment_list.filter_by(reply_id=reply_id)
 
-    @property
-    def comment_count(self):
-        return self.answer_comment_list.count()
+
+    def to_dict(self):
+        return {
+            'content': self.content,
+            'created_at': self.created_at,
+            'updated_at': self.updated_at,
+            'user': self.user.username,
+            'task': self.task.title,
+            'like_count': self.like_count,
+        }
 
 
 class AnswerLike(db.Model):

@@ -21,7 +21,13 @@
 
     <div class="row">
         <div class="col-md-4">
-            <img src="{{ url_for('static', filename='uploads/' + user.avatar) }}" alt="Avatar" class="rounded-circle img-fluid mb-3 shadow-sm">        </div>
+            {% if user.avatar %}
+                <img src="{{ url_for('static', filename='uploads/' + user.avatar) }}" alt="Avatar"
+                     class="rounded-circle img-fluid mb-3 shadow-sm">
+            {% else %}
+{#                <img src="{{ url_for('static', filename='uploads/default_avatar.png') }}" alt="Default Avatar"#}
+{#                     class="rounded-circle img-fluid mb-3 shadow-sm">#}
+            {% endif %}        </div>
         <div class="col-md-8">
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">Username: {{ user.username }}</li>
@@ -78,13 +84,13 @@
             contentType: 'application/json',
             success: function (data) {
                 let tasksHtml = '';
-            data.forEach(function(task) {
-                tasksHtml +=
-                '<div class="task">' +
-                '<h2><a href="/detail/' + task.id + '">' + task.title + '</a></h2>' +
-                '<p>' + task.description + '</p>' +
-                '</div>';
-            });
+                data.forEach(function (task) {
+                    tasksHtml +=
+                        '<div class="task">' +
+                        '<h2><a href="/detail/' + task.id + '">' + task.title + '</a></h2>' +
+                        '<p>' + task.description + '</p>' +
+                        '</div>';
+                });
                 $('#tasks-section').html(tasksHtml);
             },
             error: function (error) {
@@ -97,7 +103,6 @@
             e.preventDefault();
             var current_password = $('#current_password').val();
             var new_password = $('#new_password').val();
-
 
 
             $.ajax({
