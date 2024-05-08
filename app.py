@@ -14,7 +14,7 @@ from utils import initialize_database
 
 app = Flask(__name__, static_folder='static')
 app.config.from_object('conf.Config')
-print(app.config['DEBUG'])
+
 ckeditor = CKEditor()
 ckeditor.init_app(app)
 
