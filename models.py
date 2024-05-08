@@ -94,6 +94,7 @@ class Task(db.Model):
 
 
 
+
     @property
     def comment_count(self):
         return self.task_comment_list.filter_bycount()
