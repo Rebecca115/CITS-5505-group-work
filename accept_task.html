@@ -84,12 +84,25 @@
         </div>
 
 
-
-        <div class="col-md-9">
+        <div class="main sticky-top">
+            <div class="main">
+                <div class="row">
+                    <!-- Task list -->
+                    <div class="list-group">
+                        {% for task in page_data.items %}
+                            <a href="#" class="list-group-item list-group-item-action" data-bs-toggle="modal" data-bs-target="#taskModal" data-task="{{ task.title }}">
+                                {{ task.title }}
+                            </a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- <div class="col-md-9">
             <div class="main sticky-top">
                     <div class="main">
                         <div class="row">
-                         <!-- Task list -->
                             <div class="list-group">
                                 <a href="#" class="list-group-item list-group-item-action" data-bs-toggle="modal" data-bs-target="#taskModal" data-task="Task 1">Task 1</a>
                                 <a href="#" class="list-group-item list-group-item-action" data-bs-toggle="modal" data-bs-target="#taskModal" data-task="Task 2">Task 2</a>
@@ -99,12 +112,9 @@
                                 <a href="#" class="list-group-item list-group-item-action" data-bs-toggle="modal" data-bs-target="#taskModal" data-task="Task 6">Task 6</a>
 
                             </div>
-
-                           
-        
                         </div>
                     </div>
-            </div>
+            </div> -->
         </div>
 
     </div>             
