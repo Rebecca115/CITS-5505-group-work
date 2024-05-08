@@ -67,7 +67,7 @@ class Task(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.now)
     updated_at = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
     date_to_finish = db.Column(db.DateTime)
-
+    location = db.Column(db.String(128))
     # relation with user
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     accepted_user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
