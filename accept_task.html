@@ -24,16 +24,21 @@
                 <div id="taskDetails">
                     <p id="taskTitle">{{ task.title }}</p>
                     <p id="taskDetail">{{ task.desc | default('No detailed description available.', true) }}</p>
-                    <p id="taskWhen">{{ task.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+                    <p id="taskWhen">{{ task.expectedtime.strftime('%Y-%m-%d') }}</p>
+                    <!-- and flexible ? -->
+
                     {% if task.img %}
-                        <img id="taskPhoto" src="{{ url_for('static', filename=task.img) }}" alt="Task photo">
-                    {% else %}
-                        <img id="taskPhoto" src="path/to/default/photo.png" alt="Task photo">
+                    <img id="taskPhoto" 
+                    src="{{ task.get_img_url }}" 
+                    alt="task photo" 
+                    srcset="{{ task.get_img_url }} 1x, {{ task.get_img_url_hd }} 2x, {{ task.get_img_url_full_hd }} 3x">
                     {% endif %}
+
                 </div>
+
                 <form id="answerForm">
                     <div class="mb-3">
-                        <label for="answer" class="form-label">Your Answer:</label>
+                        <label for="answer" class="form-label">Your Reply:</label>
                         <textarea class="form-control" id="answer" rows="3"></textarea>
                     </div>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
@@ -93,9 +98,7 @@
                     <!-- Task list -->
                     <div class="list-group">
                         {% for task in page_data.items %}
-                            <a href="#" class="list-group-item list-group-item-action" data-bs-toggle="modal" data-bs-target="#taskModal" data-task="{{ task.title }}">
-                                {{ task.title }}
-                            </a>
+                            <a href="{{ url_for('task.detail', t_id=task.id) }}" class="list-group-item list-group-item-action" data-bs-toggle="modal" data-bs-target="#taskModal" data-task="{{ task.title }}">{{ task.title }}</a>
                         {% endfor %}
                     </div>
                 </div>
