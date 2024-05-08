@@ -87,7 +87,7 @@ def my_tasks(id):
         return render_template('mytask.html', tasks=tasks, current_user=current_user)
     except Exception as e:
         flash(str(e), 'danger')
-        return redirect(url_for('index'))
+        return redirect(url_for('/'))
 
 
 @user.route('/change_password', methods=['POST'])
