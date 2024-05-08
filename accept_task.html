@@ -13,33 +13,36 @@
 </head>
 
 <body>
-
     <div class="modal fade" id="answerModal" tabindex="-1" aria-labelledby="answerModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="answerModalLabel">Task Details</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="answerModalLabel">{{ task.title }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div id="taskDetails">
+                    <p id="taskTitle">{{ task.title }}</p>
+                    <p id="taskDetail">{{ task.desc | default('No detailed description available.', true) }}</p>
+                    <p id="taskWhen">{{ task.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+                    {% if task.img %}
+                        <img id="taskPhoto" src="{{ url_for('static', filename=task.img) }}" alt="Task photo">
+                    {% else %}
+                        <img id="taskPhoto" src="path/to/default/photo.png" alt="Task photo">
+                    {% endif %}
                 </div>
-                <div class="modal-body">
-                    <div id="taskDetails">
-                        <p id="taskTitle"></p>
-                        <p id="taskDetail"></p>
-                        <p id="taskWhen"></p>
-                        <img id="taskPhoto" src="" alt="Task photo">
+                <form id="answerForm">
+                    <div class="mb-3">
+                        <label for="answer" class="form-label">Your Answer:</label>
+                        <textarea class="form-control" id="answer" rows="3"></textarea>
                     </div>
-                    <form id="answerForm">
-                        <div class="mb-3">
-                            <label for="answer" class="form-label">Your Answer:</label>
-                            <textarea class="form-control" id="answer" rows="3"></textarea>
-                        </div>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-primary">Accept Task</button>
-                    </form>
-                </div>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Accept Task</button>
+                </form>
             </div>
         </div>
     </div>
+</div>
 
 
     <div class="container-fluid">
