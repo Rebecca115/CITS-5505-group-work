@@ -1,0 +1,29 @@
+{% for task in page_data.items %}
+<div class="qa-item">
+    <a href="{{ url_for('task.detail', t_id=task.id) }}" class="title">{{ task.title }}</a>
+    <div class="desc">
+        {% if task.img %}
+            <div class="left">
+                <img src="{{ task.get_img_url }}" alt="" srcset="">
+            </div>
+        {% endif %}
+        <div class="right">
+            <div class="show-desc">{{ task.desc|d('No description', True) }}...
+                <span class="more">Read more...</span>
+            </div>
+            <div class="show-all hidden">
+                {% autoescape false %}
+                {{ task.content|safe }}
+                {% endautoescape %}
+                <span class="more">collapse</span>
+            </div>
+        </div>
+    </div>
+    <div class="qa-footer">
+
+        <div class="txt-menu">{{ task.comment_count|d('0', True) }} comment</div>
+
+    </div>
+</div>
+</div>
+{% endfor %}

@@ -325,11 +325,7 @@ button.active {
     box-sizing: border-box; /* Include padding and border in the element's total width and height */
 }
 
-.modal-backdrop.show {
-    z-index: 1050;  /* 根据需要调整，确保高于其他所有元素 */
-}
 
-
-.modal {
-    z-index: 1050; /* Adjust this value as needed */
+.modal-dialog {
+    z-index: 1050;  /* Increase this value if necessary */
 }
