@@ -190,6 +190,36 @@ def get_top_users():
 
     return jsonify({"users": users_data}), 200
 
+@user.route('/change_email/<int:id>')
+@login_required
+def change_email(id):
+    """Route for changing the user's email address"""
+    if id != current_user.id:
+        return jsonify({'error': 'You are not authorized to perform this action'}), 403
+
+    data = request.get_json()
+    new_email = data.get('new_email')
+    current_user.email = new_email
+    db.session.commit()
+    return jsonify({'message': 'Email updated successfully'}), 200
+
+
+@user.route('/change_nickname/<int:id>')
+@login_required
+def change_nickname(id):
+    """Route for changing the user's nickname"""
+
+    if id != current_user.id:
+        return jsonify({'error': 'You are not authorized to perform this action'}), 403
+
+    data = request.get_json()
+    new_nickname = data.get('new_nickname')
+    current_user.nickname = new_nickname
+    db.session.commit()
+    return jsonify({'message': 'Nickname updated successfully'}), 200
+
+
+
 # @user.route('/upload/<int:id>', methods=['POST'])
 # @login_required
 # def upload(id):
