@@ -15,7 +15,7 @@
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <div class="container">
-        <a class="navbar-brand" href="#">Task List</a>
+        <a class="navbar-brand" href="/">Task List</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -50,16 +50,16 @@
 </nav>
 
 <div class="container my-4">
-    {% with messages = get_flashed_messages() %}
-        {% if messages %}
-            <div class="alert alert-danger">
-                {% for message in messages %}
-                    {{ message }}
-                {% endfor %}
-            </div>
-        {% endif %}
-    {% endwith %}
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+            <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert" onclick="this.style.display='none';">
+                {{ message }}
 
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
     <h3 class="my-3">Task List</h3>
 
     {% for task in page_data.items %}
