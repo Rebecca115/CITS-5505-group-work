@@ -83,15 +83,11 @@ def my_tasks(id):
     """Retrieve and display tasks posted by the current logged-in user."""
     try:
         user_id = id
-
         tasks = Task.query.filter_by(user_id=user_id).all()
-        tasks_data = [
-            {'title': task.title, 'description': task.content, 'id': task.id}
-            for task in tasks
-        ]
-        return jsonify(tasks_data)
+        return render_template('mytask.html', tasks=tasks, current_user=current_user)
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        flash(str(e), 'danger')
+        return redirect(url_for('index'))
 
 
 @user.route('/change_password', methods=['POST'])
