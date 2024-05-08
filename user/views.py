@@ -18,13 +18,13 @@ def login():
         user = form.do_login()
         if user:
             # Successful login
+            flash(f'Welcome back,{user.nickname}.','success')
             return redirect("/")
         else:
             # Login failed, show message
             flash('Login failed, please try again.', 'danger')
-    else:
-        # Form validation failed, show message
-        flash('Login failed, please try again.', 'danger')
+            return render_template('login.html', form=form)
+
 
     # Render the login template on GET or failed form submission
     return render_template('login.html', form=form)

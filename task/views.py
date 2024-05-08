@@ -96,6 +96,8 @@ def answer_like(answer_id):
         # Check for existing like
         existing_like = AnswerLike.query.filter_by(user_id=current_user.id,
                                                    answer_id=answer_id).first()
+        x1 = Answer.query.get(answer_id).like_count
+        print(f"before: {x1}")
         if existing_like:
             return jsonify({'error': 'You have already liked this answer'}), 409
 
@@ -106,14 +108,15 @@ def answer_like(answer_id):
 
         # Fetch the new like count
         like_count = Answer.query.get(answer_id).like_count  # Assuming like_count is a field
+        print(f"after: {like_count}")
         return jsonify({'message': 'Success', 'like_count': like_count}), 201
     except Exception as e:
         return jsonify({'error': 'Unknown error: {}'.format(e)}), 500
 
 
-@quest.route('/answer/unlike/<int:answer_id>', methods=['POST'])
+@quest.route('/answer/dislike/<int:answer_id>', methods=['POST'])
 @login_required
-def answer_unlike(answer_id):
+def answer_dislike(answer_id):
     """ Route to unlike an answer, requires user to be logged in. """
     if not current_user.is_authenticated:
         return jsonify({'error': 'Please login'}), 401
@@ -122,7 +125,8 @@ def answer_unlike(answer_id):
         # Check for existing like
         existing_like = AnswerLike.query.filter_by(user_id=current_user.id,
                                                    answer_id=answer_id).first()
-        print(existing_like)
+        x1 = Answer.query.get(answer_id).like_count
+        print(f"before: {x1}")
         if not existing_like:
             return jsonify({'error': 'You have not liked this answer'}), 409
 
@@ -132,6 +136,7 @@ def answer_unlike(answer_id):
 
         # Fetch the new like count
         like_count = Answer.query.get(answer_id).like_count # Assuming like_count is a field
+        print(f"after: {like_count}")
         return jsonify({'message': 'Success', 'like_count': like_count}), 200
     except Exception as e:
         return jsonify({'error': 'Unknown error: {}'.format(e)}), 500
