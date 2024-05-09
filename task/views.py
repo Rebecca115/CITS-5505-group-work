@@ -54,7 +54,7 @@ def task_list():
         page = request.args.get('page', 1, type=int)
         page_data = Task.query.order_by(desc(Task.created_at)).paginate(page=page, per_page=per_page)
 
-        data = render_template('qa_list.html', page_data=page_data)
+        data = render_template('accept_task.html', page_data=page_data)
         return jsonify(code=0, data=data)
     except Exception as e:
         return jsonify(code=1, data=str(e)), 400
