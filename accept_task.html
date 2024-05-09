@@ -14,6 +14,7 @@
 
 <body>
     <div class="modal fade" id="answerModal" tabindex="-1" aria-labelledby="answerModalLabel" aria-hidden="true">
+
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -48,6 +49,7 @@
         </div>
     </div>
 </div>
+
 
 
     <div class="container-fluid">
@@ -103,7 +105,9 @@
                     <!-- Task list -->
                     <div class="list-group">
                         {% for task in page_data.items %}
+
                             <a href="{{ url_for('task.detail', t_id=task.id) }}" class="list-group-item list-group-item-action" data-bs-toggle="modal" data-bs-target="#taskModal" data-task="{{ task.title }}">{{ task.title }}</a>
+
                         {% endfor %}
                     </div>
                 </div>
@@ -149,6 +153,7 @@ document.addEventListener('DOMContentLoaded', function() {
             window.location.href = 'homepage.html'; // Replace 'homepage.html' with the URL of your homepage
         }
     });
+
 
 
 
