@@ -197,8 +197,8 @@ button.active {
 
 
 #sidebar_home {
-    margin-top: 50px;
-    background-color: #F8F6F1;
+    margin-top: 20px;  
+    background-color: #F8F6F1; 
     border-radius: 10px;
     text-align: center;
 }
