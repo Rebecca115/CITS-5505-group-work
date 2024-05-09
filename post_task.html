@@ -65,6 +65,7 @@
                 </div>
                 <div class="task-details">
                     <div class="date">
+                        <!-- Below needs jinjia2 coding:  -->
                         <label for="when">When do you need this done?</label>
                         <div>
                             <button type="button" id="onDate">On date</button>
@@ -73,21 +74,26 @@
                         </div>
                         <input type="date" id="dateInput" style="display:none;"> 
                     </div>
+                    <!-- I didn't find proper interface for the "expected time" -->
                     
                     <div>
                         <br>
+
                         <label for="task_title">Task Title:</label>
                         <input type="text" id="task_title" name="task_title">
                         <br><br>
+
                         <label for="location">Location:</label>
                         <input type="text" id="location" name="location">
                         <br><br>
+
                         <label for="task_details">Task Details:</label>
                         <textarea id="task_details" name="task_details"></textarea>
+
                     </div>
                     
                     <div class="title-bar">
-                        <div id="addphoto"><p>Add Photos Here (1 pic at least, 4 pics max): </p></div>
+                        <div id="addphoto"><p>Add Photos Here (1 pic optional): </p></div>
                         <br><br>
                         
                         <div id="file-display" class="d-flex flex-wrap"></div>
@@ -149,10 +155,7 @@
 
     document.getElementById('submitButton').addEventListener('click', function() {
     const files = document.getElementById('upload').files;
-    if (files.length < 1) {
-        alert('You must upload at least one photo before submitting.');
-        return;
-    }
+
 
     const taskTitle = document.getElementById('task_title').value;
     if (!taskTitle || taskTitle.trim().split(' ').length < 2) {
@@ -188,6 +191,16 @@
 
     if (confirm('Are you sure you want to submit this task?')) {
         alert('Task submitted successfully.'); 
+        // Clear the form
+        document.getElementById('task_title').value = '';
+        document.getElementById('location').value = '';
+        document.getElementById('task_details').value = '';
+        document.getElementById('dateInput').value = '';
+        document.getElementById('upload').value = '';
+        document.getElementById('file-display').innerHTML = '';
+        document.getElementById('onDate').classList.remove('active');
+        document.getElementById('beforeDate').classList.remove('active');
+        document.getElementById('flexible').classList.remove('active');
     } else {
         alert('Submission cancelled.'); 
     }
