@@ -23,7 +23,8 @@ class RegisterForm(FlaskForm):
     username = StringField(
         'Username',
         render_kw={'class': FORM_CLASS, 'placeholder': 'Please enter username'},
-        validators=[DataRequired('Please enter username')]
+        validators=[DataRequired('Please enter username'),
+        Length(min=2, max=20, message='Length of username is between 2 and 20')]
     )
 
     avatar = FileField(
