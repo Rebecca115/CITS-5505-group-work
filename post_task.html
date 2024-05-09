@@ -69,48 +69,54 @@
                     <h2>Let's start with the basics:</h2>
                 </div>
                 <div class="task-details">
-                    <div class="date">
-                        <!-- Below needs jinjia2 coding:  -->
-                        <label for="when">When do you need this done?</label>
-                        <div>
-                            <button type="button" id="onDate">On date</button>
-                            <button type="button" id="beforeDate">Before date</button>
-                            <button type="button" id="flexible">I'm flexible</button>
+                    <!-- Really not sure if it right way to submit the whole form to backend... -->
+                    <form method="post" enctype="multipart/form-data" action="{{ url_for('task.post') }}">
+
+                        <div class="date">
+                            <label for="when">When do you need this done?</label>
+                            <div>
+                                <button type="button" id="onDate">On date</button>
+                                <button type="button" id="beforeDate">Before date</button>
+                                <button type="button" id="flexible">I'm flexible</button>
+                            </div>
+                            <input type="date" id="dateInput" style="display:none;"> 
                         </div>
-                        <input type="date" id="dateInput" style="display:none;"> 
-                    </div>
-                    <!-- I didn't find proper interface for the "expected time" -->
-                    
-                    <div>
+                        
+                        <div>
+                            <br>
+
+                            <label for="task_title">Task Title:</label>
+                            <input type="text" id="task_title" name="task_title">
+                            <br><br>
+
+                            <label for="location">Location:</label>
+                            <input type="text" id="location" name="location">
+                            <br><br>
+
+                            <label for="task_details">Task Details:</label>
+                            <textarea id="task_details" name="task_details"></textarea>
+
+                        </div>
+                        
+                        <div class="title-bar">
+                            <div id="addphoto"><p>Add Photos Here (1 photo optional): </p></div>
+                            <br><br>
+                            
+                            <div id="file-display" class="d-flex flex-wrap"></div>
+                            <input type="file" id="upload" hidden multiple accept="image/*">
+                            <label for="upload" class="button">Upload Photos</label> 
+                            
+                        </div>
+                        
                         <br>
+                        {% if current_user.is_authenticated %}
+                            <button class="button" id="saveButton">Save and submit later</button>
+                            <button class="button" id="submitButton">Submit this task</button>
+                        {% else %}
+                            <p>Please <a href="/user/login">login</a> to submit a task.</p>
+                        {% endif %}
 
-                        <label for="task_title">Task Title:</label>
-                        <input type="text" id="task_title" name="task_title">
-                        <br><br>
-
-                        <label for="location">Location:</label>
-                        <input type="text" id="location" name="location">
-                        <br><br>
-
-                        <label for="task_details">Task Details:</label>
-                        <textarea id="task_details" name="task_details"></textarea>
-
-                    </div>
-                    
-                    <div class="title-bar">
-                        <div id="addphoto"><p>Add Photos Here (1 photo optional): </p></div>
-                        <br><br>
-                        
-                        <div id="file-display" class="d-flex flex-wrap"></div>
-                        <input type="file" id="upload" hidden multiple accept="image/*">
-                        <label for="upload" class="button">Upload Photos</label> 
-                        
-                    </div>
-                    
-                    <br>
-                    <button class="button" id="saveButton">Save and submit later</button>
-                    <button class="button" id="submitButton">Submit this task</button>
-                    
+                    </form>
                 </div>
             </div>
         </div>
