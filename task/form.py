@@ -1,4 +1,5 @@
 import os
+import uuid
 from uuid import uuid4
 
 from flask import current_app
@@ -10,10 +11,10 @@ from wtforms import StringField, TextAreaField, FileField
 from wtforms.validators import DataRequired, Length
 from flask_ckeditor import CKEditorField
 
-from models import Question, db, Answer
+from models import Task, db, Answer
 
 
-class WriteQuestionForm(FlaskForm):
+class WriteTaskForm(FlaskForm):
     img = FileField(
         'Upload Picture',
         render_kw={'accept': ".jpeg, .jpg, .png"},
@@ -44,29 +45,36 @@ class WriteQuestionForm(FlaskForm):
     )
 
     def save(self):
-        """ Save the posted question with image if provided.
-            The function returns the question object after saving it to the database.
+        """ Save the posted task with image if provided.
+            The function returns the task object after saving it to the database.
         """
         # Get the image if uploaded
         img = self.img.data
         img_name = ''
         if img:
             filename_base, file_extension = os.path.splitext(secure_filename(img.filename))
-            img_name = f"{uuid4().hex}{file_extension}"
+            img_name = secure_filename(f"{uuid.uuid4()}{file_extension}")
             img_path = os.path.join(current_app.config['UPLOAD_FOLDER'], img_name)
             img.save(img_path)
 
-        # Save the question details
-        question = Question(
+            # file_extension = os.path.splitext(avatar_file.filename)[1]
+            # random_filename = str(uuid.uuid4()) + file_extension
+            # secure_random_filename = secure_filename(random_filename)
+            #
+            # save_path = os.path.join(current_app.config['UPLOAD_FOLDER'], secure_random_filename)
+            # avatar_file.save(save_path)
+
+        # Save the task details
+        task = Task(
             title=self.title.data,
             img=img_name,
             content=self.content.data,
             user=current_user
         )
-        db.session.add(question)
+        db.session.add(task)
         db.session.commit()
 
-        return question
+        return task
 
 
 class WriteAnswerForm(FlaskForm):
@@ -78,15 +86,15 @@ class WriteAnswerForm(FlaskForm):
         ]
     )
 
-    def save(self, question):
-        """ Save the provided answer to a question.
-            Requires passing the associated question object.
+    def save(self, task):
+        """ Save the provided answer to a task.
+            Requires passing the associated task object.
             Returns the answer object after saving it to the database.
         """
         answer = Answer(
             content=self.content.data,
             user=current_user,
-            question=question
+            task=task
         )
         db.session.add(answer)
         db.session.commit()

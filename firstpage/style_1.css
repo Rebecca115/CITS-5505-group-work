@@ -7,7 +7,8 @@ body, html {
   }
 
 img{
-  width: 220px;
+  width: 200px;
+  
 }
 
 h1{
@@ -31,6 +32,7 @@ input{
     text-align: center;
     z-index: -1;
 }
+
 #loginbutton,#sendbutton{
     border-color:white;
     background-color: #715CF8;
@@ -39,6 +41,8 @@ input{
     width: 150px;
     color: white;
     border: 1px solid black;
+    display: block;
+    margin: 0 auto;
 }
 #login label,#send label {
     font-size:  12px;;
@@ -47,8 +51,8 @@ input{
   animation: move 6s ease infinite;
   border-radius: 50px;
   position: absolute;
-  top: 120px;
-  left: 470px;
+  top: 100px;
+  left: 44%;
   background-color:#715CF8 ;
   height: 60px; width: 60px;
   box-shadow:

@@ -36,19 +36,24 @@
                 <br>
                 <div id="sidebar_home"><a href="homepage.html">Home</a></div>
                 <br>
-                <a href="profile.html"><img src="profile_icon.png" alt="Profile"> Profile</a>
+                {% if current_user.is_authenticated %}
+                    <a href="profile.html"><img src="profile_icon.png" alt="Profile"> Profile</a>
+                    <br>
+                    <a href="accept_task.html"><img src="accept_task_icon.png" alt="Accept Task"> Accept Task</a>
+                    <br>
+                    <a href="post_task.html"><img src="post_task_icon.png" alt="Post Task"> Post Task</a>
+                    <br>
+                    <a href="user/logout"><img src="logout_icon.png" alt="Logout"> Logout</a>
+                {% else %}
+                    <a href="user/login"><img src="search_icon.png" alt="Login"> Login</a>
+                    <br>
+                    <a href="user/register"><img src="profile_icon.png" alt="Register"> Register</a>
+                {% endif %}
+
                 <br>
                 <a href="#"><img src="location_icon.png" alt="Location"> Location</a>
                 <br>
                 <a href="#"><img src="settings_icon.png" alt="Settings"> Settings</a>
-                <br>
-                <br>
-                <a href="accept_task.html"><img src="accept_task_icon.png" alt="Accept Task"> Accept Task</a>
-                <br>
-                <a href="post_task.html"><img src="post_task_icon.png" alt="Post Task"> Post Task</a>
-                <br>
-                <a href="#" id="logout-link"><img src="logout_icon.png" alt="Logout"> Logout</a>
-
                 <br>
                 <br>
                 <p style="text-align: center; font-weight: bold;">v.3.0.1</p>
@@ -64,42 +69,54 @@
                     <h2>Let's start with the basics:</h2>
                 </div>
                 <div class="task-details">
-                    <div class="date">
-                        <label for="when">When do you need this done?</label>
-                        <div>
-                            <button type="button" id="onDate">On date</button>
-                            <button type="button" id="beforeDate">Before date</button>
-                            <button type="button" id="flexible">I'm flexible</button>
+                    <!-- Really not sure if it right way to submit the whole form to backend... -->
+                    <form method="post" enctype="multipart/form-data" action="{{ url_for('task.post') }}">
+
+                        <div class="date">
+                            <label for="when">When do you need this done?</label>
+                            <div>
+                                <button type="button" id="onDate">On date</button>
+                                <button type="button" id="beforeDate">Before date</button>
+                                <button type="button" id="flexible">I'm flexible</button>
+                            </div>
+                            <input type="date" id="dateInput" style="display:none;"> 
                         </div>
-                        <input type="date" id="dateInput" style="display:none;"> 
-                    </div>
-                    
-                    <div>
+                        
+                        <div>
+                            <br>
+
+                            <label for="task_title">Task Title:</label>
+                            <input type="text" id="task_title" name="task_title">
+                            <br><br>
+
+                            <label for="location">Location:</label>
+                            <input type="text" id="location" name="location">
+                            <br><br>
+
+                            <label for="task_details">Task Details:</label>
+                            <textarea id="task_details" name="task_details"></textarea>
+
+                        </div>
+                        
+                        <div class="title-bar">
+                            <div id="addphoto"><p>Add Photos Here (1 photo optional): </p></div>
+                            <br><br>
+                            
+                            <div id="file-display" class="d-flex flex-wrap"></div>
+                            <input type="file" id="upload" hidden multiple accept="image/*">
+                            <label for="upload" class="button">Upload Photos</label> 
+                            
+                        </div>
+                        
                         <br>
-                        <label for="task_title">Task Title:</label>
-                        <input type="text" id="task_title" name="task_title">
-                        <br><br>
-                        <label for="location">Location:</label>
-                        <input type="text" id="location" name="location">
-                        <br><br>
-                        <label for="task_details">Task Details:</label>
-                        <textarea id="task_details" name="task_details"></textarea>
-                    </div>
-                    
-                    <div class="title-bar">
-                        <div id="addphoto"><p>Add Photos Here (1 pic at least, 4 pics max): </p></div>
-                        <br><br>
-                        
-                        <div id="file-display" class="d-flex flex-wrap"></div>
-                        <input type="file" id="upload" hidden multiple accept="image/*">
-                        <label for="upload" class="button">Upload Photos</label> 
-                        
-                    </div>
-                    
-                    <br>
-                    <button class="button" id="saveButton">Save and submit later</button>
-                    <button class="button" id="submitButton">Submit this task</button>
-                    
+                        {% if current_user.is_authenticated %}
+                            <button class="button" id="saveButton">Save and submit later</button>
+                            <button class="button" id="submitButton">Submit this task</button>
+                        {% else %}
+                            <p>Please <a href="/user/login">login</a> to submit a task.</p>
+                        {% endif %}
+
+                    </form>
                 </div>
             </div>
         </div>
@@ -149,10 +166,7 @@
 
     document.getElementById('submitButton').addEventListener('click', function() {
     const files = document.getElementById('upload').files;
-    if (files.length < 1) {
-        alert('You must upload at least one photo before submitting.');
-        return;
-    }
+
 
     const taskTitle = document.getElementById('task_title').value;
     if (!taskTitle || taskTitle.trim().split(' ').length < 2) {
@@ -188,6 +202,16 @@
 
     if (confirm('Are you sure you want to submit this task?')) {
         alert('Task submitted successfully.'); 
+        // Clear the form
+        document.getElementById('task_title').value = '';
+        document.getElementById('location').value = '';
+        document.getElementById('task_details').value = '';
+        document.getElementById('dateInput').value = '';
+        document.getElementById('upload').value = '';
+        document.getElementById('file-display').innerHTML = '';
+        document.getElementById('onDate').classList.remove('active');
+        document.getElementById('beforeDate').classList.remove('active');
+        document.getElementById('flexible').classList.remove('active');
     } else {
         alert('Submission cancelled.'); 
     }

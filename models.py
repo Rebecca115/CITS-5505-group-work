@@ -8,16 +8,14 @@ db = SQLAlchemy()
 
 class User(db.Model):
     # User Model
-    __tablename__ = 'accounts_user'
+    __tablename__ = 'user'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-
     username = db.Column(db.String(64), unique=True, nullable=False)
     nickname = db.Column(db.String(64))
     password = db.Column(db.String(256), nullable=False)
     avatar = db.Column(db.String(256))
     gender = db.Column(db.String(16))
-    email = db.Column(db.String(64), nullable=False, unique=True)
-    sex = db.Column(db.String(16))
+    email = db.Column(db.String(64), unique=True)
     email_verified = db.Column(db.Boolean, default=False)
     created_at = db.Column(db.DateTime, default=datetime.now)
     updated_at = db.Column(db.DateTime,
@@ -47,32 +45,60 @@ class User(db.Model):
     def check_password(self, password):
         return self.password == hashlib.sha256(password.encode()).hexdigest()
 
+    def to_dict(self):
+       return{
+                'nickname': self.nickname,
+                'avatar': self.avatar,
+                'gender' : self.gender
+       }
 
-class Question(db.Model):
-    __tablename__ = 'qa_question'
+
+
+class Task(db.Model):
+    __tablename__ = 'task'
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(128), nullable=False)
     img = db.Column(db.String(256))
     content = db.Column(db.Text, nullable=False)
 
     view_count = db.Column(db.Integer, default=0)
-    reorder = db.Column(db.Integer, default=0)
+    category = db.Column(db.String(64))
 
     created_at = db.Column(db.DateTime, default=datetime.now)
     updated_at = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
-
+    date_to_finish = db.Column(db.DateTime)
+    location = db.Column(db.String(128))
     # relation with user
-    user_id = db.Column(db.Integer, db.ForeignKey('accounts_user.id'))
-    # one to many
-    user = db.relationship('User', backref=db.backref('question_list', lazy='dynamic'))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    accepted_user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
-    @property
-    def get_img_url(self):
-        return 'statics/' + self.img if self.img else ''
+    # one to many
+    user = db.relationship('User', backref=db.backref('task_list', lazy='dynamic'),
+                           foreign_keys=[user_id])
+
+    accepted_user = db.relationship('User', backref=db.backref('accepted_list', lazy='dynamic'),
+                                    foreign_keys=[accepted_user_id])
+
+    def to_dict(self):
+        return {
+            'title': self.title,
+            'content': self.content,
+            'view_count': self.view_count,
+            'category': self.category,
+            'created_at': self.created_at,
+            'updated_at': self.updated_at,
+            'date_to_finish': self.date_to_finish,
+            'nickname': self.user.nickname,
+            'accepted_user': self.accepted_user.username if self.accepted_user else None,
+            'location':self.location
+        }
+
+
+
 
     @property
     def comment_count(self):
-        return self.question_comment_list.filter_bycount()
+        return self.task_comment_list.filter_bycount()
 
     @property
     def answer_count(self):
@@ -80,11 +106,11 @@ class Question(db.Model):
 
     @property
     def like_count(self):
-        return self.question_like_list.count()
+        return self.task_like_list.count()
 
 
 class Answer(db.Model):
-    __tablename__ = 'qa_answer'
+    __tablename__ = 'answer'
     id = db.Column(db.Integer, primary_key=True)
 
     content = db.Column(db.Text, nullable=False)
@@ -93,39 +119,43 @@ class Answer(db.Model):
 
     updated_at = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
 
-    user_id = db.Column(db.Integer, db.ForeignKey('accounts_user.id'))
-
-    # relation with question
-    q_id = db.Column(db.Integer, db.ForeignKey('qa_question.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    # relation with task
+    t_id = db.Column(db.Integer, db.ForeignKey('task.id'))
     # one to many with user
     user = db.relationship('User', backref=db.backref('answer_list', lazy='dynamic'))
-    # one to many with question
-    question = db.relationship('Question', backref=db.backref('answer_list', lazy='dynamic'))
+    # one to many with task
+    task = db.relationship('Task', backref=db.backref('answer_list', lazy='dynamic'))
 
     @property
     def like_count(self):
         return self.answer_like_list.count()
 
-    def comment_list(self, reply_id=None):
-        return self.answer_comment_list.filter_by(reply_id=reply_id)
 
-    @property
-    def comment_count(self):
-        return self.answer_comment_list.count()
+
+    def to_dict(self):
+        return {
+            'content': self.content,
+            'created_at': self.created_at,
+            'updated_at': self.updated_at,
+            'user': self.user.username,
+            'task': self.task.title,
+            'like_count': self.like_count,
+        }
 
 
 class AnswerLike(db.Model):
-    __tablename__ = 'qa_answer_like'
+    __tablename__ = 'answer_like'
     id = db.Column(db.Integer, primary_key=True)
     created_at = db.Column(db.DateTime, default=datetime.now)
 
-    user_id = db.Column(db.Integer, db.ForeignKey('accounts_user.id'))
-    answer_id = db.Column(db.Integer, db.ForeignKey('qa_answer.id'))
-    q_id = db.Column(db.Integer, db.ForeignKey('qa_question.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    answer_id = db.Column(db.Integer, db.ForeignKey('answer.id'))
+    t_id = db.Column(db.Integer, db.ForeignKey('task.id'))
 
     # one to many with user
     user = db.relationship('User', backref=db.backref('answer_like_list', lazy='dynamic'))
     # one to many with answer
     answer = db.relationship('Answer', backref=db.backref('answer_like_list', lazy='dynamic'))
-    # one to many with question
-    question = db.relationship('Question', backref=db.backref('question_like_list', lazy='dynamic'))
+    # one to many with task
+    task = db.relationship('Task', backref=db.backref('task_like_list', lazy='dynamic'))

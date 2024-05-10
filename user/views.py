@@ -1,11 +1,12 @@
-from flask import Blueprint, render_template, flash, redirect, url_for, session, request, jsonify, current_app
-from flask_login import login_user, logout_user, login_required, current_user
-from flask_mail import Mail, Message
+from flask import Blueprint, render_template, flash, redirect, url_for, request, jsonify, current_app
+from flask_login import logout_user, login_required, current_user
 from itsdangerous import SignatureExpired, BadSignature, URLSafeTimedSerializer
-from user.forms import RegisterForm, LoginForm
-from models import User, db, Question
+from sqlalchemy import func
+from user.forms import RegisterForm, LoginForm, RestPassForm, ForgotPassForm
+from models import User, db, Task, Answer
 
 user = Blueprint('user', __name__, template_folder='templates', static_folder='../assets')
+
 
 @user.route('/login', methods=['GET', 'POST'])
 def login():
@@ -17,16 +18,17 @@ def login():
         user = form.do_login()
         if user:
             # Successful login
+            flash(f'Welcome back,{user.nickname}.','success')
             return redirect("/")
         else:
             # Login failed, show message
             flash('Login failed, please try again.', 'danger')
-    else:
-        # Form validation failed, show message
-        flash('Login failed, please try again.', 'danger')
+            return render_template('login.html', form=form)
+
 
     # Render the login template on GET or failed form submission
     return render_template('login.html', form=form)
+
 
 # Route for handling logout
 @user.route('/logout')
@@ -37,18 +39,20 @@ def logout():
     flash('You have been logged out.', 'success')
     return redirect("/")
 
+
 # Route for handling registration
 @user.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegisterForm()
-
     # Process the form submission
     if form.validate_on_submit():
         user_obj = form.register()
 
         if user_obj:
             # Registration successful
+
             flash('Registration successful!', 'success')
+
             return redirect(url_for('user.login'))
         else:
             # Registration failed
@@ -62,6 +66,7 @@ def register():
     # Render the registration template on GET or failed form submission
     return render_template('register.html', form=form)
 
+
 @user.route('/<int:id>/mine')
 @login_required
 def mine(id):
@@ -71,21 +76,18 @@ def mine(id):
     # Render the user profile template
     return render_template('mine.html', user=user)
 
-@user.route('/<int:id>/questions')
+
+@user.route('/<int:id>/tasks')
 @login_required
-def my_questions(id):
-    """Retrieve and display questions posted by the current logged-in user."""
+def my_tasks(id):
+    """Retrieve and display tasks posted by the current logged-in user."""
     try:
         user_id = id
-
-        questions = Question.query.filter_by(user_id=user_id).all()
-        questions_data = [
-            {'title': question.title, 'description': question.content, 'id': question.id}
-            for question in questions
-        ]
-        return jsonify(questions_data)
+        tasks = Task.query.filter_by(user_id=user_id).all()
+        return render_template('mytask.html', tasks=tasks, current_user=current_user)
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        flash(str(e), 'danger')
+        return redirect(url_for('task.index_page'))
 
 
 @user.route('/change_password', methods=['POST'])
@@ -109,6 +111,8 @@ def change_password():
 
     return jsonify({'message': 'Password updated successfully'}), 200
 
+
+
 @user.route('/confirm-email/<token>')
 def confirm_email(token):
     """Route for confirming the user's email address"""
@@ -130,6 +134,108 @@ def confirm_email(token):
     except BadSignature:
 
         return jsonify({'error': "Invalid confirmation link."}), 400
-        return 'Invalid confirmation link.'
 
-    return 'You have successfully confirmed your email.'
+
+@user.route('/forgot-password', methods=['POST', 'GET'])
+def forgot_password():
+    """Route for handling forgot password request"""
+    form = ForgotPassForm()
+    if form.validate_on_submit():
+        user = form.forgot_password()
+        if user:
+            return redirect(url_for('user.login'))
+        else:
+            flash('Password reset failed, please try again.', 'danger')
+    return render_template('forget_password.html', form=form)
+
+
+@user.route('/reset-password/<token>', methods=['GET', 'POST'])
+def reset_password(token):
+    """Route for handling password reset"""
+    form = RestPassForm()
+    if form.validate_on_submit():
+        user = form.reset_password(token)
+        if user:
+            return redirect(url_for('user.login'))
+        else:
+            flash('Password reset failed, please try again.', 'danger')
+
+    return render_template('reset_password.html', form=form, token=token)
+
+
+@user.route('/get_top_users')
+def get_top_users():
+    """Route for getting top users"""
+    top_user_ids_subquery = (db.session.query(
+        Answer.user_id,
+        func.count(Answer.id).label('answer_count'))
+                             .join(User)
+                             .group_by(Answer.user_id)
+                             .order_by(func.count(Answer.id).desc())
+                             .limit(10)
+                             .subquery())
+
+    top_users = db.session.query(
+        User,
+        top_user_ids_subquery.c.answer_count
+    ).join(
+        top_user_ids_subquery, User.id == top_user_ids_subquery.c.user_id
+    ).all()
+
+    users_data = []
+    for user, answer_count in top_users:
+        user_dict = user.to_dict()
+        user_dict['answer_count'] = answer_count
+        users_data.append(user_dict)
+
+    return jsonify({"users": users_data}), 200
+
+@user.route('/change_email/<int:id>')
+@login_required
+def change_email(id):
+    """Route for changing the user's email address"""
+    if id != current_user.id:
+        return jsonify({'error': 'You are not authorized to perform this action'}), 403
+
+    data = request.get_json()
+    new_email = data.get('new_email')
+    current_user.email = new_email
+    db.session.commit()
+    return jsonify({'message': 'Email updated successfully'}), 200
+
+
+@user.route('/change_nickname/<int:id>')
+@login_required
+def change_nickname(id):
+    """Route for changing the user's nickname"""
+
+    if id != current_user.id:
+        return jsonify({'error': 'You are not authorized to perform this action'}), 403
+
+    data = request.get_json()
+    new_nickname = data.get('new_nickname')
+    current_user.nickname = new_nickname
+    db.session.commit()
+    return jsonify({'message': 'Nickname updated successfully'}), 200
+
+
+
+# @user.route('/upload/<int:id>', methods=['POST'])
+# @login_required
+# def upload(id):
+#     """Route for uploading user profile picture"""
+#     if current_user.id != id:
+#         return jsonify({'error': 'You are not authorized to perform this action'}), 403
+#     user = User.query.filter_by(id=id).first_or_404(description='User not found.')
+#     if 'file' not in request.files:
+#         return jsonify({'error': 'No file part'}), 400
+#     file = request.files['file']
+#     if file.filename == '':
+#         return jsonify({'error': 'No selected file'}), 400
+#     if file and allowed_file(file.filename):
+#         filename = secure_filename(file.filename)
+#         file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
+#         user.profile_picture = filename
+#         db.session.commit()
+#         return jsonify({'message': 'Profile picture uploaded successfully'}), 200
+#     return jsonify({'error': 'Invalid file type'}), 400

@@ -15,7 +15,7 @@ a{
     text-decoration: none;
 }
 img{
-    width: 220px;
+    width: 200px;
   }
   
 input{
@@ -46,8 +46,8 @@ input{
     border-radius: 50px;
     position: absolute;
     align-items: center;
-    top: 120px;
-    left: 470px;
+    top: 100px;
+    left: 44%;
     align-items:center;
     background-color:#715CF8 ;
     height: 60px; width: 60px;
