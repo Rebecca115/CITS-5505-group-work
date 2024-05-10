@@ -1,0 +1,44 @@
+import os
+
+from flask import Flask, session, g
+from flask_ckeditor import CKEditor
+from flask_login import LoginManager
+
+from quest.views import quest
+from models import db, User
+from user.views import user
+from utils import initialize_database
+
+app = Flask(__name__, static_folder='static')
+app.config.from_object('conf.Config')
+
+ckeditor = CKEditor()
+ckeditor.init_app(app)
+
+
+# init database
+db.init_app(app)
+
+# create database
+initialize_database.create_local_db(app, db)
+
+
+app.register_blueprint(quest, url_prefix='/')
+app.register_blueprint(user, url_prefix='/user')
+
+# Login
+login_manager = LoginManager()
+login_manager.login_view = "user.login"
+login_manager.login_message = 'Please login'
+login_manager.login_message_category = "danger"
+login_manager.init_app(app)
+
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(user_id)
+
+
+    #
+if __name__ == '__main__':
+    app.run(host="0.0.0.0", port=5000, debug=True)
