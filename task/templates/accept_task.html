@@ -55,17 +55,20 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-12 fixed-top bg-light">
-            
                 <div class="top-bar d-flex justify-content-between align-items-center p-2">
-                    <div class="search d-flex align-items-center">
+                    <!-- Start of form -->
+                    <form action="{{ url_for('search') }}" method="GET" class="search d-flex align-items-center">
                         <img src="/static/search_icon.png" alt="Search Icon" style="width: 20px; height: 20px; margin-right: 10px;">
-                        <input type="text" placeholder="Search..." class="search-box">
-                        <button class="button">Search</button>
-                    </div>
-                    <div class="title">Accept a Task</div>
+                        <input type="text" name="query" placeholder="Search..." class="search-box">
+                        <button type="submit" class="button">Search</button>
+                    </form>
+                    <!-- End of form -->
+                    <div class="title">Post Your Task</div>
                 </div>
+            </div>
         </div>
     </div>
+
 
     <div class="row">
         <div class="col-md-3">

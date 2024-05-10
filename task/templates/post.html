@@ -16,17 +16,20 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-12 fixed-top bg-light">
-            
                 <div class="top-bar d-flex justify-content-between align-items-center p-2">
-                    <div class="search d-flex align-items-center">
+                    <!-- Start of form -->
+                    <form action="{{ url_for('search') }}" method="GET" class="search d-flex align-items-center">
                         <img src="/static/search_icon.png" alt="Search Icon" style="width: 20px; height: 20px; margin-right: 10px;">
-                        <input type="text" placeholder="Search..." class="search-box">
-                        <button class="button">Search</button>
-                    </div>
+                        <input type="text" name="query" placeholder="Search..." class="search-box">
+                        <button type="submit" class="button">Search</button>
+                    </form>
+                    <!-- End of form -->
                     <div class="title">Post Your Task</div>
                 </div>
+            </div>
         </div>
     </div>
+    
 
 
     <div class="row">
@@ -37,11 +40,14 @@
                 <div id="sidebar_home"><a href="homepage.html">Home</a></div>
                 <br>
                 {% if current_user.is_authenticated %}
-                    <a href="profile.html"><img src="/static/profile_icon.png" alt="Profile"> Profile</a>
+                    <!-- <a href="profile.html"><img src="/static/profile_icon.png" alt="Profile"> Profile</a> -->
+                    <a href="{{ url_for('user.profile') }}"><img src="/static/profile_icon.png" alt="Profile"> Profile</a>
                     <br>
-                    <a href="accept_task.html"><img src="/static/accept_task_icon.png" alt="Accept Task"> Accept Task</a>
+                   
+                    <a href="{{ url_for('user.accept_task') }}"><img src="/static/accept_task_icon.png" alt="Accept Task"> Accept Task</a>
+                    <!-- <a href="accept_task.html"><img src="/static/accept_task_icon.png" alt="Accept Task"> Accept Task</a> -->
                     <br>
-                    <a href="post_task.html"><img src="/static/post_task_icon.png" alt="Post Task"> Post Task</a>
+                    <a href="{{ url_for('user.post') }}"><img src="/static/post_task_icon.png" alt="Post Task"> Post Task</a>
                     <br>
                     <a href="user/logout"><img src="/static/logout_icon.png" alt="Logout"> Logout</a>
                 {% else %}
