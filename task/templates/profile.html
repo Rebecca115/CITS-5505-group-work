@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Combo&family=Lobster&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" type="text/css" href="custom_styles.css">
+<link rel="stylesheet" type="text/css" href="/static/custom_styles.css">
 </head>
 <body>
     <div id="edit-form" style="display: none;">
@@ -41,7 +41,7 @@
 
                 <div class="top-bar d-flex justify-content-between align-items-center p-2">
                     <div class="search d-flex align-items-center">
-                        <img src="search_icon.png" alt="Search Icon" style="width: 20px; height: 20px; margin-right: 10px;">
+                        <img src="/static/search_icon.png" alt="Search Icon" style="width: 20px; height: 20px; margin-right: 10px;">
                         <input type="text" placeholder="Search..." class="search-box">
                         <button class="button">Search</button>
                     </div>
@@ -60,23 +60,23 @@
                     <div id="sidebar_home"><a href="homepage.html">Home</a></div>
                     <br>
                     {% if current_user.is_authenticated %}
-                        <a href="profile.html"><img src="profile_icon.png" alt="Profile"> Profile</a>
+                        <a href="profile.html"><img src="/static/profile_icon.png" alt="Profile"> Profile</a>
                         <br>
-                        <a href="accept_task.html"><img src="accept_task_icon.png" alt="Accept Task"> Accept Task</a>
+                        <a href="accept_task.html"><img src="/static/accept_task_icon.png" alt="Accept Task"> Accept Task</a>
                         <br>
-                        <a href="post_task.html"><img src="post_task_icon.png" alt="Post Task"> Post Task</a>
+                        <a href="post_task.html"><img src="/static/post_task_icon.png" alt="Post Task"> Post Task</a>
                         <br>
-                        <a href="user/logout"><img src="logout_icon.png" alt="Logout"> Logout</a>
+                        <a href="user/logout"><img src="/static/logout_icon.png" alt="Logout"> Logout</a>
                     {% else %}
-                        <a href="user/login"><img src="search_icon.png" alt="Login"> Login</a>
+                        <a href="user/login"><img src="/static/search_icon.png" alt="Login"> Login</a>
                         <br>
-                        <a href="user/register"><img src="profile_icon.png" alt="Register"> Register</a>
+                        <a href="user/register"><img src=/static/profile_icon.png" alt="Register"> Register</a>
                     {% endif %}
     
                     <br>
-                    <a href="#"><img src="location_icon.png" alt="Location"> Location</a>
+                    <a href="#"><img src="/static/location_icon.png" alt="Location"> Location</a>
                     <br>
-                    <a href="#"><img src="settings_icon.png" alt="Settings"> Settings</a>
+                    <a href="#"><img src="/static/settings_icon.png" alt="Settings"> Settings</a>
                     <br>
                     <br>
                     <p style="text-align: center; font-weight: bold;">v.3.0.1</p>
@@ -103,6 +103,7 @@
                                 <p>Location: Crawley</p>
                                 <p>University: UWA</p>
                                 <button class="button" id="edit-button">Edit Profile</button>
+                                <button class="button" id="change-password-button">Change Password</button>
                         </div>
 
                     </div>
