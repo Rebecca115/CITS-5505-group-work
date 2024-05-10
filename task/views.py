@@ -42,7 +42,7 @@ def post():
     return render_template('post.html', form=form)
 
 
-@quest.route('/task/list')
+@quest.route('/task/accept_task')
 def task_list():
 
     """
