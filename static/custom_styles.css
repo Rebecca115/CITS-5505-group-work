@@ -306,6 +306,10 @@ button.active {
 .custom-progress-bar {
     background: linear-gradient(to right, #FBCCEB, #B4D4FF); /* Color gradient effect */
     height: 30px !important; 
+    color: black; /* Change the color of the text to black */
+    display: flex; /* Use flexbox to center the text */
+    align-items: center; /* Center the text vertically */
+    justify-content: center; /* Center the text horizontally */
 }
 
 
