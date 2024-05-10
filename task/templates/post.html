@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Post Task - P3</title>
+<title>Post Task</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -40,12 +40,9 @@
                 <div id="sidebar_home"><a href="homepage.html">Home</a></div>
                 <br>
                 {% if current_user.is_authenticated %}
-                    <!-- <a href="profile.html"><img src="/static/profile_icon.png" alt="Profile"> Profile</a> -->
                     <a href="{{ url_for('user.profile') }}"><img src="/static/profile_icon.png" alt="Profile"> Profile</a>
                     <br>
-                   
                     <a href="{{ url_for('user.accept_task') }}"><img src="/static/accept_task_icon.png" alt="Accept Task"> Accept Task</a>
-                    <!-- <a href="accept_task.html"><img src="/static/accept_task_icon.png" alt="Accept Task"> Accept Task</a> -->
                     <br>
                     <a href="{{ url_for('user.post') }}"><img src="/static/post_task_icon.png" alt="Post Task"> Post Task</a>
                     <br>
@@ -57,10 +54,10 @@
                 {% endif %}
 
                 <br>
-                <a href="#"><img src="/static/location_icon.png" alt="Location"> Location</a>
+                <!-- <a href="#"><img src="/static/location_icon.png" alt="Location"> Location</a>
                 <br>
                 <a href="#"><img src="/static/settings_icon.png" alt="Settings"> Settings</a>
-                <br>
+                <br> -->
                 <br>
                 <p style="text-align: center; font-weight: bold;">v.3.0.1</p>
             </div>
@@ -74,10 +71,11 @@
                     <p>Feel free to post a task and to gain wonderful ideas!</p>
                     <h2>Let's start with the basics:</h2>
                 </div>
-                <div class="task-details">
-                    <!-- Really not sure if it right way to submit the whole form to backend... -->
-                    <form method="post" enctype="multipart/form-data" action="{{ url_for('task.post') }}">
 
+                {% from 'form_errors.html' import form_field_errors %}
+                <div class="task-details">
+                    <form method="post" enctype="multipart/form-data" action="{{ url_for('task.post') }}">
+                        {{ form.csrf_token }}
                         <div class="date">
                             <label for="when">When do you need this done?</label>
                             <div>
@@ -90,9 +88,9 @@
                         
                         <div>
                             <br>
-
                             <label for="task_title">Task Title:</label>
-                            <input type="text" id="task_title" name="task_title">
+                            {{ form.title(class="form-control") }}
+                            {# {{ form_field_errors(form.title.errors) }} #}
                             <br><br>
 
                             <label for="location">Location:</label>
@@ -100,19 +98,26 @@
                             <br><br>
 
                             <label for="task_details">Task Details:</label>
-                            <textarea id="task_details" name="task_details"></textarea>
-
+                            {{ form.content(class="form-control") }}
+                            {{ ckeditor.load() }}
+                            {{ ckeditor.config(name='content') }}
+                            {# {{ form_field_errors(form.content.errors) }} #}
                         </div>
                         
                         <div class="title-bar">
-                            <div id="addphoto"><p>Add Photos Here (1 photo optional): </p></div>
+                            <div id="addphoto"><p>Add a photo here (1 pic optional): </p></div>
                             <br><br>
-                            
+                        
                             <div id="file-display" class="d-flex flex-wrap"></div>
-                            <input type="file" id="upload" hidden multiple accept="image/*">
+                        
+                            {{ form.img(class="form-control") }}
+                            {# {{ form_field_errors(form.img.errors) }} #}
+
+                            <input type="file" id="upload" multiple style="display: none;">
+                        
                             <label for="upload" class="button">Upload Photos</label> 
-                            
                         </div>
+                        
                         
                         <br>
                         {% if current_user.is_authenticated %}
@@ -124,138 +129,136 @@
 
                     </form>
                 </div>
+
             </div>
         </div>
 
 </div>
 
-</body>
-
-
-
-
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    document.getElementById('upload').addEventListener('change', function(event) {
-        const files = event.target.files;
-        if (files.length > 4) {
-            alert('You can only upload up to 4 photos.');
-            return;
-        }
-        
-        // Add this condition to check if at least one photo is uploaded
-        if (files.length < 1) {
-            alert('You must upload at least one photo.');
-            return;
-        }
+$(document).ready(function() {
+    $('#upload').on('change', function(event) {
+    const files = event.target.files;
+    if (files.length > 1) {
+        alert('You can only upload one photo.');
+        return;
+    }
 
-        const displayContainer = document.getElementById('file-display');
-        displayContainer.innerHTML = ''; 
+    const displayContainer = $('#file-display');
+    displayContainer.html('');
 
-        Array.from(files).forEach(file => {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const img = document.createElement('img');
-                img.src = e.target.result;
-                img.style.width = '100px'; 
-                img.style.margin = '10px'; 
-                displayContainer.appendChild(img);
-            };
-            reader.readAsDataURL(file);
+    Array.from(files).forEach(file => {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const img = $('<img>').attr('src', e.target.result)
+                                  .css({ width: '100px', margin: '10px' });
+            displayContainer.append(img);
+        };
+        reader.readAsDataURL(file);
         });
     });
 
-    document.getElementById('saveButton').addEventListener('click', function() {
-    alert('Your changes have been saved.');
+    $('#saveButton').on('click', function(event) {
+        event.preventDefault();
+        localStorage.setItem('formData', JSON.stringify($('form').serializeArray()));
+        alert('Your changes have been saved.');
     });
 
-    document.getElementById('submitButton').addEventListener('click', function() {
-    const files = document.getElementById('upload').files;
+    $(document).ready(function() {
+        const formData = JSON.parse(localStorage.getItem('formData'));
+        if (formData) {
+            formData.forEach(item => {
+                $(`[name="${item.name}"]`).val(item.value);
+            });
+        }
+    });
 
+    $('#submitButton').on('click', function() {
+        const files = $('#upload').prop('files');
 
-    const taskTitle = document.getElementById('task_title').value;
-    if (!taskTitle || taskTitle.trim().split(' ').length < 2) {
-        alert('Task title must be 2 words or more.');
-        return;
-    }
+        const taskTitle = $('#task_title').val();
+        if (!taskTitle || taskTitle.trim().split(' ').length < 2) {
+            alert('Task title must be 2 words or more.');
+            return;
+        }
 
-    const location = document.getElementById('location').value;
-    if (!location) {
-        alert('You must enter a location before submitting.');
-        return;
-    }
+        const location = $('#location').val();
+        if (!location) {
+            alert('You must enter a location before submitting.');
+            return;
+        }
 
-    const taskDetails = document.getElementById('task_details').value;
-    if (!taskDetails || taskDetails.trim().split(' ').length < 10) {
-        alert('You must enter at least 10 words in task details before submitting.');
-        return;
-    }
+        const taskDetails = $('#task_details').val();
+        if (!taskDetails || taskDetails.trim().split(' ').length < 5) {
+            alert('You must enter at least 5 words in task details before submitting.');
+            return;
+        }
 
-    const dateInput = document.getElementById('dateInput');
-    const onDate = document.getElementById('onDate');
-    const beforeDate = document.getElementById('beforeDate');
-    const flexible = document.getElementById('flexible');
-    if (!onDate.classList.contains('active') && !beforeDate.classList.contains('active') && !flexible.classList.contains('active')) {
-        alert('You must select a date option before submitting.');
-        return;
-    }
+        const dateInput = $('#dateInput');
+        const onDate = $('#onDate');
+        const beforeDate = $('#beforeDate');
+        const flexible = $('#flexible');
+        if (!onDate.hasClass('active') && !beforeDate.hasClass('active') && !flexible.hasClass('active')) {
+            alert('You must select a date option before submitting.');
+            return;
+        }
 
-    if ((onDate.classList.contains('active') || beforeDate.classList.contains('active')) && !dateInput.value) {
-        alert('You must select a date before submitting.');
-        return;
-    }
+        if ((onDate.hasClass('active') || beforeDate.hasClass('active')) && !dateInput.val()) {
+            alert('You must select a date before submitting.');
+            return;
+        }
 
-    if (confirm('Are you sure you want to submit this task?')) {
-        alert('Task submitted successfully.'); 
-        // Clear the form
-        document.getElementById('task_title').value = '';
-        document.getElementById('location').value = '';
-        document.getElementById('task_details').value = '';
-        document.getElementById('dateInput').value = '';
-        document.getElementById('upload').value = '';
-        document.getElementById('file-display').innerHTML = '';
-        document.getElementById('onDate').classList.remove('active');
-        document.getElementById('beforeDate').classList.remove('active');
-        document.getElementById('flexible').classList.remove('active');
-    } else {
-        alert('Submission cancelled.'); 
-    }
+        if (confirm('Are you sure you want to submit this task?')) {
+            alert('Task submitted successfully.');
+            $('#task_title').val('');
+            $('#location').val('');
+            $('#task_details').val('');
+            $('#dateInput').val('');
+            $('#upload').val('');
+            $('#file-display').html('');
+            $('#onDate').removeClass('active');
+            $('#beforeDate').removeClass('active');
+            $('#flexible').removeClass('active');
+        } else {
+            alert('Submission cancelled.');
+        }
+    });
+
+    $('#onDate').on('click', function() {
+        $('#dateInput').show().attr("min", new Date().toISOString().split('T')[0]);
+        $(this).addClass('active');
+        $('#beforeDate').removeClass('active');
+        $('#flexible').removeClass('active');
+    });
+
+    $('#beforeDate').on('click', function() {
+        $('#dateInput').show().attr("min", new Date().toISOString().split('T')[0]);
+        $(this).addClass('active');
+        $('#onDate').removeClass('active');
+        $('#flexible').removeClass('active');
+    });
+
+    $('#flexible').on('click', function() {
+        $('#dateInput').hide();
+        $(this).addClass('active');
+        $('#onDate').removeClass('active');
+        $('#beforeDate').removeClass('active');
+    });
+
+    $('#logout-link').on('click', function(event) {
+        event.preventDefault();
+        if (confirm('Are you sure you want to logout?')) {
+            window.location.href = 'homepage.html';
+        }
+    });
 });
 
 
-    document.getElementById('onDate').addEventListener('click', function() {
-        document.getElementById('dateInput').style.display = 'block'; // Show date input
-        document.getElementById('dateInput').setAttribute("min", new Date().toISOString().split('T')[0]); // Set minimum date to today
-        this.classList.add('active'); // Highlight button
-        document.getElementById('beforeDate').classList.remove('active');
-        document.getElementById('flexible').classList.remove('active');
-    });
 
-    document.getElementById('beforeDate').addEventListener('click', function() {
-        document.getElementById('dateInput').style.display = 'block'; // Show date input
-        document.getElementById('dateInput').setAttribute("min", new Date().toISOString().split('T')[0]); // Set minimum date to today
-        this.classList.add('active'); // Highlight button
-        document.getElementById('onDate').classList.remove('active');
-        document.getElementById('flexible').classList.remove('active');
-    });
-
-    document.getElementById('flexible').addEventListener('click', function() {
-        document.getElementById('dateInput').style.display = 'none'; // Hide date input
-        this.classList.add('active'); // Highlight button
-        document.getElementById('onDate').classList.remove('active');
-        document.getElementById('beforeDate').classList.remove('active');
-    });
-
-    document.getElementById('logout-link').addEventListener('click', function(event) {
-    event.preventDefault(); // Prevent the link from being followed
-    var result = confirm('Are you sure you want to logout?'); // Show the confirm dialog
-    if (result) {
-        // If the user clicked "OK", redirect to the homepage
-        window.location.href = 'homepage.html'; // Replace 'homepage.html' with the URL of your homepage
-    }
-});
-    </script>
+</script>
     
-    
+</body>
 </html>
