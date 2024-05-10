@@ -1,7 +1,8 @@
 # 三个页面共同部分 jinjia2:
-## class="top-bar" 涉及search：
+## class="top-bar" 涉及search功能，Rebecca 那边也涉及这个功能：
 
-### 目前没有一个跳转的search页面，只使用了模态框展示搜索结果。
+### 目前没有一个跳转的search页面，只使用了模态框展示搜索结果。不确定是否需要新建页面？
+（也不确定我写的对不对）
 
 ```bash
 <!-- Start of form -->
@@ -188,12 +189,12 @@ def my_tasks(id):
 
 
 # post.html
-## 暂时似乎没什么···
+暂时似乎没什么···
 
 
 # accept_task.html
 ## expected time是否有接口？（非task创建时间）
-## side bar可以
+
 
 ```bash
 <div class="modal-body">
