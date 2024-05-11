@@ -1,85 +1,264 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Post Task</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Post Task</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Combo&family=Lobster&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="/static/custom_styles.css">
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-    <div class="container">
-        <a class="navbar-brand" href="/">Task Management</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav me-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="/post">Post Task</a>
-                </li>
-            </ul>
-            <form class="d-flex">
-                <input class="form-control me-2" type="search" placeholder="Search" id="searchInput">
-            </form>
-            <ul class="navbar-nav">
-                {% if current_user.is_authenticated %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="/user/{{ current_user.id }}/tasks">My Tasks</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/user/logout">Logout</a>
-                    </li>
-                {% else %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="/user/login">Login</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/user/register">Register</a>
-                    </li>
-                {% endif %}
-            </ul>
-        </div>
-    </div>
-</nav>
 
-{% from 'form_errors.html' import form_field_errors %}
-<div class="container my-5">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">
-
-                    <h3 class="card-title">Post Task</h3>
-
-                </div>
-                <div class="card-body">
-                    <form method="post" enctype="multipart/form-data" action="{{ url_for('task.post') }}">
-                        {{ form.csrf_token }}
-                        <div class="mb-3">
-                            <label for="img" class="form-label">Upload Image</label>
-                            {{ form.img(class="form-control") }}
-{#                            {{ form_field_errors(form.img.errors) }}#}
-                        </div>
-                        <div class="mb-3">
-                            <label for="title" class="form-label">Title</label>
-                            {{ form.title(class="form-control") }}
-{#                            {{ form_field_errors(form.title.errors) }}#}
-                        </div>
-                        <div class="mb-3">
-                            <label for="content" class="form-label">Content</label>
-                            {{ form.content(class="form-control") }}
-                            {{ ckeditor.load() }}
-                            {{ ckeditor.config(name='content') }}
-{#                            {{ form_field_errors(form.content.errors) }}#}
-                        </div>
-                        <button type="submit" class="btn btn-primary">Post</button>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 fixed-top bg-light">
+                <div class="top-bar d-flex justify-content-between align-items-center p-2">
+                    <!-- Start of form -->
+                    <form action="{{ url_for('search') }}" method="GET" class="search d-flex align-items-center">
+                        <img src="/static/search_icon.png" alt="Search Icon" style="width: 20px; height: 20px; margin-right: 10px;">
+                        <input type="text" name="query" placeholder="Search..." class="search-box">
+                        <button type="submit" class="button">Search</button>
                     </form>
+                    <!-- End of form -->
+                    <div class="title">Post Your Task</div>
                 </div>
             </div>
         </div>
     </div>
+    
+
+
+    <div class="row">
+        <div class="col-md-3">
+            <div class="sidebar sticky-top">
+                <br>
+                <br>
+                <div id="sidebar_home"><a href="homepage.html">Home</a></div>
+                <br>
+                {% if current_user.is_authenticated %}
+                    <a href="{{ url_for('user.profile') }}"><img src="/static/profile_icon.png" alt="Profile"> Profile</a>
+                    <br>
+                    <a href="{{ url_for('user.accept_task') }}"><img src="/static/accept_task_icon.png" alt="Accept Task"> Accept Task</a>
+                    <br>
+                    <a href="{{ url_for('user.post') }}"><img src="/static/post_task_icon.png" alt="Post Task"> Post Task</a>
+                    <br>
+                    <a href="user/logout"><img src="/static/logout_icon.png" alt="Logout"> Logout</a>
+                {% else %}
+                    <a href="user/login"><img src="/static/search_icon.png" alt="Login"> Login</a>
+                    <br>
+                    <a href="user/register"><img src="/static/profile_icon.png" alt="Register"> Register</a>
+                {% endif %}
+
+                <br>
+                <!-- <a href="#"><img src="/static/location_icon.png" alt="Location"> Location</a>
+                <br>
+                <a href="#"><img src="/static/settings_icon.png" alt="Settings"> Settings</a>
+                <br> -->
+                <br>
+                <p style="text-align: center; font-weight: bold;">v.3.0.1</p>
+            </div>
+        </div>
+  
+    
+        <div class="col-md-9">
+            <div class="main sticky-top">
+                <div class="header">
+                    <br>
+                    <p>Feel free to post a task and to gain wonderful ideas!</p>
+                    <h2>Let's start with the basics:</h2>
+                </div>
+
+                {% from 'form_errors.html' import form_field_errors %}
+                <div class="task-details">
+                    <form method="post" enctype="multipart/form-data" action="{{ url_for('task.post') }}">
+                        {{ form.csrf_token }}
+                        <div class="date">
+                            <label for="when">When do you need this done?</label>
+                            <div>
+                                <button type="button" id="onDate">On date</button>
+                                <button type="button" id="beforeDate">Before date</button>
+                                <button type="button" id="flexible">I'm flexible</button>
+                            </div>
+                            <input type="date" id="dateInput" style="display:none;"> 
+                        </div>
+                        
+                        <div>
+                            <br>
+                            <label for="task_title">Task Title:</label>
+                            {{ form.title(class="form-control") }}
+                            {# {{ form_field_errors(form.title.errors) }} #}
+                            <br><br>
+
+                            <label for="location">Location:</label>
+                            <input type="text" id="location" name="location">
+                            <br><br>
+
+                            <label for="task_details">Task Details:</label>
+                            {{ form.content(class="form-control") }}
+                            {{ ckeditor.load() }}
+                            {{ ckeditor.config(name='content') }}
+                            {# {{ form_field_errors(form.content.errors) }} #}
+                        </div>
+                        
+                        <div class="title-bar">
+                            <div id="addphoto"><p>Add a photo here (1 pic optional): </p></div>
+                            <br><br>
+                        
+                            <div id="file-display" class="d-flex flex-wrap"></div>
+                        
+                            {{ form.img(class="form-control") }}
+                            {# {{ form_field_errors(form.img.errors) }} #}
+
+                            <input type="file" id="upload" multiple style="display: none;">
+                        
+                            <label for="upload" class="button">Upload Photos</label> 
+                        </div>
+                        
+                        
+                        <br>
+                        {% if current_user.is_authenticated %}
+                            <button class="button" id="saveButton">Save and submit later</button>
+                            <button class="button" id="submitButton">Submit this task</button>
+                        {% else %}
+                            <p>Please <a href="/user/login">login</a> to submit a task.</p>
+                        {% endif %}
+
+                    </form>
+                </div>
+
+            </div>
+        </div>
+
 </div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+    $('#upload').on('change', function(event) {
+    const files = event.target.files;
+    if (files.length > 1) {
+        alert('You can only upload one photo.');
+        return;
+    }
+
+    const displayContainer = $('#file-display');
+    displayContainer.html('');
+
+    Array.from(files).forEach(file => {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const img = $('<img>').attr('src', e.target.result)
+                                  .css({ width: '100px', margin: '10px' });
+            displayContainer.append(img);
+        };
+        reader.readAsDataURL(file);
+        });
+    });
+
+    $('#saveButton').on('click', function(event) {
+        event.preventDefault();
+        localStorage.setItem('formData', JSON.stringify($('form').serializeArray()));
+        alert('Your changes have been saved.');
+    });
+
+    $(document).ready(function() {
+        const formData = JSON.parse(localStorage.getItem('formData'));
+        if (formData) {
+            formData.forEach(item => {
+                $(`[name="${item.name}"]`).val(item.value);
+            });
+        }
+    });
+
+    $('#submitButton').on('click', function() {
+        const files = $('#upload').prop('files');
+
+        const taskTitle = $('#task_title').val();
+        if (!taskTitle || taskTitle.trim().split(' ').length < 2) {
+            alert('Task title must be 2 words or more.');
+            return;
+        }
+
+        const location = $('#location').val();
+        if (!location) {
+            alert('You must enter a location before submitting.');
+            return;
+        }
+
+        const taskDetails = $('#task_details').val();
+        if (!taskDetails || taskDetails.trim().split(' ').length < 5) {
+            alert('You must enter at least 5 words in task details before submitting.');
+            return;
+        }
+
+        const dateInput = $('#dateInput');
+        const onDate = $('#onDate');
+        const beforeDate = $('#beforeDate');
+        const flexible = $('#flexible');
+        if (!onDate.hasClass('active') && !beforeDate.hasClass('active') && !flexible.hasClass('active')) {
+            alert('You must select a date option before submitting.');
+            return;
+        }
+
+        if ((onDate.hasClass('active') || beforeDate.hasClass('active')) && !dateInput.val()) {
+            alert('You must select a date before submitting.');
+            return;
+        }
+
+        if (confirm('Are you sure you want to submit this task?')) {
+            alert('Task submitted successfully.');
+            $('#task_title').val('');
+            $('#location').val('');
+            $('#task_details').val('');
+            $('#dateInput').val('');
+            $('#upload').val('');
+            $('#file-display').html('');
+            $('#onDate').removeClass('active');
+            $('#beforeDate').removeClass('active');
+            $('#flexible').removeClass('active');
+        } else {
+            alert('Submission cancelled.');
+        }
+    });
+
+    $('#onDate').on('click', function() {
+        $('#dateInput').show().attr("min", new Date().toISOString().split('T')[0]);
+        $(this).addClass('active');
+        $('#beforeDate').removeClass('active');
+        $('#flexible').removeClass('active');
+    });
+
+    $('#beforeDate').on('click', function() {
+        $('#dateInput').show().attr("min", new Date().toISOString().split('T')[0]);
+        $(this).addClass('active');
+        $('#onDate').removeClass('active');
+        $('#flexible').removeClass('active');
+    });
+
+    $('#flexible').on('click', function() {
+        $('#dateInput').hide();
+        $(this).addClass('active');
+        $('#onDate').removeClass('active');
+        $('#beforeDate').removeClass('active');
+    });
+
+    $('#logout-link').on('click', function(event) {
+        event.preventDefault();
+        if (confirm('Are you sure you want to logout?')) {
+            window.location.href = 'homepage.html';
+        }
+    });
+});
+
+
+
+</script>
+    
 </body>
 </html>

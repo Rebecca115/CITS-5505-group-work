@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>User Information - P5</title>
+<title>{{ user.username }}'s Page</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -11,44 +11,73 @@
 <link href="https://fonts.googleapis.com/css2?family=Combo&family=Lobster&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="/static/custom_styles.css">
 </head>
+
 <body>
     <div id="edit-form" style="display: none;">
         <h2>Edit Profile</h2>
         <form>
             <label for="username">Username:</label><br>
-            <input type="text" id="username" name="username"><br>
+            <input type="text" id="username" name="username" value="{{ user.username }}"><br>
             <label for="age">Age:</label><br>
-            <input type="text" id="age" name="age"><br>
+            <input type="text" id="age" name="age" value="{{ user.age }}"><br>
             <label for="gender">Gender:</label><br>
-            <input type="text" id="gender" name="gender"><br>
+            <input type="text" id="gender" name="gender" value="{{ user.gender }}"><br>
             <label for="location">Location:</label><br>
-            <input type="text" id="location" name="location"><br>
+            <input type="text" id="location" name="location" value="{{ user.location }}"><br>
             <label for="university">University:</label><br>
-            <input type="text" id="university" name="university"><br>
-            <!-- Avatar upload field -->
+            <input type="text" id="university" name="university" value="{{ user.university }}"><br>
             <label for="avatar">Avatar:</label><br>
             <input type="file" id="avatar" name="avatar" accept="image/*"><br>
-            <img id="avatar-preview" src="" alt="Avatar preview" style="display: none;"><br>
+            <img id="avatar-preview" src="{{ url_for('static', filename='uploads/' + user.avatar if user.avatar else 'uploads/default_avatar.png') }}" alt="Avatar preview"><br>
 
             <button type="button" id="cancel-button">Cancel</button>
             <button type="submit" id="submit-button">Submit</button>
         </form>
     </div>
 
+    {% if current_user.is_authenticated %}
+    <div id="change-password-form" style="display: none;">
+        <h2>Change Password</h2>
+        <form id="passwordForm">
+            <label for="old-password">Old Password:</label><br>
+            <input type="password" id="old-password" name="old-password" required><br>
+            <label for="new-password">New Password:</label><br>
+            <input type="password" id="new-password" name="new-password" required><br>
+    
+            <button type="button" id="cancel-change-password-button">Cancel</button>
+            <button type="submit" id="submit-change-password-button">Submit</button>
+        </form>
+    </div>
+    {% endif %}
+
+
     <div class="container-fluid">
         <div class="row">
             <div class="col-12 fixed-top bg-light">
-
                 <div class="top-bar d-flex justify-content-between align-items-center p-2">
-                    <div class="search d-flex align-items-center">
+                    <!-- Start of form -->
+                    <form action="{{ url_for('search') }}" method="GET" class="search d-flex align-items-center">
                         <img src="/static/search_icon.png" alt="Search Icon" style="width: 20px; height: 20px; margin-right: 10px;">
-                        <input type="text" placeholder="Search..." class="search-box">
-                        <button class="button">Search</button>
+                        <input type="text" name="query" placeholder="Search..." class="search-box">
+                        <button type="submit" class="button">Search</button>
+                    </form>
+                    <!-- End of form -->
+
+
+                    <div id="searchModal" style="display:none;">
+                        <div class="modal-content">
+                            <span class="close">&times;</span>
+                            <div id="searchResults"></div>
+                        </div>
                     </div>
-                    <div class="title">User Homepage</div>
+
+
+                    <div class="title">Post Your Task</div>
                 </div>
+            </div>
         </div>
     </div>
+    
 
 
     <div class="container-fluid">
@@ -66,171 +95,232 @@
                         <br>
                         <a href="post_task.html"><img src="/static/post_task_icon.png" alt="Post Task"> Post Task</a>
                         <br>
-                        <a href="user/logout"><img src="/static/logout_icon.png" alt="Logout"> Logout</a>
+                        <a href="user/logout" id="logout-link">
+                            <img src="/static/logout_icon.png" alt="Logout"> Logout
+                        </a>                        
                     {% else %}
                         <a href="user/login"><img src="/static/search_icon.png" alt="Login"> Login</a>
                         <br>
-                        <a href="user/register"><img src=/static/profile_icon.png" alt="Register"> Register</a>
+                        <a href="user/register"><img src="/static/profile_icon.png" alt="Register"> Register</a>
                     {% endif %}
     
-                    <br>
+                    <!-- <br>
                     <a href="#"><img src="/static/location_icon.png" alt="Location"> Location</a>
                     <br>
                     <a href="#"><img src="/static/settings_icon.png" alt="Settings"> Settings</a>
-                    <br>
+                    <br> -->
                     <br>
                     <p style="text-align: center; font-weight: bold;">v.3.0.1</p>
                 </div>
             </div>
             
+
             <div class="col-md-9 main">
-                <!-- User Information Section -->
                 <div class="row user-info">
                     <div class="col-md-3 d-flex flex-column align-items-center">
                         <div class="rounded-circle">
-                            <img src="profile_icon.png" alt="User photo">
+                            <!-- 调取用户头像 -->
+                            <img src="{{ url_for('static', filename='uploads/' + user.avatar if user.avatar else 'uploads/default_avatar.png') }}" alt="User photo" class="img-fluid">
                         </div>
-
-                        <h3>Username</h3>
+                        <h3>{{ user.username }}</h3>
                     </div>
                     <div class="col-md-9">
-
                         <div class="info-bar">
-                            <div id="personal-info"><h2>Personal Info </h2></div>
+                            <!-- 展示用户个人信息 -->
+                            <div id="personal-info"><h2>Your Profile</h2></div>
+                            <p>Age: {{ user.age }}</p>
+                            <p>Gender: {{ user.gender }}</p>
+                            <p>Location: {{ user.location }}</p>
+                            <p>University: {{ user.university }}</p>
+                            <button class="button" id="edit-button">Edit Profile</button>    
 
-                                <p>Age: 25</p>
-                                <p>Gender: Male</p>
-                                <p>Location: Crawley</p>
-                                <p>University: UWA</p>
-                                <button class="button" id="edit-button">Edit Profile</button>
-                                <button class="button" id="change-password-button">Change Password</button>
+                            {% if current_user.is_authenticated %}
+                            <button class="button" id="change-password-button">Change Password</button>
+                            {% endif %}
                         </div>
-
                     </div>
                 </div>
 
-               <!-- Ranking Section -->
+                               
+
+               <!-- 需要调取用户的发布任务数、接受任务数、用户在全部用户中的排名 -->
                 <div class="row ranking">
                     <div class="col-md-12 task-item">
-                        <p>Post Task</p>
-                        <div class="ranking-bar"></div>
+                        <p>Your Posted Task</p>
+                        <div class="progress" style="height: 30px; margin-right: 20px;">
+                            <div class="progress-bar custom-progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0</div>
+                        </div>
                     </div>
                     <div class="col-md-12 task-item">
-                        <p>Accept Task</p>
-                        <div class="ranking-bar"></div>
+                        <p>Your Accepted Task</p>
+                        <div class="progress" style="height: 30px; margin-right: 20px;">
+                            <div class="progress-bar custom-progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0</div>
+                        </div>
                     </div>
                     <div class="col-md-12 task-item">
-                        <p>Task Ranking</p>
-                        <div class="ranking-bar"></div>
+                        <p>Your Task Ranking</p>
+                        <div class="progress" style="height: 30px; margin-right: 20px;">
+                            <div class="progress-bar custom-progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0</div>
+                        </div>
                     </div>
                 </div>
+                
+                
+                <!-- 展示该用户由新到旧的发布/接受 任务的task title 以及 task detail -->
+                {% if tasks %}
+                    {% for task in tasks %}
+                        <div class="row task-history">
+                            <div class="col-md-12">
+                                <div class="info-bar mb-3">
+                                    <div class="info" id="task-info">
+                                        <p class="task-title">You posted: {{ task.title }}</p>
+                                    </div>
+                                    <div class="task-detail" style="display: block;">
+                                        <p>{{ task.content|safe }}</p> 
+                                        <button class="button" onclick="toggleTaskDetail(this)">Read More</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="col-md-12">
+                        <p>You have no task yet.</p>
+                    </div>
+                {% endif %}
 
-                <!-- Task History Section -->
-                <div class="row task-history">
-                    <div class="col-md-12">
-                        <div class="info-bar mb-3">
-                            <div class="info" id="task-info">
-                                <p>Task 1</p>
+                {% if tasks %}
+                {% for task in tasks %}
+                    <div class="row task-history">
+                        <div class="col-md-12">
+                            <div class="info-bar mb-3">
+                                <div class="info" id="task-info">
+                                    <p class="task-title">You accepted: {{ task.title }}</p>
+                                </div>
+                                <div class="task-detail" style="display: block;">
+                                    <p>{{ task.content|safe }}</p> 
+                                    <button class="button" onclick="toggleTaskDetail(this)">Read More</button>
+                                </div>
                             </div>
                         </div>
                     </div>
+                {% endfor %}
+            {% else %}
+                <div class="col-md-12">
+                    <p>You have no task yet.</p>
                 </div>
-                <div class="row task-history">
-                    <div class="col-md-12">
-                        <div class="info-bar mb-3">
-                            <div class="info" id="task-info">
-                                <p>Task 1</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row task-history">
-                    <div class="col-md-12">
-                        <div class="info-bar mb-3">
-                            <div class="info" id="task-info">
-                                <p>Task 1</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row task-history">
-                    <div class="col-md-12">
-                        <div class="info-bar mb-3">
-                            <div class="info" id="task-info">
-                                <p>Task 1</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row task-history">
-                    <div class="col-md-12">
-                        <div class="info-bar mb-3">
-                            <div class="info" id="task-info">
-                                <p>Task 1</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row task-history">
-                    <div class="col-md-12">
-                        <div class="info-bar mb-3">
-                            <div class="info" id="task-info">
-                                <p>Task 1</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            {% endif %}
+
+
             </div>
-
-
-
         </div>
     </div>
 
 
-</body>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    document.getElementById('edit-button').addEventListener('click', function() {
-        document.getElementById('edit-form').style.display = 'block';
+    $(document).ready(function() {
+    $('#edit-button').on('click', function() {
+        $('#edit-form').show();
     });
 
-    document.getElementById('cancel-button').addEventListener('click', function() {
-        document.getElementById('edit-form').style.display = 'none';
+    $('#cancel-button').on('click', function() {
+        $('#edit-form').hide();
     });
 
-    document.getElementById('logout-link').addEventListener('click', function(event) {
-    event.preventDefault(); // Prevent the link from being followed
-    var result = confirm('Are you sure you want to logout?'); // Show the confirm dialog
-    if (result) {
-        // If the user clicked "OK", redirect to the homepage
-        window.location.href = 'homepage.html'; // Replace 'homepage.html' with the URL of your homepage
-    }
-});
+    $('#change-password-button').on('click', function() {
+        $('#change-password-form').show();
+    });
 
-document.getElementById('avatar').addEventListener('change', function(e) {
-    var reader = new FileReader();
-    reader.onload = function(e) {
-        document.getElementById('avatar-preview').src = e.target.result;
-        document.getElementById('avatar-preview').style.display = 'block';
-    };
-    reader.readAsDataURL(this.files[0]);
-});
-
-    document.getElementById('submit-button').addEventListener('click', function(e) {
-        var avatar = document.getElementById('avatar').files[0];
-        if (avatar) {
-            var reader = new FileReader();
-            reader.onload = function(e) {
-                document.querySelector('.rounded-circle img').src = e.target.result;
-            };
-            reader.readAsDataURL(avatar);
+    $('#cancel-change-password-button').on('click', function() {
+        $('#change-password-form').hide();
+    });
+    $('.button').on('click', function() {
+        var taskDetail = $(this).prev();
+        if (taskDetail.css('display') === "none") {
+            taskDetail.css('display', 'block');
+            $(this).text("Read Less");
+        } else {
+            taskDetail.css('display', 'none');
+            $(this).text("Read More");
         }
-        // Close the form here
-        document.getElementById('edit-form').style.display = 'none';
-        // Prevent the form from being submitted
-        e.preventDefault();
     });
+    $('#passwordForm').on('submit', function (e) {
+    e.preventDefault();
+    var current_password = $('#old-password').val();
+    var new_password = $('#new-password').val();
+
+        $.ajax({
+            url: '/user/change_password',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                current_password: current_password,
+                new_password: new_password
+            }),
+            success: function (response) {
+                $('#successMessage').text('Password changed successfully').removeClass('hidden');
+                $('#errorMessage').addClass('hidden');
+                $('#old-password, #new-password').val('');
+            },
+            error: function (xhr) {
+                $('#errorMessage').text('Error changing password: ' + xhr.responseJSON.error).removeClass('hidden');
+                $('#successMessage').addClass('hidden');
+            }
+        });
+    });
+    
+    $('#avatar').on('change', function(e) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            $('#avatar-preview').attr('src', e.target.result).show();
+        };
+        reader.readAsDataURL(this.files[0]);
+    });
+
+    $('#logout-link').on('click', function(event) {
+        event.preventDefault();
+        if (confirm('Are you sure you want to log out?')) {
+            window.location.href = 'homepage.html';
+        }
+    });
+
+
+    $('#searchForm').on('submit', function(e) {
+        e.preventDefault();
+        var query = $('.search-box').val();
+        fetch(`/search?query=${encodeURIComponent(query)}`)
+            .then(response => response.json())
+            .then(data => {
+                var modal = $('#searchModal');
+                var resultsContainer = $('#searchResults');
+                resultsContainer.html('');
+
+                if (data.error) {
+                    resultsContainer.html('<p>' + data.error + '</p>');
+                } else {
+                    data.forEach(item => {
+                        var resultElement = $('<div></div>');
+                        resultElement.text(item.type + ': ' + item.title + ' - ' + item.content);
+                        resultsContainer.append(resultElement);
+                    });
+                }
+                modal.show();
+            });
+
+        $('.close').on('click', function() {
+            $('#searchModal').hide();
+        });
+    });
+});
+
+    
 
 </script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+</body>
 </html>
