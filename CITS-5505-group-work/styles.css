@@ -283,10 +283,10 @@ a.no-decoration {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100vw; /* 使用相对单位vw，相对于视口宽度 */
-    height: 100vh; /* 使用相对单位vh，相对于视口高度 */
-    background-color: #fff; /* 背景颜色可以根据你的需求自行调整 */
-    z-index: 9999; /* 确保动画位于其他内容之上 */
+    width: 100vw; 
+    height: 100vh; 
+    background-color: #fff; 
+    z-index: 9999;
     display: flex;
     justify-content: center;
     align-items: center;
