@@ -1,52 +1,60 @@
-{% extends 'base.html' %}
-{% from 'form_errors.html' import form_field_errors %}
-{% block title %}Login{% endblock %}
-
-{% block layout %}
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6 col-md-offset-3">
-
-
-                <div class="login-header">
-                    <h2 class="title text-center">Login page</h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/static/style_1.css">
+</head>
+<body>
+  <div class="container">
+    <img src="/static/Picture1.png" alt="left_decoration">    
+    <div id="cloud"></div> 
+ 
+    <div class="row">
+      <div class="col-md-6 offset-md-3">
+        <div class="text-center">
+          <div id="central_from">
+            <div id="login">
+              <h1 class="text-center">Login</h1>
+              <p class="text-center"> <a href="{{ url_for('user.register') }}">Sign up to Continue</a> </p>
+              <div>
+                {% for error in form.username.errors %}
+                  <p class="text-center text-danger">[{{ error }}]</p>
+                {% endfor %}
+              </div> 
+              <form class="login-form" method="POST" action="{{ url_for('user.login') }}">
+                {{ form.csrf_token }}
+                
+                <div class="mb-3">
+                  <label for="username" class="form-label">Please enter your Name or Email</label>
+                  {{ form.username(class="form-control", id="username") }}
                 </div>
-
-                <div>
-                    {% for error in form.username.errors %}
-                        <span style="color: red;">[{{ error }}]</span>
-                    {% endfor %}
-                    <br>
+              
+                <div class="mb-3">
+                  <label for="password" class="form-label">Please enter Password</label> 
+                  {{ form.password(class="form-control", id="password") }} 
+                  <div class="text-center">
+                    <a href="{{ url_for('user.forget_password') }}">Forgot Password</a>
+                  </div>
                 </div>
-
-                <form class="login-form box-wrap" method="POST"
-                      action="{{ url_for('user.login') }}">
-                    {#        <input type="hidden" name="next" value="{{ next_url|d('') }}">#}
-                    {{ form.csrf_token }}
-
-
-                    <div class="form-group">
-                        <label for="username">Username</label>
-                        {{ form.username }}
-                    </div>
-                    <div class="form-group">
-                        <label for="password">Password</label>
-                        {{ form.password }}
-                    </div>
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-link">Login</button>
-                    </div>
-
-                </form>
-                <div>
-                    Don't have an account? <a href="{{ url_for('user.register') }}">Register</a>
-                </div>
-
-                <div>
-                    Forgot your password? <a href="{{ url_for('user.forgot_password') }}">forgot_password</a>
-                </div>
-
+                
+                <button type="submit" class="btn btn-primary btn-block" id="loginbutton">
+                  Log in
+                </button>
+              </form>
             </div>
+          </div>
         </div>
+      </div>
     </div>
-{% endblock %}
+  </div>   
+  <img src="/static/Picture2.png" alt="right_decoration" style="float: right;">
+
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+  <!-- partial -->
+  <script src="script.js"></script>
+</body>
+</html>
