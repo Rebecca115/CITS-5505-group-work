@@ -15,7 +15,7 @@
     <div id="central_from" class="col-md-6 offset-md-3" >
         <div id="login">
             <h1>Create  <br> New Account </h1>
-            <a href="{{ url_for('user.login') }}"">Already Registered? Login </a> <br> <br> 
+            <a href="{{ url_for('user.login') }}">Already Registered? Login </a> <br> <br> 
             <form id="signup" class="login-form box-wrap" method="POST" enctype="multipart/form-data"
                   action="{{ url_for('user.register') }}">
                   {{ form.csrf_token }}
@@ -23,20 +23,22 @@
                     <label for="id-user-avatar">Avatar</label>
                     {{ form.avatar }}
                     {% if form.avatar.errors %}
-                        {{ form.avatar.errors[0] }}
+                        {{ form.avatar.errors[0](class="form-control") }}
                     {% endif %}
                 </div>
               <div >
                 <label>Username</label> <br>
-                {{ form.username }}
+                {{ form.username(class="form-control") }}
+
 
                 <label>Email</label> 
-                {{ form.email }}               
+                {{ form.email(class="form-control") }}               
               
                 <label> Password </label> <br>
-                {{ form.password }}
-                <label> Password</label> <br>
-                {{ form.confirm_password }}
+                {{ form.password(class="form-control")}}
+                
+                <label> Confirm Password</label> <br>
+                {{ form.confirm_password(class="form-control") }}
                 <br> <br> 
                 <button type="submit" id="signupbutton" class="btn btn-block">
                 Sign up

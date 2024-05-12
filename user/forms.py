@@ -46,7 +46,7 @@ class RegisterForm(FlaskForm):
 
     email = StringField(
         'Email',
-        render_kw={'class': FORM_CLASS, 'placeholder': 'Please enter email'},
+        render_kw={'class': FORM_CLASS, 'placeholder': 'Please enter your email'},
         validators=[DataRequired('Please enter email')]
     )
 
@@ -58,7 +58,7 @@ class RegisterForm(FlaskForm):
 
     confirm_password = PasswordField(
         'Confirm Password',
-        render_kw={'class': FORM_CLASS, 'placeholder': 'Please enter confirm password'},
+        render_kw={'class': FORM_CLASS, 'placeholder': 'Please enter password agian'},
         validators=[
             DataRequired('Please enter confirm password'),
             EqualTo('password', message='Passwords do not match')
@@ -174,7 +174,7 @@ class ForgotPassForm(FlaskForm):
 
     email = StringField('Email', render_kw={
         'class': FORM_CLASS,
-        'placeholder': 'Please enter email',
+        'placeholder': 'Please enter your email',
         'id': 'email'
     }, validators=[DataRequired('Please enter email')])
 
