@@ -18,13 +18,13 @@ def login():
         user = form.do_login()
         if user:
             # Successful login
+            flash(f'Welcome back,{user.nickname}.','success')
             return redirect("/")
         else:
             # Login failed, show message
             flash('Login failed, please try again.', 'danger')
-    else:
-        # Form validation failed, show message
-        flash('Login failed, please try again.', 'danger')
+            return render_template('login.html', form=form)
+
 
     # Render the login template on GET or failed form submission
     return render_template('login.html', form=form)
@@ -83,15 +83,11 @@ def my_tasks(id):
     """Retrieve and display tasks posted by the current logged-in user."""
     try:
         user_id = id
-
         tasks = Task.query.filter_by(user_id=user_id).all()
-        tasks_data = [
-            {'title': task.title, 'description': task.content, 'id': task.id}
-            for task in tasks
-        ]
-        return jsonify(tasks_data)
+        return render_template('mytask.html', tasks=tasks, current_user=current_user)
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        flash(str(e), 'danger')
+        return redirect(url_for('task.index_page'))
 
 
 @user.route('/change_password', methods=['POST'])
@@ -114,6 +110,7 @@ def change_password():
     db.session.commit()
 
     return jsonify({'message': 'Password updated successfully'}), 200
+
 
 
 @user.route('/confirm-email/<token>')
@@ -192,6 +189,36 @@ def get_top_users():
         users_data.append(user_dict)
 
     return jsonify({"users": users_data}), 200
+
+@user.route('/change_email/<int:id>')
+@login_required
+def change_email(id):
+    """Route for changing the user's email address"""
+    if id != current_user.id:
+        return jsonify({'error': 'You are not authorized to perform this action'}), 403
+
+    data = request.get_json()
+    new_email = data.get('new_email')
+    current_user.email = new_email
+    db.session.commit()
+    return jsonify({'message': 'Email updated successfully'}), 200
+
+
+@user.route('/change_nickname/<int:id>')
+@login_required
+def change_nickname(id):
+    """Route for changing the user's nickname"""
+
+    if id != current_user.id:
+        return jsonify({'error': 'You are not authorized to perform this action'}), 403
+
+    data = request.get_json()
+    new_nickname = data.get('new_nickname')
+    current_user.nickname = new_nickname
+    db.session.commit()
+    return jsonify({'message': 'Nickname updated successfully'}), 200
+
+
 
 # @user.route('/upload/<int:id>', methods=['POST'])
 # @login_required

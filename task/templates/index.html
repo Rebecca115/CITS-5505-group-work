@@ -25,13 +25,13 @@
                     <a class="nav-link" href="/post">Post Task</a>
                 </li>
             </ul>
-            <label for="searchInput"></label><input class="form-control me-2" type="search" placeholder="Search"
-                                                    id="searchInput">
-
+            <form class="d-flex">
+                <input class="form-control me-2" type="search" placeholder="Search" id="searchInput">
+            </form>
             <ul class="navbar-nav">
                 {% if current_user.is_authenticated %}
                     <li class="nav-item">
-                        <a class="nav-link" href="/user/profile/{{ current_user.id }}">profile</a>
+                        <a class="nav-link" href="/user/{{ current_user.id }}/mine">Mine</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/user/logout">Logout</a>
@@ -102,7 +102,6 @@
 
 
 
-
                         {{ url_for('task.index_page', page=page_data.page+1 if page_data.has_next else page_data.page) }}">Next</a>
             </li>
         </ul>
@@ -123,18 +122,15 @@
             $(this).parent().prev('.normal').show();
         });
 
-        $('#searchInput').on('keyup', function (e) {
-            if (e.key === 'Enter' || e.keyCode === 13) {
-                var query = $(this).val().trim();
+
+        $('#searchInput').on('keypress', function (e) {
+            if (e.which === 13) {
+                var query = $(this).val()
                 if (query) {
-                    e.preventDefault();
-                    var url = '/search?query=' + encodeURIComponent(query);
-                    window.location.href = url;
+                    window.location.href = `/search?query=${encodeURIComponent(query)}`;
                 }
             }
         });
-
-
     });
 </script>
 
