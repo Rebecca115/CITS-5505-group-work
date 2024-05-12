@@ -61,14 +61,13 @@
       $(function () {
        $('#avatar,#username, #email,#password,#confirm_password').on('keypress', function (e) {
            if (e.which === 13) {
-               e.preventDefault(); // 阻止默认的表单提交行为
-               var username = $('#username').val().trim(); // 获取用户名，并去除两端空格
-               var email = $('#email').val().trim(); // 获取邮箱，并去除两端空格
-               var password = $('#password').val().trim(); // 获取密码，并去除两端空格
-               var confirm_password = $('#confirm_password').val().trim(); // 获取确认密码，并去除两端空格
-               if (username && email && password && confirm_password) { // 检查用户名、邮箱、密码和确认密码是否都不为空
-                   // 如果都不为空，则执行表单提交操作
-                   $('#signup').submit(); // 提交表单
+               e.preventDefault(); 
+               var username = $('#username').val().trim();
+               var email = $('#email').val().trim(); 
+               var password = $('#password').val().trim(); 
+               var confirm_password = $('#confirm_password').val().trim(); 
+               if (username && email && password && confirm_password) { 
+                   $('#signup').submit(); 
                }
            }
        });
