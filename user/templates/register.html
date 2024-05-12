@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <title>creat account page</title>
+    <title>Create account page</title>
     <link rel="stylesheet" href="/static/style_2.css">
 </head>
 <body>
@@ -14,31 +14,32 @@
   
     <div id="central_from" class="col-md-6 offset-md-3" >
         <div id="register">
-            <h1>Create  <br> New Account </h1>
+            <h1>Create New Account</h1>
             <a href="{{ url_for('user.login') }}">Already Registered? Login </a> <br> <br> 
             <form id="signup" class="login-form box-wrap" method="POST" enctype="multipart/form-data"
                   action="{{ url_for('user.register') }}">
                   {{ form.csrf_token }}
                   <div class="form-group">
                     <label for="id-user-avatar">Avatar</label>
-                    {{ form.avatar }}
+                    {{ form.avatar (class="form-control", id="avatar")  }}
+
                     {% if form.avatar.errors %}
-                        {{ form.avatar.errors[0](class="form-control") }}
+                    {{ form.avatar.errors[0](class="form-control") }}
                     {% endif %}
                 </div>
               <div >
                 <label>Username</label> <br>
-                {{ form.username(class="form-control") }}
+                {{ form.username(class="form-control", id="username") }}
 
 
                 <label>Email</label> 
-                {{ form.email(class="form-control") }}               
+                {{ form.email(class="form-control", id="email") }}               
               
                 <label> Password </label> <br>
-                {{ form.password(class="form-control")}}
+                {{ form.password(class="form-control", id="password")}}
 
                 <label> Confirm Password</label> <br>
-                {{ form.confirm_password(class="form-control") }}
+                {{ form.confirm_password(class="form-control", id="confirm_password") }}
                 <br> <br> 
                 <button type="submit" id="signupbutton" class="btn btn-block">
                 Sign up
@@ -52,12 +53,27 @@
     <img src="/static/Picture2.png" alt="right_decoration" style="float: right;">
 
 
-    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-    </body>
     <!-- partial -->
-      <script  src="script.js"></script>
-    
+    <script>
+      $(function () {
+       $('#avatar,#username, #email,#password,#confirm_password').on('keypress', function (e) {
+           if (e.which === 13) {
+               e.preventDefault(); // 阻止默认的表单提交行为
+               var username = $('#username').val().trim(); // 获取用户名，并去除两端空格
+               var email = $('#email').val().trim(); // 获取邮箱，并去除两端空格
+               var password = $('#password').val().trim(); // 获取密码，并去除两端空格
+               var confirm_password = $('#confirm_password').val().trim(); // 获取确认密码，并去除两端空格
+               if (username && email && password && confirm_password) { // 检查用户名、邮箱、密码和确认密码是否都不为空
+                   // 如果都不为空，则执行表单提交操作
+                   $('#signup').submit(); // 提交表单
+               }
+           }
+       });
+   });
+   
+   </script>
     </body>
 </html>
