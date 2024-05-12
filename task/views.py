@@ -18,7 +18,7 @@ def index_page():
     page = request.args.get('page', 1, type=int)
     page_data = Task.query.order_by(desc(Task.created_at)).paginate(page=page, per_page=per_page)
 
-    return render_template('index_old.html', page_data=page_data)
+    return render_template('index.html', page_data=page_data)
 
 
 @quest.route('/post', methods=['GET', 'POST'])
@@ -35,7 +35,7 @@ def post():
                 return redirect(url_for('task.index_page'))
         except Exception as e:
             flash('Error posting Quest: {}'.format(e), 'danger')
-    return render_template('post_old.html', form=form)
+    return render_template('post.html', form=form)
 
 
 @quest.route('/task/list')
@@ -48,7 +48,7 @@ def task_list():
         per_page = 5  # Define the number of items per page.
         page = request.args.get('page', 1, type=int)
         page_data = Task.query.order_by(desc(Task.created_at)).paginate(page=page, per_page=per_page)
-        data = render_template('qa_list_old.html', page_data=page_data)
+        data = render_template('qa_list.html', page_data=page_data)
         return jsonify(code=0, data=data)
     except Exception as e:
         return jsonify(code=1, data=str(e)), 400
@@ -81,7 +81,7 @@ def detail(t_id):
         except Exception as e:
             flash('Error posting answer: {}'.format(e), 'danger')
 
-    return render_template('detail_old.html',
+    return render_template('detail.html',
                            task=task,
                            answers=answers,
                            form=form)
@@ -329,36 +329,8 @@ def task_detail(t_id):
 @quest.route('/task/category/<category>')
 def task_by_category(category):
     """ Route to list tasks by category. """
-    print(category)
     tasks = Task.query.filter_by(category=category).all()
     return jsonify({'message': 'Success', 'data': [q.to_dict() for q in tasks]}), 200
 
-@quest.route('/task/accept/<int:t_id>', methods=['POST'])
-@login_required
-def task_accept(t_id):
-    """ Route to accept an answer to a task. """
-    if not current_user.is_authenticated:
-        return jsonify({'error': 'Please login'}), 401
 
-    try:
-        task = Task.query.get(t_id)
-        if not task:
-            return jsonify({'error': 'Task not found'}), 404
 
-        if task.user_id != current_user.id:
-            return jsonify({'error': 'You do not own this task'}), 403
-
-        answer_id = request.json.get('answer_id')
-        if not answer_id:
-            return jsonify({'error': 'Missing answer_id'}), 400
-
-        answer = Answer.query.get(answer_id)
-        if not answer:
-            return jsonify({'error': 'Answer not found'}), 404
-
-        task.accepted_user_id = answer.user_id
-        db.session.commit()
-
-        return jsonify({'message': 'Success'}), 200
-    except Exception as e:
-        return jsonify({'error': f'Unknown error: {e}'}), 500
