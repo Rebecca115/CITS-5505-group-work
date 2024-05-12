@@ -1,8 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify
 from flask_login import login_required, current_user
-
 from sqlalchemy import or_, desc
-
 
 from models import Task, Answer, db, AnswerLike
 from task.form import WriteTaskForm, WriteAnswerForm
@@ -18,7 +16,6 @@ def index_page():
     """ Home page route, display a list of paginated tasks. """
     per_page = 5
     page = request.args.get('page', 1, type=int)
-
     page_data = Task.query.order_by(desc(Task.created_at)).paginate(page=page, per_page=per_page)
 
     return render_template('index.html', page_data=page_data)
@@ -35,7 +32,6 @@ def post():
             que_obj = form.save()
             if que_obj:
                 flash('Quest has been posted successfully', 'success')
-
                 return redirect(url_for('task.index_page'))
         except Exception as e:
             flash('Error posting Quest: {}'.format(e), 'danger')
@@ -44,7 +40,6 @@ def post():
 
 @quest.route('/task/list')
 def task_list():
-
     """
     Route to list tasks in a paginated manner and return as JSON.
     Tasks are sorted by their creation time in descending order.
@@ -53,12 +48,10 @@ def task_list():
         per_page = 5  # Define the number of items per page.
         page = request.args.get('page', 1, type=int)
         page_data = Task.query.order_by(desc(Task.created_at)).paginate(page=page, per_page=per_page)
-
         data = render_template('qa_list.html', page_data=page_data)
         return jsonify(code=0, data=data)
     except Exception as e:
         return jsonify(code=1, data=str(e)), 400
-
 
 @quest.route('/detail/<int:t_id>', methods=['GET', 'POST'])
 def detail(t_id):
@@ -105,10 +98,8 @@ def answer_like(answer_id):
         # Check for existing like
         existing_like = AnswerLike.query.filter_by(user_id=current_user.id,
                                                    answer_id=answer_id).first()
-
         x1 = Answer.query.get(answer_id).like_count
         print(f"before: {x1}")
-
         if existing_like:
             return jsonify({'error': 'You have already liked this answer'}), 409
 
@@ -119,13 +110,10 @@ def answer_like(answer_id):
 
         # Fetch the new like count
         like_count = Answer.query.get(answer_id).like_count  # Assuming like_count is a field
-
         print(f"after: {like_count}")
-
         return jsonify({'message': 'Success', 'like_count': like_count}), 201
     except Exception as e:
         return jsonify({'error': 'Unknown error: {}'.format(e)}), 500
-
 
 
 @quest.route('/answer/dislike/<int:answer_id>', methods=['POST'])
@@ -150,7 +138,6 @@ def answer_dislike(answer_id):
 
         # Fetch the new like count
         like_count = Answer.query.get(answer_id).like_count # Assuming like_count is a field
-
         print(f"after: {like_count}")
         return jsonify({'message': 'Success', 'like_count': like_count}), 200
     except Exception as e:

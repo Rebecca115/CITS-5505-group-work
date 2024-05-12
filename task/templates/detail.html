@@ -27,7 +27,7 @@
             <ul class="navbar-nav">
                 {% if current_user.is_authenticated %}
                     <li class="nav-item">
-                        <a class="nav-link" href="/user/{{ current_user.id }}/mine">Mine</a>
+                        <a class="nav-link" href="/user/profile/{{ current_user.id }}">profile</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/user/logout">Logout</a>

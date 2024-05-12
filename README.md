@@ -33,7 +33,7 @@ Copy codeproject/
 │   ├── base.html
 │   ├── index.html
 │   ├── login.html
-│   ├── mine.html
+│   ├── profile.html
 │   ├── task_detail.html
 │   └── register.html
 ├── user/
