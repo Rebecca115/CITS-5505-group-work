@@ -35,7 +35,7 @@ def post():
                 return redirect(url_for('task.index_page'))
         except Exception as e:
             flash('Error posting Quest: {}'.format(e), 'danger')
-    return render_template('post_old.html', form=form)
+    return render_template('post.html', form=form)
 
 
 @quest.route('/task/list')
@@ -262,6 +262,7 @@ def search():
         results = task_results + answer_results
 
         return jsonify(results), 200
+    
     except Exception as e:
         return jsonify({'error': f'Unknown error: {e}'}), 500
 

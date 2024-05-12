@@ -13,6 +13,25 @@
 </head>
 
 <body>
+
+    <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="searchModalLabel">Search Results</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="search-results">
+            
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+    </div>
+
+
     <div class="modal fade" id="answerModal" tabindex="-1" aria-labelledby="answerModalLabel" aria-hidden="true">
 
     <div class="modal-dialog">
@@ -28,9 +47,9 @@
                     <div class="task-detail" style="display: block;">
                         <p>{{ task.content|safe }}</p> 
                     </div>
-                    <!-- <p id="taskDetail">{{ task.desc | default('No detailed description available.', true) }}</p> -->
+                   
                     <p id="taskWhen">{{ task.expectedtime.strftime('%Y-%m-%d') }}</p>
-                    <!-- and flexible ? -->
+
 
                     {% if task.img %}
                     <img id="taskPhoto" 
@@ -55,23 +74,24 @@
 </div>
 
 
-
     <div class="container-fluid">
         <div class="row">
             <div class="col-12 fixed-top bg-light">
                 <div class="top-bar d-flex justify-content-between align-items-center p-2">
-                    <!-- Start of form -->
-                    <form action="{{ url_for('search') }}" method="GET" class="search d-flex align-items-center">
-                        <img src="/static/search_icon.png" alt="Search Icon" style="width: 20px; height: 20px; margin-right: 10px;">
-                        <input type="text" name="query" placeholder="Search..." class="search-box">
-                        <button type="submit" class="button">Search</button>
-                    </form>
-                    <!-- End of form -->
-                    <div class="title">Accept Your Task</div>
+                    
+                    <div class="col-md-4">
+                        <input class="form-control me-2" type="search" placeholder="Search" id="searchInput">
+                    </div>
+                    
+                    <div class="col-md-8">
+                        <div class="title">Accept Your Task</div>
+                    </div>
+                    
                 </div>
             </div>
         </div>
     </div>
+    
 
 
     <div class="row">
@@ -88,7 +108,6 @@
                     <br>
                     <a href="/task/templates/post.html"><img src="/static/post_task_icon.png" alt="Post Task"> Post Task</a>
                     <br>
-                    <!-- <a href="/user/templates/"> -->
                     <img src="/static/logout_icon.png" alt="Logout"> Logout</a>
                 {% else %}
                     <a href="/user/templates/login.html"><img src="/static/search_icon.png" alt="Login"> Login</a>
@@ -97,30 +116,26 @@
                 {% endif %}
 
                 <br>
-                <!-- <a href="#"><img src="/static/location_icon.png" alt="Location"> Location</a>
-                <br>
-                <a href="#"><img src="/static/settings_icon.png" alt="Settings"> Settings</a>
-                <br> -->
                 <br>
                 <p style="text-align: center; font-weight: bold;">v.3.0.1</p>
             </div>
         </div>
 
+        <div class="col-md-9">
+            <div class="main sticky-top">
+                <div class="main">
+                    <div class="row">
+                        <!-- Task list -->
+                        <div class="list-group">
+                            {% for task in page_data.items %}
 
-        <div class="main sticky-top">
-            <div class="main">
-                <div class="row">
-                    <!-- Task list -->
-                    <div class="list-group">
-                        {% for task in page_data.items %}
+                                <a href="{{ url_for('task.detail', t_id=task.id) }}" class="list-group-item list-group-item-action" data-bs-toggle="modal" data-bs-target="#taskModal" data-task="{{ task.title }}">{{ task.title }}</a>
 
-                            <a href="{{ url_for('task.detail', t_id=task.id) }}" class="list-group-item list-group-item-action" data-bs-toggle="modal" data-bs-target="#taskModal" data-task="{{ task.title }}">{{ task.title }}</a>
-
-                        {% endfor %}
+                            {% endfor %}
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
         
 
     </div>             
@@ -130,6 +145,41 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 $(document).ready(function() {
+    // Handle the search input's keypress event
+    $('#searchInput').on('keypress', function (e) {
+        if (e.which === 13) {
+            var query = $(this).val();
+            if (query) {
+                fetch(`/search?query=${query}`)
+                    .then(response => {
+                        if (!response.ok) throw new Error('Network response was not ok');
+                        return response.json();
+                    })
+                    .then(data => {
+                        $('#search-results').empty();
+                        if (data.length === 0) {
+                            $('#search-results').html("<p>No results found.</p>");
+                        } else {
+                            data.forEach(result => {
+                                var item = `
+                                    <div class="result-item">
+                                        <h4><a href="#">${result.title}</a></h4>
+                                        <p>${result.content}</p>
+                                    </div>
+                                `;
+                                $('#search-results').append(item);
+                            });
+                        }
+                        $('#searchModal').modal('show');
+                    })
+                    .catch(error => {
+                        console.error("Error fetching search results:", error);
+                        $('#search-results').html("<p>An error occurred while fetching search results.</p>");
+                        $('#searchModal').modal('show');
+                    });
+            }
+        }
+    });
     // Attach click event to all .list-group-item elements
     $('.list-group-item').click(function(e) {
         // Prevent the link from being followed
@@ -159,14 +209,14 @@ $(document).ready(function() {
         }
     });
 
-    $('#searchInput').on('keypress', function (e) {
-            if (e.which === 13) {
-                var query = $(this).val()
-                if (query) {
-                    window.location.href = `/search?query=${encodeURIComponent(query)}`;
-                }
-            }
-        });
+    // $('#searchInput').on('keypress', function (e) {
+    //         if (e.which === 13) {
+    //             var query = $(this).val()
+    //             if (query) {
+    //                 window.location.href = `/search?query=${encodeURIComponent(query)}`;
+    //             }
+    //         }
+    //     });
 });
 
  

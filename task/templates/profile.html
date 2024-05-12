@@ -13,6 +13,26 @@
 </head>
 
 <body>
+
+    <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="searchModalLabel">Search Results</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="search-results">
+            
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+    </div>
+
+
+
     <div id="edit-form" style="display: none;">
         <h2>Edit Profile</h2>
         <form>
@@ -50,29 +70,24 @@
     </div>
     {% endif %}
 
-
     <div class="container-fluid">
         <div class="row">
             <div class="col-12 fixed-top bg-light">
                 <div class="top-bar d-flex justify-content-between align-items-center p-2">
-                    <input class="form-control me-2" type="search" placeholder="Search" id="searchInput">
-                    <button type="submit" class="btn btn-outline-success">Search</button> 
-        
-
-
-                    <div id="searchModal" style="display:none;">
-                        <div class="modal-content">
-                            <span class="close">&times;</span>
-                            <div id="searchResults"></div>
-                        </div>
+                    
+                    <div class="col-md-4">
+                        <input class="form-control me-2" type="search" placeholder="Search" id="searchInput">
                     </div>
-
-
-                    <div class="title">{{ user.username }}'s Page</div>
+                    
+                    <div class="col-md-8">
+                        <div class="title">{{ user.username }}'s Page</div>
+                    </div>
+                    
                 </div>
             </div>
         </div>
     </div>
+
     
 
 
@@ -85,19 +100,16 @@
                     <div id="sidebar_home"><a href="homepage.html">Home</a></div>
                     <br>
                     {% if current_user.is_authenticated %}
-                        <a href="profile.html"><img src="/static/profile_icon.png" alt="Profile"> Profile</a>
+                        <a href="{{ url_for('user.profile', id=current_user.id) }}"><img src="{{ url_for('static', filename='profile_icon.png') }}" alt="Profile"> Profile</a>
                         <br>
-                        <a href="accept_task.html"><img src="/static/accept_task_icon.png" alt="Accept Task"> Accept Task</a>
                         <br>
-                        <a href="post_task.html"><img src="/static/post_task_icon.png" alt="Post Task"> Post Task</a>
+                        <a href="{{ url_for('task.post') }}"><img src="{{ url_for('static', filename='post_task_icon.png') }}" alt="Post Task"> Post Task</a>
                         <br>
-                        <a href="user/logout" id="logout-link">
-                            <img src="/static/logout_icon.png" alt="Logout"> Logout
-                        </a>                        
+                        <img src="{{ url_for('static', filename='logout_icon.png') }}" alt="Logout"> Logout</a>
                     {% else %}
-                        <a href="user/login"><img src="/static/search_icon.png" alt="Login"> Login</a>
+                        <a href="{{ url_for('user.login') }}"><img src="{{ url_for('static', filename='search_icon.png') }}" alt="Login"> Login</a>
                         <br>
-                        <a href="user/register"><img src="/static/profile_icon.png" alt="Register"> Register</a>
+                        <a href="{{ url_for('user.register') }}"><img src="{{ url_for('static', filename='profile_icon.png') }}" alt="Register"> Register</a>
                     {% endif %}
     
                     <br>
@@ -121,39 +133,15 @@
                             <div id="personal-info"><h2>Your Profile</h2></div>
                             <p>Age: {{ user.age }}</p>
                             <p>Gender: {{ user.gender }}</p>
-                            <button class="button" id="edit-button">Edit Profile</button>    
+                            <button class="control-button" id="edit-button">Edit Profile</button>    
 
                             {% if current_user.is_authenticated %}
-                            <button class="button" id="change-password-button">Change Password</button>
+                            <button class="control-button" id="change-password-button">Change Password</button>
                             {% endif %}
                         </div>
                     </div>
                 </div>
 
-                               
-
-               <!-- 需要调取用户的发布任务数、接受任务数、用户在全部用户中的排名 -->
-                <!-- <div class="row ranking">
-                    <div class="col-md-12 task-item">
-                        <p>Your Posted Task</p>
-                        <div class="progress" style="height: 30px; margin-right: 20px;">
-                            <div class="progress-bar custom-progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0</div>
-                        </div>
-                    </div>
-                    <div class="col-md-12 task-item">
-                        <p>Your Accepted Task</p>
-                        <div class="progress" style="height: 30px; margin-right: 20px;">
-                            <div class="progress-bar custom-progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0</div>
-                        </div>
-                    </div>
-                    <div class="col-md-12 task-item">
-                        <p>Your Task Ranking</p>
-                        <div class="progress" style="height: 30px; margin-right: 20px;">
-                            <div class="progress-bar custom-progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0</div>
-                        </div>
-                    </div>
-                </div> -->
-                
                 
                 <!-- 展示该用户由新到旧的发布/接受 任务的task title 以及 task detail -->
                 {% if tasks %}
@@ -211,15 +199,50 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function() {
-
+        // Handle the search input's keypress event
         $('#searchInput').on('keypress', function (e) {
-                if (e.which === 13) {
-                    var query = $(this).val()
-                    if (query) {
-                        window.location.href = '/task/templates/profile.html';
-                    }
+            if (e.which === 13) {
+                var query = $(this).val();
+                if (query) {
+                    fetch(`/search?query=${query}`)
+                        .then(response => {
+                            if (!response.ok) throw new Error('Network response was not ok');
+                            return response.json();
+                        })
+                        .then(data => {
+                            $('#search-results').empty();
+                            if (data.length === 0) {
+                                $('#search-results').html("<p>No results found.</p>");
+                            } else {
+                                data.forEach(result => {
+                                    var item = `
+                                        <div class="result-item">
+                                            <h4><a href="#">${result.title}</a></h4>
+                                            <p>${result.content}</p>
+                                        </div>
+                                    `;
+                                    $('#search-results').append(item);
+                                });
+                            }
+                            $('#searchModal').modal('show');
+                        })
+                        .catch(error => {
+                            console.error("Error fetching search results:", error);
+                            $('#search-results').html("<p>An error occurred while fetching search results.</p>");
+                            $('#searchModal').modal('show');
+                        });
                 }
-            });
+            }
+        });
+
+        // $('#searchInput').on('keypress', function (e) {
+        //         if (e.which === 13) {
+        //             var query = $(this).val()
+        //             if (query) {
+        //                 window.location.href = '/task/templates/profile.html';
+        //             }
+        //         }
+        //     });
 
     $('#edit-button').on('click', function() {
         $('#edit-form').show();
@@ -227,25 +250,34 @@
 
     $('#cancel-button').on('click', function() {
         $('#edit-form').hide();
+        $('#change-password-button').show();  
+        $('#edit-button').show();  // 添加这行来确保 Edit Profile 按钮也被显示
     });
+
+    $('#cancel-change-password-button').on('click', function() {
+        $('#change-password-form').hide();
+        $('#change-password-button').show();
+        $('#edit-button').show();  // 同样，确保 Edit Profile 按钮也被显示
+    });
+
 
     $('#change-password-button').on('click', function() {
         $('#change-password-form').show();
     });
 
-    $('#cancel-change-password-button').on('click', function() {
-        $('#change-password-form').hide();
-    });
+
+
     $('.button').on('click', function() {
-        var taskDetail = $(this).prev();
-        if (taskDetail.css('display') === "none") {
-            taskDetail.css('display', 'block');
-            $(this).text("Read Less");
-        } else {
-            taskDetail.css('display', 'none');
-            $(this).text("Read More");
-        }
-    });
+    var taskDetail = $(this).prev();
+    if (taskDetail.css('display') === "none") {
+        taskDetail.css('display', 'block');
+        $(this).text("Read Less");
+    } else {
+        taskDetail.css('display', 'none');
+        $(this).text("Read More");
+    }
+});
+
     $('#passwordForm').on('submit', function (e) {
     e.preventDefault();
     var current_password = $('#old-password').val();
