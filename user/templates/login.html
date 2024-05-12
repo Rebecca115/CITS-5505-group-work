@@ -28,12 +28,12 @@
                 {{ form.csrf_token }}
                 
                 <div class="mb-3">
-                  <label for="username" class="form-label">Please enter your Name or Email</label>
+                  <label for="username" class="form-label">Username or Email</label>
                   {{ form.username(class="form-control", id="username") }}
                 </div>
               
                 <div class="mb-3">
-                  <label for="password" class="form-label">Please enter Password</label> 
+                  <label for="password" class="form-label">Password</label> 
                   {{ form.password(class="form-control", id="password") }} 
                   <div class="text-center">
                     <a href="{{ url_for('user.forgot_password') }}">Forgot Password</a>

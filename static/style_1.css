@@ -47,12 +47,18 @@ input{
 #login label,#send label {
     font-size:  12px;;
 }
+.form-control{
+  width: 100%;
+  max-width: 300px; 
+  margin-left: auto;
+  margin-right: auto;
+}
 #cloud{
   animation: move 6s ease infinite;
   border-radius: 50px;
   position: absolute;
   top: 100px;
-  left: 44%;
+  left: 43%;
   background-color:#715CF8 ;
   height: 60px; width: 60px;
   box-shadow:
