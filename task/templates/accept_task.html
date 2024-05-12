@@ -67,7 +67,7 @@
                         <button type="submit" class="button">Search</button>
                     </form>
                     <!-- End of form -->
-                    <div class="title">Post Your Task</div>
+                    <div class="title">Accept Your Task</div>
                 </div>
             </div>
         </div>
@@ -88,11 +88,12 @@
                     <br>
                     <a href="/task/templates/post.html"><img src="/static/post_task_icon.png" alt="Post Task"> Post Task</a>
                     <br>
-                    <a href="user/logout"><img src="/static/logout_icon.png" alt="Logout"> Logout</a>
+                    <!-- <a href="/user/templates/"> -->
+                    <img src="/static/logout_icon.png" alt="Logout"> Logout</a>
                 {% else %}
-                    <a href="user/login"><img src="/static/search_icon.png" alt="Login"> Login</a>
+                    <a href="/user/templates/login.html"><img src="/static/search_icon.png" alt="Login"> Login</a>
                     <br>
-                    <a href="user/register"><img src="/static/profile_icon.png" alt="Register"> Register</a>
+                    <a href="/user/templates/register.html"><img src="/static/profile_icon.png" alt="Register"> Register</a>
                 {% endif %}
 
                 <br>
@@ -128,29 +129,28 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    document.querySelectorAll('.list-group-item').forEach(function(item) {
-        item.addEventListener('click', function(e) {
-            // Prevent the link from being followed
-            e.preventDefault();
+$(document).ready(function() {
+    // Attach click event to all .list-group-item elements
+    $('.list-group-item').click(function(e) {
+        // Prevent the link from being followed
+        e.preventDefault();
 
-            // Get the task details
-            var task = e.target.dataset.task;
+        // Get the task details
+        var task = $(this).data('task');
 
-            // Insert the task details into the modal
-            document.querySelector('#taskTitle').textContent = task;
-            document.querySelector('#taskDetail').textContent = "Task details here"; // Replace with actual task details
-            document.querySelector('#taskWhen').textContent = "Task time here"; // Replace with actual task time
-            document.querySelector('#taskPhoto').src = "Task photo URL here"; // Replace with actual task photo URL
+        // Insert the task details into the modal
+        $('#taskTitle').text(task);
+        $('#taskDetail').text("Task details here"); // Replace with actual task details
+        $('#taskWhen').text("Task time here"); // Replace with actual task time
+        $('#taskPhoto').attr('src', "Task photo URL here"); // Replace with actual task photo URL
 
-            // Show the modal using Bootstrap 5 method
-            const myModal = new bootstrap.Modal(document.getElementById('answerModal'));
-            myModal.show();
-        });
+        // Show the modal using Bootstrap 5 method
+        const myModal = new bootstrap.Modal($('#answerModal'));
+        myModal.show();
     });
-});
 
-    document.getElementById('logout-link').addEventListener('click', function(event) {
+    // Attach click event to #logout-link element
+    $('#logout-link').click(function(event) {
         event.preventDefault(); // Prevent the link from being followed
         var result = confirm('Are you sure you want to logout?'); // Show the confirm dialog
         if (result) {
@@ -159,6 +159,17 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
+    $('#searchInput').on('keypress', function (e) {
+            if (e.which === 13) {
+                var query = $(this).val()
+                if (query) {
+                    window.location.href = `/search?query=${encodeURIComponent(query)}`;
+                }
+            }
+        });
+});
+
+ 
 
 
 

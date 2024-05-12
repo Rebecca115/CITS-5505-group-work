@@ -17,13 +17,9 @@
         <div class="row">
             <div class="col-12 fixed-top bg-light">
                 <div class="top-bar d-flex justify-content-between align-items-center p-2">
-                    <!-- Start of form -->
-                    <form action="{{ url_for('search') }}" method="GET" class="search d-flex align-items-center">
-                        <img src="/static/search_icon.png" alt="Search Icon" style="width: 20px; height: 20px; margin-right: 10px;">
-                        <input type="text" name="query" placeholder="Search..." class="search-box">
-                        <button type="submit" class="button">Search</button>
-                    </form>
-                    <!-- End of form -->
+                    <form class="d-flex" id="searchForm">
+                        <input class="form-control me-2" type="search" placeholder="Search" id="searchInput">
+                        <button type="submit" class="btn btn-outline-success">Search</button>           
                     <div class="title">Post Your Task</div>
                 </div>
             </div>
@@ -40,11 +36,11 @@
                 <div id="sidebar_home"><a href="homepage.html">Home</a></div>
                 <br>
                 {% if current_user.is_authenticated %}
-                    <a href="{{ url_for('user.profile') }}"><img src="/static/profile_icon.png" alt="Profile"> Profile</a>
+                    <a href="/task/templates/profile.html"><img src="/static/profile_icon.png" alt="Profile"> Profile</a>
                     <br>
-                    <a href="{{ url_for('user.accept_task') }}"><img src="/static/accept_task_icon.png" alt="Accept Task"> Accept Task</a>
+                    <a href="/task/templates/accept_task.html"><img src="/static/accept_task_icon.png" alt="Accept Task"> Accept Task</a>
                     <br>
-                    <a href="{{ url_for('user.post') }}"><img src="/static/post_task_icon.png" alt="Post Task"> Post Task</a>
+                    <a href="/task/templates/post.html"><img src="/static/post_task_icon.png" alt="Post Task"> Post Task</a>
                     <br>
                     <a href="user/logout"><img src="/static/logout_icon.png" alt="Logout"> Logout</a>
                 {% else %}
@@ -139,46 +135,67 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
+
 $(document).ready(function() {
+    $('#searchInput').on('keypress', function (e) {
+            if (e.which === 13) {
+                var query = $(this).val()
+                if (query) {
+                    window.location.href = '/task/templates/profile.html';
+                }
+            }
+        });
+
+
+    // $('#searchInput').on('keypress', function (e) {
+    //     if (e.which === 13) {
+    //         e.preventDefault();  // 阻止表单的默认提交行为
+    //         var query = $(this).val().trim();
+    //         if (query) {
+    //             window.location.href = '/task/templates/profile.html';  // 测试跳转
+    //         }
+    //     }
+    // });
+
+    // 文件上传逻辑
     $('#upload').on('change', function(event) {
-    const files = event.target.files;
-    if (files.length > 1) {
-        alert('You can only upload one photo.');
-        return;
-    }
+        const files = event.target.files;
+        if (files.length > 1) {
+            alert('You can only upload one photo.');
+            return;
+        }
 
-    const displayContainer = $('#file-display');
-    displayContainer.html('');
+        const displayContainer = $('#file-display');
+        displayContainer.html('');
 
-    Array.from(files).forEach(file => {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            const img = $('<img>').attr('src', e.target.result)
-                                  .css({ width: '100px', margin: '10px' });
-            displayContainer.append(img);
-        };
-        reader.readAsDataURL(file);
+        Array.from(files).forEach(file => {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = $('<img>').attr('src', e.target.result)
+                                      .css({ width: '100px', margin: '10px' });
+                displayContainer.append(img);
+            };
+            reader.readAsDataURL(file);
         });
     });
 
+    // 保存表单数据至本地存储
     $('#saveButton').on('click', function(event) {
         event.preventDefault();
         localStorage.setItem('formData', JSON.stringify($('form').serializeArray()));
         alert('Your changes have been saved.');
     });
 
-    $(document).ready(function() {
+    // 加载本地存储的表单数据
+    if (localStorage.getItem('formData')) {
         const formData = JSON.parse(localStorage.getItem('formData'));
-        if (formData) {
-            formData.forEach(item => {
-                $(`[name="${item.name}"]`).val(item.value);
-            });
-        }
-    });
+        formData.forEach(item => {
+            $(`[name="${item.name}"]`).val(item.value);
+        });
+    }
 
+    // 提交表单逻辑
     $('#submitButton').on('click', function() {
-        const files = $('#upload').prop('files');
-
         const taskTitle = $('#task_title').val();
         if (!taskTitle || taskTitle.trim().split(' ').length < 2) {
             alert('Task title must be 2 words or more.');
@@ -227,6 +244,7 @@ $(document).ready(function() {
         }
     });
 
+    // 日期选择逻辑
     $('#onDate').on('click', function() {
         $('#dateInput').show().attr("min", new Date().toISOString().split('T')[0]);
         $(this).addClass('active');
@@ -248,6 +266,7 @@ $(document).ready(function() {
         $('#beforeDate').removeClass('active');
     });
 
+    // 退出登录逻辑
     $('#logout-link').on('click', function(event) {
         event.preventDefault();
         if (confirm('Are you sure you want to logout?')) {
@@ -255,6 +274,16 @@ $(document).ready(function() {
         }
     });
 });
+
+
+
+
+ 
+
+
+
+
+
 
 
 
