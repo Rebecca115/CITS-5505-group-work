@@ -3,150 +3,378 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <title>Task Management</title>
-    <style>
-        .hidden {
-            display: none;
-        }
-    </style>
+    <title>Homepage</title>
+    <!-- Link to Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style_homepage.css">
 </head>
-<body>
-
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-    <div class="container">
-
-        <a class="navbar-brand" href="/">Task Management</a>
-
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav me-auto">
-                <li class="nav-item">
-
-                    <a class="nav-link" href="/post">Post Task</a>
-
-                </li>
-            </ul>
-            <form class="d-flex">
+    <script src="script.js"></script>
+        <!-- Page 1 -->
+        <div class="page">
+            <h1>Study Perth Assistant</h1>
+            <div class="input-group">
                 <input class="form-control me-2" type="search" placeholder="Search" id="searchInput">
-            </form>
-            <ul class="navbar-nav">
-                {% if current_user.is_authenticated %}
-                    <li class="nav-item">
-
-                        <a class="nav-link" href="/user/{{ current_user.id }}/mine">Mine</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/user/logout">Logout</a>
-                    </li>
-                {% else %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="/user/login">Login</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/user/register">Register</a>
-
-                    </li>
-                {% endif %}
-            </ul>
-        </div>
-    </div>
-</nav>
-
-<div class="container my-4">
-
-    {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            {% for category, message in messages %}
-                <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert"
-                     onclick="this.style.display='none';">
-                    {{ message }}
-
+                <button type="submit" class="btn btn-outline-success">Search</button>
+                <!-- <input type="text" class="form-control" id="search-input" placeholder="Search">
+                <div class="input-group-append">
+                    <button class="btn btn-primary" type="button" id="search-button">Search</button>
+                </div> -->
+            </div> 
+             <!-- search result -->
+    <div class="modal fade" id="searchModal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="searchModalLabel">Search Results</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
-            {% endfor %}
-        {% endif %}
-    {% endwith %}
-    <h3 class="my-3">Task Management</h3>
-
-
-    {% for task in page_data.items %}
-        <div class="card mb-3">
-            <div class="row g-0">
-                {% if task.img %}
-                    <div class="col-md-4">
-                        <img src="{{ url_for('static', filename='uploads/' + task.img) }}"
-                             class="img-fluid rounded-start" alt="Task Image">
-                    </div>
-                {% endif %}
-                <div class="col-md-8">
-                    <div class="card-body">
-                        <h5 class="card-title"><a href="{{ url_for('task.detail', t_id=task.id) }}">{{ task.title }}</a>
-                        </h5>
-
-
-                        <div class="normal">
-                            <p class="card-text">{{ task.content|safe|truncate(200) }}</p>
-                            <button class="btn btn-primary show-desc">Read More</button>
+                <div class="modal-body" id="search-results"></div>
+            </div>
+        </div>
+    </div>                      
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="image-box">
+                        <img src="/static/Picture1.png" alt="Image 1" class="img-fluid">
+                        <div class="text-box text-center">
+                            <a href="URL_HERE" class="no-decoration"><h2>Post questions</h2></a>
+                            <p>Post your first question.</p>
                         </div>
-                        <div class="additional hidden">
-                            <p class="card-text">{{ task.content|safe }}</p>
-                            <button class="btn btn-secondary hide-desc">Collapse</button>
-
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="image-box">
+                        <img src="/static/Picture2.png" alt="Image 2" class="img-fluid">
+                        <div class="text-box text-center">
+                            <a href="URL_HERE" class="no-decoration"><h2>Answer questions</h2></a>
+                            <p>Answer your first question.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="image-box">
+                        <img src="/static/Picture3.png" alt="Image 3" class="img-fluid">
+                        <div class="text-box text-center">
+                            <a href="URL_HERE" class="no-decoration"><h2>Profile</h2></a>
+                            <p>Get social with friends.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="image-box">
+                        <img src="/static/Picture4.png" alt="Image 4" class="img-fluid">
+                        <div class="text-box text-center">
+                            <a href="URL_HERE" class="no-decoration"><h2>Ranking</h2></a>
+                            <p>Take a look at everyone's contributions.</p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    {% endfor %}
-
-    <nav aria-label="Page navigation">
-        <ul class="pagination justify-content-center">
-            <li class="page-item{% if not page_data.has_prev %} disabled{% endif %}">
-                <a class="page-link"
-                   href="{{ url_for('task.index_page', page=page_data.page-1 if page_data.has_prev else page_data.page) }}">Previous</a>
-            </li>
-            <li class="page-item{% if not page_data.has_next %} disabled{% endif %}">
-                <a class="page-link" href="
-
-
-
-
-
-                        {{ url_for('task.index_page', page=page_data.page+1 if page_data.has_next else page_data.page) }}">Next</a>
-            </li>
-        </ul>
-    </nav>
+        <!-- Page 2 -->
+        <div class="page">
+                <div class="col-md-6 left-content">
+                    <img src="/static/Page2.png" alt="Image" class="img-fluid">
+                </div>
+                <div class="col-md-6 center">
+                    <h1>We believe in the power of helping each other</h1>
+                    <div class="text-box">
+                        <h2>Our original intention</h2>
+                        <p class="adjustable-text">Study Perth Assistant hopes to help international students in Perth solve various problems encountered in life and study through voluntary mutual assistance, help them make more friends, better integrate into the University and community, and live a successful life.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>    
+       <!-- Page 3 -->
+    <div class="page">
+            <h1>How to use? Just four simple steps</h1>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="text-box">
+                        <h2>Step 1</h2>
+                        <p>Create your Study Perth Assistant account.</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="text-box">
+                        <h2>Step 2</h2>
+                        <p>Post Task: Click the question post button to enter the posting page.
+                        <br>: Enter the Task list to browse various task information.</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="text-box">
+                        <h2>Step 3</h2>
+                        <p>Post Task: Fill in the relevant information according to the requirements of the task release page, add the task picture, and publish the task.
+                        <br>Accept Task: Decide whether to accept a task based on the information on the task list page.</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="text-box">
+                        <h2>Step 4</h2>
+                        <p>Let's give each other good reviews after the task is over.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Page 4 -->
+    <div class="page">
+                <div class="col-md-6 left-content">
+                    <h1>Post your tasks directly</h1>
+                    <img src="/static/Page 4.png" alt="Adjustable Image" class="img-fluid">
+                </div>
+                <div class="col-md-6 right-content">
+                    <div class="image-gallery">
+                        <div class="image-box" id="housing-task">
+                            <div class="text-box">
+                                <h2>Housing</h2>
+                            </div>
+                        </div>
+                        <div class="image-box" id="transportation-task">
+                            <div class="text-box">
+                                <h2>Transportation</h2>
+                            </div>
+                        </div>
+                        <div class="image-box" id="entertainment-task">
+                            <div class="text-box">
+                                <h2>Entertainment</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>            
+<!-- Page 5 -->
+<div class="page">
+    <div class="container">
+        <div class="content"></div>
+        <h1>Task Dashboard</h1>
+        <div class="row charts">
+            <!-- 第一个任务分类 -->
+            <div class="col-md-4 chart">
+                <h2 class="text-center chart-title">Scoreboard</h2>
+                <div id="top-users-chart" class="chart-container"></div>
+                <button class="btn btn-primary" id="top-users-btn">Show Top Users</button>
+            </div>
+            <!-- 第二个任务分类 -->
+            <div class="col-md-4 chart">
+                <h2 class="text-center chart-title">Total Tasks</h2>
+                <div id="total-tasks-chart" class="chart-container"></div>
+                <button class="btn btn-primary" id="total-tasks-btn">Show Total Tasks</button>
+            </div>
+            <!-- 第三个任务分类 -->
+            <div class="col-md-4 chart">
+                <h2 class="text-center chart-title">Task Types</h2>
+                <div id="task-types-chart" class="chart-container"></div>
+                <button class="btn btn-primary" id="task-types-btn">Show Task Types</button>
+            </div>
+        </div>
+    </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- 模态框 -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="myModalLabel">Modal Title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- 在这里渲染后端数据 -->
+                {% for user in users %}
+                    <p>{{ user.username }} - Answer count: {{ user.answer_count }}</p>
+                {% endfor %}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Page 6 -->
+<div class="page">
+    <div class="container">
+        <div class="content"></div>
+        <h1 class="text-center">Contact us</h1>
+            <div class="col-md-6 left-content">
+                <img src="/static/Page6.png" alt="Adjustable Image5" class="img-fluid">
+            </div>
+        </div>
+        <div class="center">
+            <h2 class="text-center">Get in touch</h2>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="text-box">
+                        <h2>Clare Li</h2>
+                        <p class="adjustable-text">23918117@student.uwa.edu.au</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="text-box">
+                        <h2>ziqi Chen</h2>
+                        <p class="adjustable-text">23856227@student.uwa.edu.au</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="text-box">
+                        <h2>yunzhi Chen</h2>
+                        <p class="adjustable-text">23766091@student.uwa.edu.au</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="text-box">
+                        <h2>Fudong Qin</h2>
+                        <p class="adjustable-text">23992836@student.uwa.edu.au</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="right-bottom text-center">
+            <a href="https://github.com/Rebecca115/CITS-5505-group-work.git">
+                <img src="/static/c1.png" alt="Icon 1" class="icon">
+            </a>
+            <a href="">
+                <img src="/static/c4.png" alt="Icon 4" class="icon">
+            </a>    
+        </div>
+    </div>
+</div>
+    <!-- Links to JS -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script>
-    $(function () {
-        $('.show-desc').click(function () {
 
-            $(this).parent('.normal').hide();
-            $(this).parent().next('.additional').removeClass('hidden');
-        });
+$(document).ready(function() {
+    // 隐藏模态框
+    $('#myModal').modal('hide');
 
-        $('.hide-desc').click(function () {
-            $(this).parent('.additional').addClass('hidden');
-            $(this).parent().prev('.normal').show();
-        });
-
-
-        $('#searchInput').on('keypress', function (e) {
-            if (e.which === 13) {
-                var query = $(this).val()
-                if (query) {
-                    window.location.href = `/search?query=${encodeURIComponent(query)}`;
-                }
-            }
-        });
+    // 点击按钮显示模态框
+    $('.btn-outline-success').click(function() {
+        $('myModal').modal('show');
     });
-</script>
+    // 监听搜索按钮的点击事件
+    $('#searchInput').on('keypress', function (e) {
+        if (e.which === 13) {
+            var query = $(this).val();
+            if (query) {
+                // 发送搜索请求到后端
+                fetch(`/search?query=${query}`)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        // 清空搜索结果列表
+                        $('#search-results').empty();
 
+                        // 如果返回结果为空，则显示相应消息
+                        if (data.length === 0) {
+                            $('#search-results').html("<p>No results found.</p>");
+                            return;
+                        }
+
+                        // 渲染搜索结果
+                        data.forEach(result => {
+                            if (result.type === "task") {
+                                // 创建任务结果项
+                                if (result.title && result.content) {
+                                    var taskItem = `
+                                        <div class="result-item">
+                                            <h4><a href="/task/${result.id}">${result.title}</a></h4>
+                                            <p>${result.content}</p>
+                                        </div>
+                                    `;
+                                    $('#search-results').append(taskItem);
+                                }
+                            } else if (result.type === "answer") {
+                                // 创建答案结果项
+                                if (result.content) {
+                                    var answerItem = `
+                                        <div class="result-item">
+                                            <p><a href="/task/${result.task_id}">Related Task</a></p>
+                                            <p>${result.content}</p>
+                                        </div>
+                                    `;
+                                    $('#search-results').append(answerItem);
+                                }
+                            }
+                        });
+
+                        // 显示搜索结果模态框
+                        $('#searchModal').modal('show');
+                    })
+                    .catch(error => {
+                        console.error("Error fetching search results:", error);
+                        $('#search-results').html("<p>An error occurred while fetching search results.</p>");
+                        $('#searchModal').modal('show');
+                    });
+            }
+        }
+    });
+});
+
+$(document).ready(function() {
+    // 隐藏模态框
+    $('#searchModal').modal('hide');
+
+    // 点击按钮显示模态框
+    $('.btn-outline-success').click(function() {
+        $('#searchModal').modal('show');
+    });
+            // 监听按钮点击事件
+            $('#top-users-btn').click(function() {
+                // 发送获取顶部用户请求到后端
+                fetch('/get_top_users')
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        // 渲染后端数据到模态框
+                        var modalBody = $('.modal-body');
+                        modalBody.empty(); // 清空原有内容
+                        data.users.forEach(user => {
+                            var userItem = `<p>${user.username} - Answer count: ${user.answer_count}</p>`;
+                            modalBody.append(userItem);
+                        });
+
+                        // 显示模态框
+                        $('#myModal').modal('show');
+                    })
+                    .catch(error => {
+                        console.error("Error fetching top users:", error);
+                    });
+            });
+        });
+
+
+
+
+
+
+
+
+//     $(document).ready(function() {
+//     // 隐藏模态框
+//     $('#searchModal').modal('hide');
+
+//     // 点击按钮显示模态框
+//     $('.btn-outline-success').click(function() {
+//         $('#searchModal').modal('show');
+//     });
+// });
+
+</script>
 </body>
 </html>
