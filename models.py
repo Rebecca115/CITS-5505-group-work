@@ -141,6 +141,7 @@ class Answer(db.Model):
             'user': self.user.username,
             'task': self.task.title,
             'like_count': self.like_count,
+            't_id': self.t_id,
         }
 
 

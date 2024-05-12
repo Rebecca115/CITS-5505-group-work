@@ -23,11 +23,11 @@ def login():
         else:
             # Login failed, show message
             flash('Login failed, please try again.', 'danger')
-            return render_template('login.html', form=form)
+            return render_template('login_old.html', form=form)
 
 
     # Render the login template on GET or failed form submission
-    return render_template('login.html', form=form)
+    return render_template('login_old.html', form=form)
 
 
 # Route for handling logout
@@ -239,3 +239,12 @@ def change_nickname(id):
 #         db.session.commit()
 #         return jsonify({'message': 'Profile picture uploaded successfully'}), 200
 #     return jsonify({'error': 'Invalid file type'}), 400
+
+@user.route('/<int:t_id>/answer', methods=['GET'])
+@login_required
+def task_answer(t_id):
+    """ Route to get answer by user. """
+    user_id = current_user.id
+    answers = Answer.query.filter_by(user_id=user_id).all()
+
+    return jsonify({'message': 'Success', 'data': [ans.to_dict() for ans in answers]}), 200
