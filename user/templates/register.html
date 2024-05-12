@@ -13,7 +13,7 @@
 
   
     <div id="central_from" class="col-md-6 offset-md-3" >
-        <div id="login">
+        <div id="register">
             <h1>Create  <br> New Account </h1>
             <a href="{{ url_for('user.login') }}">Already Registered? Login </a> <br> <br> 
             <form id="signup" class="login-form box-wrap" method="POST" enctype="multipart/form-data"
@@ -36,7 +36,7 @@
               
                 <label> Password </label> <br>
                 {{ form.password(class="form-control")}}
-                
+
                 <label> Confirm Password</label> <br>
                 {{ form.confirm_password(class="form-control") }}
                 <br> <br> 
