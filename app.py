@@ -14,7 +14,7 @@ from utils import initialize_database
 
 app = Flask(__name__, static_folder='static')
 app.config.from_object('conf.Config')
-
+app.config['MAIL_DEBUG'] = True
 ckeditor = CKEditor()
 ckeditor.init_app(app)
 
@@ -45,5 +45,5 @@ if not os.path.exists('instance/data.db'):
 
 if __name__ == '__main__':
 
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    app.run(host="0.0.0.0", port=8080, debug=True)
 

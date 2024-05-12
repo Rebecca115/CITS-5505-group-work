@@ -146,7 +146,7 @@ def forgot_password():
             return redirect(url_for('user.login'))
         else:
             flash('Password reset failed, please try again.', 'danger')
-    return render_template('forget_password.html', form=form)
+    return render_template('forgot_password.html', form=form)
 
 
 @user.route('/reset-password/<token>', methods=['GET', 'POST'])

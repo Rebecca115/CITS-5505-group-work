@@ -16,7 +16,7 @@ This Flask application is a simple yet functional Task and Answer platform. It a
 - Flask-SQLAlchemy
 - Flask-Login
 - Flask-WTF
-- SQLite (default database)
+-SQLite (default database)
 
 ## Project Structure
 

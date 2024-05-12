@@ -19,6 +19,5 @@ class Config(object):
     DEBUG = os.environ.get('FLASK_DEBUG')
 
 
-
     # File upload path
     MEDIA_PATH = os.path.join(os.path.dirname(__file__), 'static/uploads')
