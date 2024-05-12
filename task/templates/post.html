@@ -5,27 +5,55 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Post Task</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Combo&family=Lobster&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="/static/custom_styles.css">
+<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+
+<!-- <script src="https://cdn.ckeditor.com/4.16.0/standard/ckeditor.js"></script> -->
 </head>
 <body>
+
+
+    <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true" data-backdrop="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="searchModalLabel">Search Results</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="search-results">
+            
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+    </div>
+          
 
     <div class="container-fluid">
         <div class="row">
             <div class="col-12 fixed-top bg-light">
                 <div class="top-bar d-flex justify-content-between align-items-center p-2">
                     
+                    <div class="col-md-4">
                         <input class="form-control me-2" type="search" placeholder="Search" id="searchInput">
-                        <button type="submit" class="btn btn-outline-success">Search</button> 
-
-                    <div class="title">Post Your Task</div>
+                    </div>
+                    
+                    <div class="col-md-8">
+                        <div class="title">Post Your Task</div>
+                    </div>
+                    
                 </div>
             </div>
         </div>
     </div>
+    
     
 
 
@@ -34,18 +62,19 @@
             <div class="sidebar sticky-top">
                 <br>
                 <br>
-                <div id="sidebar_home"><a href="homepage.html">Home</a></div>
+                <div id="sidebar_home"><a href="{{ url_for('task.index_page') }}">Home</a></div>
                 <br>
                 {% if current_user.is_authenticated %}
                     <a href="{{ url_for('user.profile', id=current_user.id) }}"><img src="{{ url_for('static', filename='profile_icon.png') }}" alt="Profile"> Profile</a>
                     <br>
-       
-
-                
+                    <a href="{{ url_for('task.task_list') }}"><img src="{{ url_for('static', filename='accept_task_icon.png') }}" alt="Accept Task"> Accept Task</a>
                     <br>
                     <a href="{{ url_for('task.post') }}"><img src="{{ url_for('static', filename='post_task_icon.png') }}" alt="Post Task"> Post Task</a>
                     <br>
-                    <img src="{{ url_for('static', filename='logout_icon.png') }}" alt="Logout"> Logout</a>
+                    <a id="logout-link" href="{{ url_for('user.logout') }}">
+                        <img src="{{ url_for('static', filename='logout_icon.png') }}" alt="Logout">
+                        Logout
+                    </a>
                 {% else %}
                     <a href="{{ url_for('user.login') }}"><img src="{{ url_for('static', filename='search_icon.png') }}" alt="Login"> Login</a>
                     <br>
@@ -53,7 +82,6 @@
                 {% endif %}
 
                 <br>
-    
                 <br>
                 <p style="text-align: center; font-weight: bold;">v.3.0.1</p>
             </div>
@@ -67,216 +95,176 @@
                     <p>Feel free to post a task and to gain wonderful ideas!</p>
                     <h2>Let's start with the basics:</h2>
                 </div>
-
                 {% from 'form_errors.html' import form_field_errors %}
-                <div class="task-details">
-                    <form method="post" enctype="multipart/form-data" action="{{ url_for('task.post') }}">
-                        {{ form.csrf_token }}
-                        <div class="date">
-                            <label for="when">When do you need this done?</label>
-                            <div>
-                                <button type="button" id="onDate">On date</button>
-                                <button type="button" id="beforeDate">Before date</button>
-                                <button type="button" id="flexible">I'm flexible</button>
+                <div class="container my-5">
+                    <div class="row justify-content-center">
+                        <div class="col-md-8">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-title">Post Task</h3>
+                                </div>
+                                <div class="card-body">
+                                    <form method="post" enctype="multipart/form-data" action="{{ url_for('task.post') }}">
+                                        {{ form.csrf_token }}
+
+                                        <div class="mb-3">
+                                            <label for="when">When do you need this done?</label>
+                                            <div class="d-flex">
+                                                <button type="button" id="onDate" class="btn btn-outline-primary me-2">On date</button>
+                                                <button type="button" id="beforeDate" class="btn btn-outline-primary me-2">Before date</button>
+                                                <button type="button" id="flexible" class="btn btn-outline-primary">I'm flexible</button>
+                                            </div>
+                                            <input type="date" id="dateInput" class="form-control mt-2" style="display:none;"> 
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="title" class="form-label">Task Title</label>
+                                            {{ form.title(class="form-control") }}
+                                            {# {{ form_field_errors(form.title.errors) }} #}
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="content" class="form-label">Task Details</label>
+                                            {{ form.content(class="form-control") }}
+                                            {# {{ form_field_errors(form.content.errors) }} #}
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="img" class="form-label">Upload Image (1 pic optional)</label>
+                                            {{ form.img(class="form-control") }}
+                                            <input type="file" id="upload" class="form-control mt-2" style="display:none;">
+                                            <label for="upload" class="btn btn-outline-secondary mt-2">Upload Photos</label> 
+                                            {# {{ form_field_errors(form.img.errors) }} #}
+                                        </div>
+
+                                        {% if current_user.is_authenticated %}
+                                            <button class="btn btn-primary button" id="saveButton" id="saveButton">Save and submit later</button>
+                                            <button class="btn btn-success button" id="submitButton">Submit this task</button>
+                                        {% else %}
+                                            <p>Please <a href="/user/login">login</a> to submit a task.</p>
+                                        {% endif %}
+                                    </form>
+                                </div>
                             </div>
-                            <input type="date" id="dateInput" style="display:none;"> 
                         </div>
-                        
-                        <div>
-                            <br>
-                            <label for="task_title">Task Title:</label>
-                            {{ form.title(class="form-control") }}
-                            {# {{ form_field_errors(form.title.errors) }} #}
-                            <br><br>
-
-                            <label for="location">Location:</label>
-                            <input type="text" id="location" name="location">
-                            <br><br>
-
-                            <label for="task_details">Task Details:</label>
-                            {{ form.content(class="form-control") }}
-                            {{ ckeditor.load() }}
-                            {{ ckeditor.config(name='content') }}
-                            {# {{ form_field_errors(form.content.errors) }} #}
-                        </div>
-                        
-                        <div class="title-bar">
-                            <div id="addphoto"><p>Add a photo here (1 pic optional): </p></div>
-                            <br><br>
-                            <div class="mb-3">
-                                <label for="img" class="form-label">Upload Image</label>
-                                {{ form.img(class="form-control") }}
-    {#                            {{ form_field_errors(form.img.errors) }}#}
-                            </div>
-
-                            <input type="file" id="upload" multiple style="display: none;">
-                        
-                            <label for="upload" class="button">Upload Photos</label> 
-                        </div>
-                        
-                        
-                        <br>
-                        {% if current_user.is_authenticated %}
-                            <button class="button" id="saveButton">Save and submit later</button>
-                            <button class="button" id="submitButton">Submit this task</button>
-                        {% else %}
-                            <p>Please <a href="/user/login">login</a> to submit a task.</p>
-                        {% endif %}
-
-                    </form>
+                    </div>
                 </div>
-
             </div>
         </div>
+    </div>
 
-</div>
+
+                
 
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+
 <script>
 
-$(document).ready(function() {
-    $('#searchInput').on('keypress', function (e) {
-            if (e.which === 13) {
-                var query = $(this).val()
-                if (query) {
-                    window.location.href = '/task/templates/profile.html';
-                }
+    // Handle the search input's keypress event
+    let searchInput = document.getElementById('searchInput');
+    searchInput.addEventListener('keypress', function(e) {
+        if (e.which === 13) {
+            let query = searchInput.value;
+            if (query) {
+                fetch(`/search?query=${query}`)
+                    .then(response => {
+                        if (!response.ok) throw new Error('Network response was not ok');
+                        return response.json();
+                    })
+                    .then(data => {
+                        let searchResults = document.getElementById('search-results');
+                        searchResults.innerHTML = '';
+                        if (data.length === 0) {
+                            searchResults.innerHTML = "<p>No results found.</p>";
+                        } else {
+                            data.forEach(result => {
+                                let item = `
+                                    <div class="result-item">
+                                        <h4><a href="#">${result.title}</a></h4>
+                                        <p>${result.content}</p>
+                                    </div>
+                                `;
+                                searchResults.innerHTML += item;
+                            });
+                        }
+                        $('#searchModal').modal('show');  // Bootstrap modal show in jQuery way
+                    })
+                    .catch(error => {
+                        console.error("Error fetching search results:", error);
+                        document.getElementById('search-results').innerHTML = "<p>An error occurred while fetching search results.</p>";
+                        $('#searchModal').modal('show');  // Bootstrap modal show in jQuery way
+                    });
+            }
+        }
+    });
+
+    $(document).ready(function() {
+        // 实时验证任务标题
+        $('#title').on('input', function() {
+            var title = $(this).val();
+            if (title.length < 3 || title.length > 50) {
+                $('#titleFeedback').text('Title must be between 3 and 50 characters');
+            } else {
+                $('#titleFeedback').text('');
             }
         });
 
-    // 文件上传逻辑
-    $('#upload').on('change', function(event) {
-        const files = event.target.files;
-        if (files.length > 1) {
-            alert('You can only upload one photo.');
-            return;
+        // 实时验证任务内容
+        if (typeof CKEDITOR !== 'undefined' && CKEDITOR.instances.content) {
+            CKEDITOR.instances.content.on('change', function() {
+                var contentData = CKEDITOR.instances.content.getData();
+                if (contentData.length < 5) {
+                    $('#contentFeedback').text('Content must be at least 5 characters');
+                } else {
+                    $('#contentFeedback').text('');
+                }
+            });
         }
 
-        const displayContainer = $('#file-display');
-        displayContainer.html('');
+        // 日期选择处理
+        $('#onDate, #beforeDate, #flexible').on('click', function() {
+            $('#onDate, #beforeDate, #flexible').removeClass('btn-primary').addClass('btn-outline-primary');
+            $(this).removeClass('btn-outline-primary').addClass('btn-primary');
+            var selectedId = $(this).attr('id');
+            if (selectedId === 'onDate' || selectedId === 'beforeDate') {
+                $('#dateInput').show();
+            } else {
+                $('#dateInput').hide();
+            }
+        });
 
-        Array.from(files).forEach(file => {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const img = $('<img>').attr('src', e.target.result)
-                                      .css({ width: '100px', margin: '10px' });
-                displayContainer.append(img);
-            };
-            reader.readAsDataURL(file);
+        // 图片上传预览
+        $('#upload').on('change', function() {
+            if (this.files && this.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    var imgPreview = $('<img>').attr('src', e.target.result).css({ width: '100px', height: 'auto' });
+                    $('#imgPreview').html(imgPreview);
+                };
+                reader.readAsDataURL(this.files[0]);
+            }
+        });
+
+        // 表单提交前的最终验证
+        $('form').on('submit', function(e) {
+            // 确保标题和内容都满足条件
+            var title = $('#title').val();
+            var content = CKEDITOR.instances.content.getData();
+            if (title.length < 3 || title.length > 50 || content.length < 5) {
+                e.preventDefault();  // 阻止表单提交
+                alert('Please correct the errors before submitting.');
+            }
         });
     });
 
-    // 保存表单数据至本地存储
-    $('#saveButton').on('click', function(event) {
-        event.preventDefault();
-        localStorage.setItem('formData', JSON.stringify($('form').serializeArray()));
-        alert('Your changes have been saved.');
-    });
-
-    // 加载本地存储的表单数据
-    if (localStorage.getItem('formData')) {
-        const formData = JSON.parse(localStorage.getItem('formData'));
-        formData.forEach(item => {
-            $(`[name="${item.name}"]`).val(item.value);
-        });
-    }
-
-    // 提交表单逻辑
-    $('#submitButton').on('click', function() {
-        const taskTitle = $('#task_title').val();
-        if (!taskTitle || taskTitle.trim().split(' ').length < 2) {
-            alert('Task title must be 2 words or more.');
-            return;
-        }
-
-        const location = $('#location').val();
-        if (!location) {
-            alert('You must enter a location before submitting.');
-            return;
-        }
-
-        const taskDetails = $('#task_details').val();
-        if (!taskDetails || taskDetails.trim().split(' ').length < 5) {
-            alert('You must enter at least 5 words in task details before submitting.');
-            return;
-        }
-
-        const dateInput = $('#dateInput');
-        const onDate = $('#onDate');
-        const beforeDate = $('#beforeDate');
-        const flexible = $('#flexible');
-        if (!onDate.hasClass('active') && !beforeDate.hasClass('active') && !flexible.hasClass('active')) {
-            alert('You must select a date option before submitting.');
-            return;
-        }
-
-        if ((onDate.hasClass('active') || beforeDate.hasClass('active')) && !dateInput.val()) {
-            alert('You must select a date before submitting.');
-            return;
-        }
-
-        if (confirm('Are you sure you want to submit this task?')) {
-            alert('Task submitted successfully.');
-            $('#task_title').val('');
-            $('#location').val('');
-            $('#task_details').val('');
-            $('#dateInput').val('');
-            $('#upload').val('');
-            $('#file-display').html('');
-            $('#onDate').removeClass('active');
-            $('#beforeDate').removeClass('active');
-            $('#flexible').removeClass('active');
-        } else {
-            alert('Submission cancelled.');
-        }
-    });
-
-    // 日期选择逻辑
-    $('#onDate').on('click', function() {
-        $('#dateInput').show().attr("min", new Date().toISOString().split('T')[0]);
-        $(this).addClass('active');
-        $('#beforeDate').removeClass('active');
-        $('#flexible').removeClass('active');
-    });
-
-    $('#beforeDate').on('click', function() {
-        $('#dateInput').show().attr("min", new Date().toISOString().split('T')[0]);
-        $(this).addClass('active');
-        $('#onDate').removeClass('active');
-        $('#flexible').removeClass('active');
-    });
-
-    $('#flexible').on('click', function() {
-        $('#dateInput').hide();
-        $(this).addClass('active');
-        $('#onDate').removeClass('active');
-        $('#beforeDate').removeClass('active');
-    });
-
-    // 退出登录逻辑
-    $('#logout-link').on('click', function(event) {
-        event.preventDefault();
-        if (confirm('Are you sure you want to logout?')) {
-            window.location.href = 'homepage.html';
-        }
-    });
-});
-
-
-
-
- 
-
-
-
-
-
-
-
+    
+</script>
 
 </script>
-    
 </body>
 </html>
