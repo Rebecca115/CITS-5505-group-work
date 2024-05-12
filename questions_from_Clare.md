@@ -235,3 +235,58 @@ def my_tasks(id):
 
 
 
+
+
+
+
+                {% if tasks %}
+                {% for task in tasks %}
+                    <div class="row task-history">
+                        <div class="col-md-12">
+                            <div class="info-bar mb-3">
+                                <div class="info" id="task-info">
+                                    <p class="task-title">You accepted: {{ task.title }}</p>
+                                </div>
+                                <div class="task-detail" style="display: block;">
+                                    <p>{{ task.content|safe }}</p> 
+                                    <button class="button" onclick="toggleTaskDetail(this)">Read More</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="col-md-12">
+                    <p>You have no task yet.</p>
+                </div>
+            {% endif %}
+
+
+            # Route for handling logout
+@user.route('/logout')
+@login_required
+def logout():
+    """Route for logging out the user"""
+    logout_user()  # Logout the current user
+    flash('You have been logged out.', 'success')
+    return redirect(url_for('task.index_page'))
+
+
+
+
+    @quest.route('/task/list')
+def task_list():
+    """
+    Route to list tasks in a paginated manner and return the HTML page.
+    Tasks are sorted by their creation time in descending order.
+    """
+    try:
+        per_page = 5  # Define the number of items per page.
+        page = request.args.get('page', 1, type=int)
+        page_data = Task.query.order_by(desc(Task.created_at)).paginate(page=page, per_page=per_page)
+        # 直接渲染 accept_task.html 模板并返回
+        return render_template('accept_task.html', page_data=page_data)
+    
+    except Exception as e:
+        # 如果出现异常，显示一个错误信息页面
+        return render_template('error.html', error=str(e)), 400

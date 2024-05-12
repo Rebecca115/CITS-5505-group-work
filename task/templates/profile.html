@@ -98,7 +98,7 @@
                     <div id="sidebar_home"><a href="{{ url_for('task.index_page') }}">Home</a></div>
                     <br>
                     {% if current_user.is_authenticated %}
-                        <a href="{{ url_for('user.mine', id=current_user.id) }}"><img src="{{ url_for('static', filename='profile_icon.png') }}" alt="Profile"> Profile</a>
+                        <a href="{{ url_for('user.profile', id=current_user.id) }}"><img src="{{ url_for('static', filename='profile_icon.png') }}" alt="Profile"> Profile</a>
                         <br>
                         <a href="{{ url_for('task.task_list') }}"><img src="{{ url_for('static', filename='accept_task_icon.png') }}" alt="Accept Task"> Accept Task</a>
                         <br>
@@ -124,14 +124,14 @@
                 <div class="row user-info">
                     <div class="col-md-3 d-flex flex-column align-items-center">
                         <div class="rounded-circle">
-                            <!-- 调取用户头像 -->
+                        
                             <img src="{{ url_for('static', filename='uploads/' + user.avatar if user.avatar else 'uploads/default_avatar.png') }}" alt="User photo" class="img-fluid">
                         </div>
                         <h3>{{ user.username }}</h3>
                     </div>
                     <div class="col-md-9">
                         <div class="info-bar">
-                            <!-- 展示用户个人信息 -->
+                            
                             <div id="personal-info"><h2>Your Profile</h2></div>
                             <p>Age: {{ user.age }}</p>
                             <p>Gender: {{ user.gender }}</p>
@@ -144,51 +144,81 @@
                     </div>
                 </div>
 
-                
-                <!-- 展示该用户由新到旧的发布/接受 任务的task title 以及 task detail -->
-                {% if tasks %}
-                    {% for task in tasks %}
-                        <div class="row task-history">
-                            <div class="col-md-12">
-                                <div class="info-bar mb-3">
-                                    <div class="info" id="task-info">
-                                        <p class="task-title">You posted: {{ task.title }}</p>
-                                    </div>
-                                    <div class="task-detail" style="display: block;">
-                                        <p>{{ task.content|safe }}</p> 
-                                        <button class="button" onclick="toggleTaskDetail(this)">Read More</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    {% endfor %}
-                {% else %}
-                    <div class="col-md-12">
-                        <p>You have no task yet.</p>
-                    </div>
-                {% endif %}
-
+                <br>
+                <br>
+                <br>
+                <br>
+               
+                <!-- Display Posted Tasks -->
                 {% if tasks %}
                 {% for task in tasks %}
                     <div class="row task-history">
                         <div class="col-md-12">
                             <div class="info-bar mb-3">
                                 <div class="info" id="task-info">
-                                    <p class="task-title">You accepted: {{ task.title }}</p>
+                                    <p class="task-title">You posted: {{ task.title }}</p>
                                 </div>
                                 <div class="task-detail" style="display: block;">
                                     <p>{{ task.content|safe }}</p> 
+                                    
+                                    
                                     <button class="button" onclick="toggleTaskDetail(this)">Read More</button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 {% endfor %}
-            {% else %}
-                <div class="col-md-12">
-                    <p>You have no task yet.</p>
-                </div>
-            {% endif %}
+                {% else %}
+                    <div class="info" id="task-info">
+                        <p class="task-title">You posted:</p>
+                    </div>
+                    <div class="row task-history">
+                        <div class="col-md-12">
+                            <div class="info-bar mb-3">
+                                <div class="task-detail" style="display: block;">
+                                    <p>You have no posted tasks yet.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+        
+                
+
+                <!-- Display Accepted Tasks (For which the user has posted answers) -->
+                {% if answers %}
+                {% for answer in answers %}
+                    <div class="row task-history">
+                        <div class="col-md-12">
+                            <div class="info-bar mb-3">
+                                <div class="info" id="task-info">
+                                    <p class="task-title">You accepted: {{ answer.task.title }}</p>
+                                </div>
+                                <div class="task-detail" style="display: block;">
+                                    <p>{{ answer.task.content|safe }}</p> 
+                                    <button class="button" onclick="toggleTaskDetail(this)">Read More</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+                {% else %}
+                    <div class="info" id="task-info">
+                        <p class="task-title">You accepted:</p>
+                    </div>
+                    <div class="row task-history">
+                        <div class="col-md-12">
+                            <div class="info-bar mb-3">
+                                <div class="task-detail" style="display: block;">
+                                    <p>You have no accepted tasks yet.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            
+
+
 
 
             </div>
@@ -243,24 +273,24 @@
     });
 
     $('#edit-form form').on('submit', function(e) {
-    e.preventDefault();  // 阻止表单默认提交行为
+    e.preventDefault();  
 
     // 创建 FormData 对象以支持文件上传
     var formData = new FormData(this);
 
     $.ajax({
-        url: '/update_user_profile',  // 这里是后端处理更新请求的 URL
+        url: '/update_user_profile',  
         type: 'POST',
-        processData: false,  // 重要：不要处理发送的数据
-        contentType: false,  // 重要：不要设置内容类型
-        data: formData,
+        processData: false,  
+        contentType: false,  
+        data: formData, 
         success: function(response) {
             // 这里是成功更新后的处理，更新页面上的显示信息
             $('#edit-form').hide();
-            $('h3').text(response.username);  // 更新用户名
-            $('#personal-info p:eq(0)').text('Age: ' + response.age);  // 更新年龄
-            $('#personal-info p:eq(1)').text('Gender: ' + response.gender);  // 更新性别
-            $('#avatar-preview').attr('src', '/static/uploads/' + response.avatar);  // 更新头像预览
+            $('h3').text(response.username);  
+            $('#personal-info p:eq(0)').text('Age: ' + response.age);  
+            $('#personal-info p:eq(1)').text('Gender: ' + response.gender); 
+            $('#avatar-preview').attr('src', '/static/uploads/' + response.avatar);  
         },
         error: function() {
             alert("更新失败，请稍后重试");
@@ -272,13 +302,13 @@
     $('#cancel-button').on('click', function() {
         $('#edit-form').hide();
         $('#change-password-button').show();  
-        $('#edit-button').show();  // 添加这行来确保 Edit Profile 按钮也被显示
+        $('#edit-button').show();  
     });
 
     $('#cancel-change-password-button').on('click', function() {
         $('#change-password-form').hide();
         $('#change-password-button').show();
-        $('#edit-button').show();  // 同样，确保 Edit Profile 按钮也被显示
+        $('#edit-button').show();  
     });
 
 
