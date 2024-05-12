@@ -18,7 +18,7 @@ def index_page():
     page = request.args.get('page', 1, type=int)
     page_data = Task.query.order_by(desc(Task.created_at)).paginate(page=page, per_page=per_page)
 
-    return render_template('index.html', page_data=page_data)
+    return render_template('index_old.html', page_data=page_data)
 
 
 @quest.route('/post', methods=['GET', 'POST'])
@@ -35,7 +35,7 @@ def post():
                 return redirect(url_for('task.index_page'))
         except Exception as e:
             flash('Error posting Quest: {}'.format(e), 'danger')
-    return render_template('post.html', form=form)
+    return render_template('post_old.html', form=form)
 
 
 @quest.route('/task/list')
@@ -48,7 +48,7 @@ def task_list():
         per_page = 5  # Define the number of items per page.
         page = request.args.get('page', 1, type=int)
         page_data = Task.query.order_by(desc(Task.created_at)).paginate(page=page, per_page=per_page)
-        data = render_template('qa_list.html', page_data=page_data)
+        data = render_template('qa_list_old.html', page_data=page_data)
         return jsonify(code=0, data=data)
     except Exception as e:
         return jsonify(code=1, data=str(e)), 400
@@ -81,7 +81,7 @@ def detail(t_id):
         except Exception as e:
             flash('Error posting answer: {}'.format(e), 'danger')
 
-    return render_template('detail.html',
+    return render_template('detail_old.html',
                            task=task,
                            answers=answers,
                            form=form)
