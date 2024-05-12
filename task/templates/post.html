@@ -17,9 +17,10 @@
         <div class="row">
             <div class="col-12 fixed-top bg-light">
                 <div class="top-bar d-flex justify-content-between align-items-center p-2">
-                    <form class="d-flex" id="searchForm">
+                    
                         <input class="form-control me-2" type="search" placeholder="Search" id="searchInput">
-                        <button type="submit" class="btn btn-outline-success">Search</button>           
+                        <button type="submit" class="btn btn-outline-success">Search</button> 
+
                     <div class="title">Post Your Task</div>
                 </div>
             </div>
@@ -36,24 +37,23 @@
                 <div id="sidebar_home"><a href="homepage.html">Home</a></div>
                 <br>
                 {% if current_user.is_authenticated %}
-                    <a href="/task/templates/profile.html"><img src="/static/profile_icon.png" alt="Profile"> Profile</a>
+                    <a href="{{ url_for('user.profile', id=current_user.id) }}"><img src="{{ url_for('static', filename='profile_icon.png') }}" alt="Profile"> Profile</a>
                     <br>
-                    <a href="/task/templates/accept_task.html"><img src="/static/accept_task_icon.png" alt="Accept Task"> Accept Task</a>
+       
+
+                
                     <br>
-                    <a href="/task/templates/post.html"><img src="/static/post_task_icon.png" alt="Post Task"> Post Task</a>
+                    <a href="{{ url_for('task.post') }}"><img src="{{ url_for('static', filename='post_task_icon.png') }}" alt="Post Task"> Post Task</a>
                     <br>
-                    <a href="user/logout"><img src="/static/logout_icon.png" alt="Logout"> Logout</a>
+                    <img src="{{ url_for('static', filename='logout_icon.png') }}" alt="Logout"> Logout</a>
                 {% else %}
-                    <a href="user/login"><img src="/static/search_icon.png" alt="Login"> Login</a>
+                    <a href="{{ url_for('user.login') }}"><img src="{{ url_for('static', filename='search_icon.png') }}" alt="Login"> Login</a>
                     <br>
-                    <a href="user/register"><img src="/static/profile_icon.png" alt="Register"> Register</a>
+                    <a href="{{ url_for('user.register') }}"><img src="{{ url_for('static', filename='profile_icon.png') }}" alt="Register"> Register</a>
                 {% endif %}
 
                 <br>
-                <!-- <a href="#"><img src="/static/location_icon.png" alt="Location"> Location</a>
-                <br>
-                <a href="#"><img src="/static/settings_icon.png" alt="Settings"> Settings</a>
-                <br> -->
+    
                 <br>
                 <p style="text-align: center; font-weight: bold;">v.3.0.1</p>
             </div>
@@ -103,11 +103,11 @@
                         <div class="title-bar">
                             <div id="addphoto"><p>Add a photo here (1 pic optional): </p></div>
                             <br><br>
-                        
-                            <div id="file-display" class="d-flex flex-wrap"></div>
-                        
-                            {{ form.img(class="form-control") }}
-                            {# {{ form_field_errors(form.img.errors) }} #}
+                            <div class="mb-3">
+                                <label for="img" class="form-label">Upload Image</label>
+                                {{ form.img(class="form-control") }}
+    {#                            {{ form_field_errors(form.img.errors) }}#}
+                            </div>
 
                             <input type="file" id="upload" multiple style="display: none;">
                         
@@ -145,17 +145,6 @@ $(document).ready(function() {
                 }
             }
         });
-
-
-    // $('#searchInput').on('keypress', function (e) {
-    //     if (e.which === 13) {
-    //         e.preventDefault();  // 阻止表单的默认提交行为
-    //         var query = $(this).val().trim();
-    //         if (query) {
-    //             window.location.href = '/task/templates/profile.html';  // 测试跳转
-    //         }
-    //     }
-    // });
 
     // 文件上传逻辑
     $('#upload').on('change', function(event) {

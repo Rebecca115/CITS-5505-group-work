@@ -51,8 +51,8 @@ $('#searchForm').on('submit', function(e) {
     });
 ```
 
-## side bar跳转链接的url_for写法，目前本地跳转不了，正常吗？
-### 似乎后端要改route吗？？
+<!-- ## side bar跳转链接的url_for写法，目前本地跳转不了，正常吗？
+### 似乎后端要改route吗？？ -->
 
 
 
