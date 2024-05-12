@@ -67,14 +67,14 @@ def register():
     return render_template('register.html', form=form)
 
 
-@user.route('/<int:id>/mine')
+@user.route('profile/<int:id>/')
 @login_required
-def mine(id):
+def profile(id):
     """Route for displaying user profile information"""
     # Fetch user by ID
     user = User.query.filter_by(id=id).first_or_404(description='User not found.')
     # Render the user profile template
-    return render_template('mine.html', user=user)
+    return render_template('profile.html', user=user)
 
 
 @user.route('/<int:id>/tasks')
