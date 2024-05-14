@@ -247,4 +247,6 @@ def task_answer(t_id):
     user_id = current_user.id
     answers = Answer.query.filter_by(user_id=user_id).all()
 
+    if not answers:
+        return jsonify({'message': 'No answers found'}), 404
     return jsonify({'message': 'Success', 'data': [ans.to_dict() for ans in answers]}), 200

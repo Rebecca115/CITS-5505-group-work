@@ -10,7 +10,6 @@ quest = Blueprint('task', __name__,
                   static_folder='../static')
 
 
-
 @quest.route('/')
 def index_page():
     """ Home page route, display a list of paginated tasks. """
@@ -19,6 +18,11 @@ def index_page():
     page_data = Task.query.order_by(desc(Task.created_at)).paginate(page=page, per_page=per_page)
 
     return render_template('index.html', page_data=page_data)
+
+
+@quest.route('/accept')
+def accept():
+    return render_template('accept_task.html')
 
 
 @quest.route('/post', methods=['GET', 'POST'])
@@ -52,6 +56,7 @@ def task_list():
         return jsonify(code=0, data=data)
     except Exception as e:
         return jsonify(code=1, data=str(e)), 400
+
 
 @quest.route('/detail/<int:t_id>', methods=['GET', 'POST'])
 def detail(t_id):
@@ -137,7 +142,7 @@ def answer_dislike(answer_id):
         db.session.commit()
 
         # Fetch the new like count
-        like_count = Answer.query.get(answer_id).like_count # Assuming like_count is a field
+        like_count = Answer.query.get(answer_id).like_count  # Assuming like_count is a field
         print(f"after: {like_count}")
         return jsonify({'message': 'Success', 'like_count': like_count}), 200
     except Exception as e:
@@ -331,6 +336,3 @@ def task_by_category(category):
     """ Route to list tasks by category. """
     tasks = Task.query.filter_by(category=category).all()
     return jsonify({'message': 'Success', 'data': [q.to_dict() for q in tasks]}), 200
-
-
-
