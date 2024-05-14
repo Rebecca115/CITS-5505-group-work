@@ -275,7 +275,7 @@
     $('#edit-form form').on('submit', function(e) {
     e.preventDefault();  
 
-    // 创建 FormData 对象以支持文件上传
+
     var formData = new FormData(this);
 
     $.ajax({
@@ -285,7 +285,7 @@
         contentType: false,  
         data: formData, 
         success: function(response) {
-            // 这里是成功更新后的处理，更新页面上的显示信息
+           
             $('#edit-form').hide();
             $('h3').text(response.username);  
             $('#personal-info p:eq(0)').text('Age: ' + response.age);  
@@ -293,7 +293,7 @@
             $('#avatar-preview').attr('src', '/static/uploads/' + response.avatar);  
         },
         error: function() {
-            alert("更新失败，请稍后重试");
+            alert("You failded to update your profile. Please try again.");
         }
     });
 });

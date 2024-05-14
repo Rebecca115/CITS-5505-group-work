@@ -49,8 +49,7 @@
                     <div class="task-detail" style="display: block;">
                         <p>{{ task.content|safe }}</p> 
                     </div>
-                   
-                    <p id="taskWhen">{{ task.expectedtime.strftime('%Y-%m-%d') }}</p>
+                
 
 
                     {% if task.img %}
@@ -68,7 +67,7 @@
                         <textarea class="form-control" id="answer" rows="3"></textarea>
                     </div>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Accept Task</button>
+                    <button type="submit" class="btn btn-primary">OK</button>
                 </form>
             </div>
         </div>
@@ -106,7 +105,7 @@
                 {% if current_user.is_authenticated %}
                         <a href="{{ url_for('user.profile', id=current_user.id) }}"><img src="{{ url_for('static', filename='profile_icon.png') }}" alt="Profile"> Profile</a>
                         <br>
-                        <a href="{{ url_for('task.task_list') }}"><img src="{{ url_for('static', filename='accept_task_icon.png') }}" alt="Accept Task"> Accept Task</a>
+                        <a href="/task/templates/accept_task.html"><img src="{{ url_for('static', filename='accept_task_icon.png') }}" alt="Accept Task"> Accept Task</a>
 
                         <br>
                         <a href="{{ url_for('task.post') }}"><img src="{{ url_for('static', filename='post_task_icon.png') }}" alt="Post Task"> Post Task</a>
