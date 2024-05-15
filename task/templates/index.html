@@ -53,7 +53,8 @@
                     <div class="image-box">
                         <img src="/static/Picture3.png" alt="Image 3" class="img-fluid">
                         <div class="text-box text-center">
-                            <a href="URL_HERE" class="no-decoration"><h2>Profile</h2></a>
+                            <a href="URL_HERE" class="no-decoration">class="no-decoration"><h2>Profile</h2></a>
+                           
                             <p>Get social with friends.</p>
                         </div>
                     </div>
@@ -288,77 +289,42 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script>
 
-$(document).ready(function() {
-    // 隐藏模态框
-    $('#myModal').modal('hide');
-
-    // 点击按钮显示模态框
-    $('.btn-outline-success').click(function() {
-        $('myModal').modal('show');
-    });
-    // 监听搜索按钮的点击事件
-    $('#searchInput').on('keypress', function (e) {
-        if (e.which === 13) {
-            var query = $(this).val();
-            if (query) {
-                // 发送搜索请求到后端
-                fetch(`/search?query=${query}`)
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Network response was not ok');
+document.getElementById('searchInput').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {  // 检查是否按下Enter键
+        let query = e.target.value;  // 获取输入框中的查询内容
+        if (query) {  // 确保查询内容不为空
+            let xhr = new XMLHttpRequest();  // 创建一个新的XMLHttpRequest对象
+            xhr.open('GET', `/search?query=${encodeURIComponent(query)}`, true);  // 配置GET请求，包含查询参数
+            xhr.onreadystatechange = function() {  // 定义回调函数，处理服务器响应
+                if (xhr.readyState === 4) {  // 确保请求完成
+                    let searchResults = document.getElementById('search-results');
+                    if (xhr.status === 200) {  // 请求成功
+                        let data = JSON.parse(xhr.responseText);  // 解析JSON响应数据
+                        searchResults.innerHTML = '';
+                        if (data.length === 0) {  // 没有找到结果
+                            searchResults.innerHTML = "<p>No results found.</p >";
+                        } else {  // 显示搜索结果
+                            data.forEach(result => {
+                                let item = `
+                                    <div class="result-item">
+                                        <h4><a href=" ">${result.title}</a ></h4>
+                                        <p>${result.content}</p >
+                                    </div>
+                                `;
+                                searchResults.innerHTML += item;
+                            });
                         }
-                        return response.json();
-                    })
-                    .then(data => {
-                        // 清空搜索结果列表
-                        $('#search-results').empty();
-
-                        // 如果返回结果为空，则显示相应消息
-                        if (data.length === 0) {
-                            $('#search-results').html("<p>No results found.</p>");
-                            return;
-                        }
-
-                        // 渲染搜索结果
-                        data.forEach(result => {
-                            if (result.type === "task") {
-                                // 创建任务结果项
-                                if (result.title && result.content) {
-                                    var taskItem = `
-                                        <div class="result-item">
-                                            <h4><a href="/task/${result.id}">${result.title}</a></h4>
-                                            <p>${result.content}</p>
-                                        </div>
-                                    `;
-                                    $('#search-results').append(taskItem);
-                                }
-                            } else if (result.type === "answer") {
-                                // 创建答案结果项
-                                if (result.content) {
-                                    var answerItem = `
-                                        <div class="result-item">
-                                            <p><a href="/task/${result.task_id}">Related Task</a></p>
-                                            <p>${result.content}</p>
-                                        </div>
-                                    `;
-                                    $('#search-results').append(answerItem);
-                                }
-                            }
-                        });
-
-                        // 显示搜索结果模态框
-                        $('#searchModal').modal('show');
-                    })
-                    .catch(error => {
-                        console.error("Error fetching search results:", error);
-                        $('#search-results').html("<p>An error occurred while fetching search results.</p>");
-                        $('#searchModal').modal('show');
-                    });
-            }
+                    } else {  // 请求失败
+                        searchResults.innerHTML = "<p>An error occurred while fetching search results.</p >";
+                    }
+                    new bootstrap.Modal(document.getElementById('searchModal')).show();  // 显示模态框
+                }
+            };
+            xhr.send();  // 发送请求
         }
-    });
+    }
 });
-
+//第五页的接口
 $(document).ready(function() {
     // 监听按钮点击事件并绑定到函数
     $('.btn-primary').click(function() {
@@ -382,13 +348,15 @@ $(document).ready(function() {
                 }
                 return response.json();
             })
-        .then(data => {
+            .then(data => {
+                console.log("Data received:", data); // 调试信息
                 // 清空模态框内容
                 $('#top-users-modal-body').empty();
- // 如果没有错误，则显示用户详情
-                var userDetails = data.users.map(user => `
-                    <p>User ID: ${user.id}</p>
-                    <p>Name: ${user.name}</p>
+                // 对用户数据按回答数量进行降序排序
+                var sortedUsers = data.users.sort((a, b) => b.answer_count - a.answer_count);
+                // 如果没有错误，则显示用户详情
+                var userDetails = sortedUsers.map(user => `
+                    <p>Username: ${user.username}</p>
                     <p>Answer Count: ${user.answer_count}</p>
                 `).join('');
                 $('#top-users-modal-body').html(userDetails);
@@ -399,7 +367,9 @@ $(document).ready(function() {
                 $('#top-users-modal-body').html("<p>An error occurred while fetching top users.</p>");
                 $('#top-users-modal').modal('show');
             });
-        }
+    }
+});
+
     // 定义函数来获取并显示任务总数
     function fetchTotalTasks() {
         fetch(`/api/total-tasks`)
@@ -425,6 +395,24 @@ $(document).ready(function() {
     }
 
     // 定义函数来获取并显示任务类型
+    $(document).ready(function() {
+    // 监听按钮点击事件并绑定到函数
+    $('.btn-primary').click(function() {
+        var buttonId = $(this).attr('id');
+
+        if (buttonId === 'fetch-top-users') {
+            fetchTopUsers();
+        } else if (buttonId === 'fetch-total-tasks') {
+            fetchTotalTasks();
+        } else if (buttonId === 'fetch-task-types') {
+            fetchTaskTypes();
+        } else if (buttonId.startsWith('fetch-tasks-by-category-')) {
+            var category = buttonId.replace('fetch-tasks-by-category-', '');
+            fetchTasksByCategory(category);
+        }
+    });
+
+    // 定义函数来获取并显示任务类型
     function fetchTaskTypes() {
         fetch(`/api/task-types`)
             .then(response => {
@@ -447,17 +435,37 @@ $(document).ready(function() {
                 $('#task-types-modal').modal('show');
             });
     }
+
+    // 定义函数来获取并显示特定类别的任务
+    function fetchTasksByCategory(category) {
+        fetch(`/task/category/${category}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // 清空模态框内容
+                $('#task-modal-body').empty();
+                // 如果没有错误，则显示任务详情
+                var tasks = data.data.map(task => `
+                    <p>Task ID: ${task.id}</p>
+                    <p>Title: ${task.title}</p>
+                    <p>Description: ${task.description}</p>
+                    <p>Category: ${task.category}</p>
+                    <hr>
+                `).join('');
+                $('#task-modal-body').html(tasks);
+                $('#task-modal').modal('show');
+            })
+            .catch(error => {
+                console.error("Error fetching tasks by category:", error);
+                $('#task-modal-body').html("<p>An error occurred while fetching tasks.</p>");
+                $('#task-modal').modal('show');
+            });
+    }
 });
-
-//     $(document).ready(function() {
-//     // 隐藏模态框
-//     $('#searchModal').modal('hide');
-
-//     // 点击按钮显示模态框
-//     $('.btn-outline-success').click(function() {
-//         $('#searchModal').modal('show');
-//     });
-// });
 
 </script>
 </body>
