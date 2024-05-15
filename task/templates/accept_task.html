@@ -151,43 +151,45 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-$(document).ready(function() {
-    // Handle the search input's keypress event
-    $('#searchInput').on('keypress', function (e) {
-        if (e.which === 13) {
-            var query = $(this).val();
-            if (query) {
-                fetch(`/search?query=${query}`)
-                    .then(response => {
-                        if (!response.ok) throw new Error('Network response was not ok');
-                        return response.json();
-                    })
-                    .then(data => {
-                        $('#search-results').empty();
-                        if (data.length === 0) {
-                            $('#search-results').html("<p>No results found.</p>");
-                        } else {
+
+document.getElementById('searchInput').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {  
+        let query = e.target.value;  
+        if (query) {  
+            let xhr = new XMLHttpRequest(); 
+            xhr.open('GET', `/search?query=${encodeURIComponent(query)}`, true);  
+            xhr.onreadystatechange = function() {  
+                if (xhr.readyState === 4) {  
+                    let searchResults = document.getElementById('search-results');
+                    if (xhr.status === 200) { 
+                        let data = JSON.parse(xhr.responseText);  
+                        searchResults.innerHTML = '';
+                        if (data.length === 0) {  
+                            searchResults.innerHTML = "<p>No results found.</p>";
+                        } else {  
                             data.forEach(result => {
-                                var item = `
+                                let item = `
                                     <div class="result-item">
                                         <h4><a href="#">${result.title}</a></h4>
                                         <p>${result.content}</p>
                                     </div>
                                 `;
-                                $('#search-results').append(item);
+                                searchResults.innerHTML += item;
                             });
                         }
-                        $('#searchModal').modal('show');
-                    })
-                    .catch(error => {
-                        console.error("Error fetching search results:", error);
-                        $('#search-results').html("<p>An error occurred while fetching search results.</p>");
-                        $('#searchModal').modal('show');
-                    });
-            }
+                    } else {  
+                        searchResults.innerHTML = "<p>An error occurred while fetching search results.</p>";
+                    }
+                    new bootstrap.Modal(document.getElementById('searchModal')).show();  
+                }
+            };
+            xhr.send(); 
         }
-    });
+    }
+});
 
+
+$(document).ready(function() {
 
     $('.list-group-item').click(function(e) {
         e.preventDefault();
