@@ -45,9 +45,12 @@
             <div class="modal-body">
                 <div id="taskDetails">
                     <p id="taskTitle">{{ task.title }}</p>
-                    <p id="taskDetail">{{ task.desc | default('No detailed description available.', true) }}</p>
-                    <p id="taskWhen">{{ task.expectedtime.strftime('%Y-%m-%d') }}</p>
-                    <!-- and flexible ? -->
+                    <p id="taskDetail"></p>
+                    <div class="task-detail" style="display: block;">
+                        <p>{{ task.content|safe }}</p> 
+                    </div>
+                
+
 
                     {% if task.img %}
                     <img id="taskPhoto" 
@@ -76,15 +79,21 @@
         <div class="row">
             <div class="col-12 fixed-top bg-light">
                 <div class="top-bar d-flex justify-content-between align-items-center p-2">
-                    <div class="search d-flex align-items-center">
-                        <img src="/static/search_icon.png" alt="Search Icon" style="width: 20px; height: 20px; margin-right: 10px;">
-                        <input type="text" placeholder="Search..." class="search-box">
-                        <button class="button">Search</button>
+                    
+                    <div class="col-md-4">
+                        <input class="form-control me-2" type="search" placeholder="Search" id="searchInput">
                     </div>
-                    <div class="title">Accept a Task</div>
+                    
+                    <div class="col-md-8">
+                        <div class="title">Accept Your Task</div>
+                    </div>
+                    
                 </div>
+            </div>
         </div>
     </div>
+    
+
 
     <div class="row">
         <div class="col-md-3">

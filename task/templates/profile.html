@@ -43,12 +43,7 @@
             <label for="age">Age:</label><br>
             <input type="text" id="age" name="age" value="{{ user.age }}"><br>
             <label for="gender">Gender:</label><br>
-            <input type="text" id="gender" name="gender"><br>
-            <label for="location">Location:</label><br>
-            <input type="text" id="location" name="location"><br>
-            <label for="university">University:</label><br>
-            <input type="text" id="university" name="university"><br>
-            <!-- Avatar upload field -->
+            <input type="text" id="gender" name="gender" value="{{ user.gender }}"><br>
             <label for="avatar">Avatar:</label><br>
             <input type="file" id="avatar" name="avatar" accept="image/*"><br>
             <img id="avatar-preview" src="{{ url_for('static', filename='uploads/' + user.avatar if user.avatar else 'uploads/default_avatar.png') }}" alt="Avatar preview"><br>
@@ -77,16 +72,19 @@
         <div class="row">
             <div class="col-12 fixed-top bg-light">
                 <div class="top-bar d-flex justify-content-between align-items-center p-2">
-                    <div class="search d-flex align-items-center">
-                        <img src="/static/search_icon.png" alt="Search Icon" style="width: 20px; height: 20px; margin-right: 10px;">
-                        <input type="text" placeholder="Search..." class="search-box">
-                        <button class="button">Search</button>
+                    
+                    <div class="col-md-4">
+                        <input class="form-control me-2" type="search" placeholder="Search" id="searchInput">
                     </div>
-                    <div class="title">User Homepage</div>
+                    
+                    <div class="col-md-8">
+                        <div class="title">{{ user.username }}'s Page</div>
+                    </div>
+                    
                 </div>
+            </div>
         </div>
     </div>
-    
 
     
 
@@ -106,18 +104,17 @@
                         <br>
                         <a href="{{ url_for('task.post') }}"><img src="{{ url_for('static', filename='post_task_icon.png') }}" alt="Post Task"> Post Task</a>
                         <br>
-                        <a href="user/logout"><img src="/static/logout_icon.png" alt="Logout"> Logout</a>
+                        <a id="logout-link" href="{{ url_for('user.logout') }}">
+                            <img src="{{ url_for('static', filename='logout_icon.png') }}" alt="Logout">
+                            Logout  
+                        </a>
+                
                     {% else %}
                         <a href="{{ url_for('user.login') }}"><img src="{{ url_for('static', filename='search_icon.png') }}" alt="Login"> Login</a>
                         <br>
-                        <a href="user/register"><img src=/static/profile_icon.png" alt="Register"> Register</a>
+                        <a href="{{ url_for('user.register') }}"><img src="{{ url_for('static', filename='profile_icon.png') }}" alt="Register"> Register</a>
                     {% endif %}
     
-                    <br>
-                    <a href="#"><img src="/static/location_icon.png" alt="Location"> Location</a>
-                    <br>
-                    <a href="#"><img src="/static/settings_icon.png" alt="Settings"> Settings</a>
-                    <br>
                     <br>
                     <p style="text-align: center; font-weight: bold;">v.3.0.1</p>
                 </div>
@@ -128,20 +125,22 @@
                 <div class="row user-info">
                     <div class="col-md-3 d-flex flex-column align-items-center">
                         <div class="rounded-circle">
-                            <img src="profile_icon.png" alt="User photo">
+                        
+                            <img src="{{ url_for('static', filename='uploads/' + user.avatar if user.avatar else 'uploads/default_avatar.png') }}" alt="User photo" class="img-fluid">
                         </div>
                         <h3>{{ user.username }}</h3>
                     </div>
                     <div class="col-md-9">
                         <div class="info-bar">
-                            <div id="personal-info"><h2>Personal Info </h2></div>
+                            
+                            <div id="personal-info"><h2>Your Profile</h2></div>
+                            <p>Age: {{ user.age }}</p>
+                            <p>Gender: {{ user.gender }}</p>
+                            <button class="control-button" id="edit-button">Edit Profile</button>    
 
-                                <p>Age: 25</p>
-                                <p>Gender: Male</p>
-                                <p>Location: Crawley</p>
-                                <p>University: UWA</p>
-                                <button class="button" id="edit-button">Edit Profile</button>
-                                <button class="button" id="change-password-button">Change Password</button>
+                            {% if current_user.is_authenticated %}
+                            <button class="control-button" id="change-password-button">Change Password</button>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -169,30 +168,37 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="row task-history">
-                    <div class="col-md-12">
-                        <div class="info-bar mb-3">
-                            <div class="info" id="task-info">
-                                <p>Task 1</p>
+                {% endfor %}
+                {% else %}
+                    <div class="info" id="task-info">
+                        <p class="task-title">You posted:</p>
+                    </div>
+                    <div class="row task-history">
+                        <div class="col-md-12">
+                            <div class="info-bar mb-3">
+                                <div class="task-detail" style="display: block;">
+                                    <p>You have no posted tasks yet.</p>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="row task-history">
-                    <div class="col-md-12">
-                        <div class="info-bar mb-3">
-                            <div class="info" id="task-info">
-                                <p>Task 1</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row task-history">
-                    <div class="col-md-12">
-                        <div class="info-bar mb-3">
-                            <div class="info" id="task-info">
-                                <p>Task 1</p>
+                {% endif %}
+        
+                
+
+                <!-- Display Accepted Tasks (For which the user has posted answers) -->
+                {% if answers %}
+                {% for answer in answers %}
+                    <div class="row task-history">
+                        <div class="col-md-12">
+                            <div class="info-bar mb-3">
+                                <div class="info" id="task-info">
+                                    <p class="task-title">You accepted: {{ answer.task.title }}</p>
+                                </div>
+                                <div class="task-detail" style="display: block;">
+                                    <p>{{ answer.task.content|safe }}</p> 
+                                    <button class="button" onclick="toggleTaskDetail(this)">Read More</button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -210,11 +216,13 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                {% endif %}
+            
+
+
+
+
             </div>
-
-
-
         </div>
     </div>
 
