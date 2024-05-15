@@ -23,21 +23,31 @@ def login():
         else:
             # Login failed, show message
             flash('Login failed, please try again.', 'danger')
-            return render_template('login.html', form=form)
+            return render_template('login_old.html', form=form)
 
 
     # Render the login template on GET or failed form submission
-    return render_template('login.html', form=form)
+    return render_template('login_old.html', form=form)
 
 
 # Route for handling logout
+# @user.route('/logout')
+# @login_required
+# def logout():
+#     """Route for logging out the user"""
+#     logout_user()  
+#     flash('You have been logged out.', 'success')
+#     redirect_url = url_for('quest.index_page')
+#     print(redirect_url) 
+#     return redirect(url_for('quest.index_page'))
+
 @user.route('/logout')
 @login_required
 def logout():
     """Route for logging out the user"""
     logout_user()  # Logout the current user
     flash('You have been logged out.', 'success')
-    return redirect("/")
+    return redirect(url_for('task.index_page')) 
 
 
 # Route for handling registration
@@ -67,14 +77,14 @@ def register():
     return render_template('register.html', form=form)
 
 
-@user.route('/<int:id>/mine')
+@user.route('profile/<int:id>/')
 @login_required
-def mine(id):
+def profile(id):
     """Route for displaying user profile information"""
     # Fetch user by ID
     user = User.query.filter_by(id=id).first_or_404(description='User not found.')
     # Render the user profile template
-    return render_template('mine.html', user=user)
+    return render_template('profile.html', user=user)
 
 
 @user.route('/<int:id>/tasks')
@@ -239,3 +249,38 @@ def change_nickname(id):
 #         db.session.commit()
 #         return jsonify({'message': 'Profile picture uploaded successfully'}), 200
 #     return jsonify({'error': 'Invalid file type'}), 400
+
+@user.route('/<int:t_id>/answer', methods=['GET'])
+@login_required
+def task_answer(t_id):
+    """ Route to get answer by user. """
+    user_id = current_user.id
+    answers = Answer.query.filter_by(user_id=user_id).all()
+
+    if not answers:
+        return jsonify({'message': 'No answers found'}), 404
+    return jsonify({'message': 'Success', 'data': [ans.to_dict() for ans in answers]}), 200
+
+
+@user.route('/<int:t_id>/change_profile', methods=['POST'])
+@login_required
+def change_profile(id):
+    """ Route to change user profile. """
+    if id != current_user.id:
+        return jsonify({'error': 'You are not authorized to perform this action'}), 403
+
+    user_id = current_user.id
+    data = request.get_json()
+    user = User.query.filter_by(id=user_id).first_or_404(description='User not found.')
+
+    if 'username' in data:
+        user.nickname = data['username']
+    if 'email' in data:
+        user.email = data['email']
+    if 'avatar' in data:
+        user.profile_picture = data['avatar']
+    if 'gender' in data:
+        user.gender = data['gender']
+
+    db.session.commit()
+    return jsonify({'message': 'Profile updated successfully'}), 200
