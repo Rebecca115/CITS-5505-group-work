@@ -106,8 +106,9 @@
                         <br>
                         <a id="logout-link" href="{{ url_for('user.logout') }}">
                             <img src="{{ url_for('static', filename='logout_icon.png') }}" alt="Logout">
-                            Logout
+                            Logout  
                         </a>
+                
                     {% else %}
                         <a href="{{ url_for('user.login') }}"><img src="{{ url_for('static', filename='search_icon.png') }}" alt="Login"> Login</a>
                         <br>
@@ -230,43 +231,44 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    $(document).ready(function() {
-        // Handle the search input's keypress event
-        $('#searchInput').on('keypress', function (e) {
-            if (e.which === 13) {
-                var query = $(this).val();
-                if (query) {
-                    fetch(`/search?query=${query}`)
-                        .then(response => {
-                            if (!response.ok) throw new Error('Network response was not ok');
-                            return response.json();
-                        })
-                        .then(data => {
-                            $('#search-results').empty();
-                            if (data.length === 0) {
-                                $('#search-results').html("<p>No results found.</p>");
-                            } else {
-                                data.forEach(result => {
-                                    var item = `
-                                        <div class="result-item">
-                                            <h4><a href="#">${result.title}</a></h4>
-                                            <p>${result.content}</p>
-                                        </div>
-                                    `;
-                                    $('#search-results').append(item);
-                                });
-                            }
-                            $('#searchModal').modal('show');
-                        })
-                        .catch(error => {
-                            console.error("Error fetching search results:", error);
-                            $('#search-results').html("<p>An error occurred while fetching search results.</p>");
-                            $('#searchModal').modal('show');
-                        });
+    document.getElementById('searchInput').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {  
+        let query = e.target.value;  
+        if (query) {  
+            let xhr = new XMLHttpRequest(); 
+            xhr.open('GET', `/search?query=${encodeURIComponent(query)}`, true);  
+            xhr.onreadystatechange = function() {  
+                if (xhr.readyState === 4) {  
+                    let searchResults = document.getElementById('search-results');
+                    if (xhr.status === 200) { 
+                        let data = JSON.parse(xhr.responseText);  
+                        searchResults.innerHTML = '';
+                        if (data.length === 0) {  
+                            searchResults.innerHTML = "<p>No results found.</p>";
+                        } else {  
+                            data.forEach(result => {
+                                let item = `
+                                    <div class="result-item">
+                                        <h4><a href="#">${result.title}</a></h4>
+                                        <p>${result.content}</p>
+                                    </div>
+                                `;
+                                searchResults.innerHTML += item;
+                            });
+                        }
+                    } else {  
+                        searchResults.innerHTML = "<p>An error occurred while fetching search results.</p>";
+                    }
+                    new bootstrap.Modal(document.getElementById('searchModal')).show();  
                 }
-            }
-        });
+            };
+            xhr.send(); 
+        }
+    }
+});
 
+
+    $(document).ready(function() {
 
     $('#edit-button').on('click', function() {
         $('#edit-form').show();
@@ -275,7 +277,7 @@
     $('#edit-form form').on('submit', function(e) {
     e.preventDefault();  
 
-    // 创建 FormData 对象以支持文件上传
+
     var formData = new FormData(this);
 
     $.ajax({
@@ -285,7 +287,7 @@
         contentType: false,  
         data: formData, 
         success: function(response) {
-            // 这里是成功更新后的处理，更新页面上的显示信息
+           
             $('#edit-form').hide();
             $('h3').text(response.username);  
             $('#personal-info p:eq(0)').text('Age: ' + response.age);  
@@ -293,7 +295,7 @@
             $('#avatar-preview').attr('src', '/static/uploads/' + response.avatar);  
         },
         error: function() {
-            alert("更新失败，请稍后重试");
+            alert("You failded to update your profile. Please try again.");
         }
     });
 });
