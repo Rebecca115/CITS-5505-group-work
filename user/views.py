@@ -274,3 +274,13 @@ def change_profile(id):
 
     db.session.commit()
     return jsonify({'message': 'Profile updated successfully'}), 200
+
+@user.route('/<int:id>/answered', methods=['GET', 'POST'])
+def answered(id):
+    """ Route to get answered questions by user. """
+    user_id = id
+    answers = Answer.query.filter_by(user_id=user_id).all()
+
+    if not answers:
+        return jsonify({'message': 'No answers found'}), 404
+    return jsonify({'message': 'Success', 'data': [ans.to_dict() for ans in answers]}), 200

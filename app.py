@@ -12,7 +12,7 @@ from models import db, User
 from user.views import user
 from utils import initialize_database
 
-app = Flask(__name__, static_folder='static')
+app = Flask(__name__, static_folder='static',static_url_path='/static')
 app.config.from_object('conf.Config')
 
 ckeditor = CKEditor()

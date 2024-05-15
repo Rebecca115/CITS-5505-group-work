@@ -20,9 +20,26 @@ def index_page():
     return render_template('index.html', page_data=page_data)
 
 
+@quest.route('/task', methods=['GET'])
+def task():
+    page = request.args.get('page', 1, type=int)
+    per_page = request.args.get('per_page', 1, type=int)
+    page_data = Task.query.order_by(desc(Task.created_at)).paginate(page=page, per_page=per_page)
+
+    return jsonify(message="Success", data=[task.to_dict() for task in page_data.items])
+
+
+@quest.route('/question_list/', methods=['GET', 'POST'])
+def question_list():
+    per_page = 5
+    page = request.args.get('page', 1, type=int)
+    page_data = Task.query.order_by(desc(Task.created_at)).paginate(page=page, per_page=per_page)
+
+    return render_template('question_list.html', page_data=page_data)
+
+
 @quest.route('/accept')
 def accept():
-
     per_page = 5
     page = request.args.get('page', 1, type=int)
     page_data = Task.query.order_by(desc(Task.created_at)).paginate(page=page, per_page=per_page)
