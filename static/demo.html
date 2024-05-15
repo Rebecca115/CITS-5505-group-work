@@ -31,6 +31,7 @@ $.ajax({
         const cardContent = $("<div class='card-body'>");
         const taskContent = $("<p class='card-text mb-2'>").html(task.content);
         const taskCategory = $("<span class='badge bg-primary rounded-pill me-2'>").text(task.category);
+        const taskViewCount = $("<small class='text-muted'>").text(`View Count: ${task.view_count}`);
         const taskLink = $("<a class='stretched-link' href='/detail/" + task.id + "'>").text("View Details");
 
         cardContent.append(taskContent, taskCategory, taskViewCount, taskLink);
