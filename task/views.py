@@ -13,11 +13,12 @@ quest = Blueprint('task', __name__,
 @quest.route('/')
 def index_page():
     """ Home page route, display a list of paginated tasks. """
-    per_page = 5
-    page = request.args.get('page', 1, type=int)
-    page_data = Task.query.order_by(desc(Task.created_at)).paginate(page=page, per_page=per_page)
+    return render_template('index.html')
+    # per_page = 5
+    # page = request.args.get('page', 1, type=int)
+    # page_data = Task.query.order_by(desc(Task.created_at)).paginate(page=page, per_page=per_page)
 
-    return render_template('index.html', page_data=page_data)
+    # return render_template('index.html', page_data=page_data)
 
 
 @quest.route('/accept')

@@ -31,13 +31,23 @@ def login():
 
 
 # Route for handling logout
+# @user.route('/logout')
+# @login_required
+# def logout():
+#     """Route for logging out the user"""
+#     logout_user()  
+#     flash('You have been logged out.', 'success')
+#     redirect_url = url_for('quest.index_page')
+#     print(redirect_url) 
+#     return redirect(url_for('quest.index_page'))
+
 @user.route('/logout')
 @login_required
 def logout():
     """Route for logging out the user"""
     logout_user()  # Logout the current user
     flash('You have been logged out.', 'success')
-    return redirect("/")
+    return redirect(url_for('task.index_page')) 
 
 
 # Route for handling registration
