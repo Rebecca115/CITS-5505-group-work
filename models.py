@@ -90,7 +90,8 @@ class Task(db.Model):
             'date_to_finish': self.date_to_finish,
             'nickname': self.user.nickname,
             'accepted_user': self.accepted_user.username if self.accepted_user else None,
-            'location':self.location
+            'location':self.location,
+            'id': self.id,
         }
 
 
