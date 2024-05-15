@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homepage</title>
+    <!-- Link to Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+    <script src="script.js"></script>
+        <!-- Page 1 -->
+        <div class="page">
+            <h1>Study Perth Assistant</h1>
+            <div class="input-group">
+                <input class="form-control me-2" type="search" placeholder="Search" id="searchInput">
+                <button type="submit" class="btn btn-outline-success">Search</button>
+            </div> 
+             <!-- search result -->
+    <div class="modal fade" id="searchModal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="searchModalLabel">Search Results</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="search-results"></div>
+            </div>
+        </div>
+    </div>                      
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="image-box">
+                        <img src="/static/Picture1.png" alt="Image 1" class="img-fluid">
+                        <div class="text-box text-center">
+                            <a href="URL_HERE" class="no-decoration"><h2>Post questions</h2></a>
+                            <p>Post your first question.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="image-box">
+                        <img src="/static/Picture2.png" alt="Image 2" class="img-fluid">
+                        <div class="text-box text-center">
+                            <a href="URL_HERE" class="no-decoration"><h2>Answer questions</h2></a>
+                            <p>Answer your first question.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="image-box">
+                        <img src="/static/Picture3.png" alt="Image 3" class="img-fluid">
+                        <div class="text-box text-center">
+                            <a href="URL_HERE" class="no-decoration">class="no-decoration"><h2>Profile</h2></a>
+                           
+                            <p>Get social with friends.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="image-box">
+                        <img src="/static/Picture4.png" alt="Image 4" class="img-fluid">
+                        <div class="text-box text-center">
+                            <a href="URL_HERE" class="no-decoration"><h2>Ranking</h2></a>
+                            <p>Take a look at everyone's contributions.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Page 2 -->
+        <div class="page">
+                <div class="col-md-6 left-content">
+                    <img src="/static/Page2.png" alt="Image" class="img-fluid">
+                </div>
+                <div class="col-md-6 center">
+                    <h1>We believe in the power of helping each other</h1>
+                    <div class="text-box">
+                        <h2>Our original intention</h2>
+                        <p class="adjustable-text">Study Perth Assistant hopes to help international students in Perth solve various problems encountered in life and study through voluntary mutual assistance, help them make more friends, better integrate into the University and community, and live a successful life.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>    
+       <!-- Page 3 -->
+    <div class="page">
+            <h1>How to use? Just four simple steps</h1>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="text-box">
+                        <h2>Step 1</h2>
+                        <p>Create your Study Perth Assistant account.</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="text-box">
+                        <h2>Step 2</h2>
+                        <p>Post questions: Click the question post button to enter the posting page.
+                        <br>Answer questions: Enter the questions list to browse various questions.</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="text-box">
+                        <h2>Step 3</h2>
+                        <p>Post questions: Fill in the information related to the question and post the question.
+                        <br>Answer questions:Decide which question to answer based on the question details page.</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="text-box">
+                        <h2>Step 4</h2>
+                        <p>Let's give each other good reviews after the questions be answered.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Page 4 -->
+    <div class="page">
+        <div class="col-md-6 left-content">
+            <h1>Post your questions directly</h1>
+            <img src="/static/Page 4.png" alt="Adjustable Image" class="img-fluid">
+        </div>
+        <div class="col-md-6 right-content">
+            <img src="/static/question.png" alt="Adjustable Image" class="img-fluid">
+        </div>
+        <div class="input-group">
+            <button type="button" class="btn btn-outline-success" onclick="search()">Search</button>
+        </div> 
+         <!-- search result -->
+        <div class="modal fade" id="taskModal" tabindex="-1" role="dialog" aria-labelledby="taskModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="taskModalLabel">Search Results</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="search-results"></div>
+                </div>
+            </div>
+        </div> 
+    </div>
+    </div>        
+<!-- Page 5 -->
+<div class="page">
+    <div class="container">
+        <h1>Dashboard</h1>
+        <div class="row charts">
+            <!-- 第一个任务分类 -->
+            <div class="col-md-4 chart">
+                <h2 class="text-center chart-title">Scoreboard</h2>
+                <div id="top-users-chart" class="chart-container">
+                    <img src="/static/dash1.png" alt="Scoreboard Image" class="img-fluid">
+                    <button id="fetch-top-users" class="btn btn-primary" data-toggle="modal" data-target="#top-users-modal">Show Top Users</button>
+                </div>
+            </div>
+            <!-- 第二个任务分类 -->
+            <div class="col-md-4 chart">
+                <h2 class="text-center chart-title">Total Tasks</h2>
+                <div id="total-tasks-chart" class="chart-container">
+                    <img src="static/dash2.png" alt="Total Tasks Image" class="img-fluid">
+                    <button id="fetch-total-tasks" class="btn btn-primary" data-toggle="modal" data-target="#total-tasks-modal">Show Total Tasks</button>
+                </div>
+            </div>
+            <!-- 第三个任务分类 -->
+            <div class="col-md-4 chart">
+                <h2 class="text-center chart-title">Task Types</h2>
+                <div id="task-types-chart" class="chart-container">
+                    <img src="/static/dash3.png" alt="Task Types Image" class="img-fluid">
+                    <button id="fetch-task-types" class="btn btn-primary" data-toggle="modal" data-target="#task-types-modal">Show Task Types</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--模态框内容-->
+<div class="modal fade" id="top-users-modal" tabindex="-1" role="dialog" aria-labelledby="top-users-modal-label" aria-hidden="true" data-backdrop="false">
+    <!-- 在这里渲染后端数据 -->
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="top-users-modal-label">Top Users</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="top-users-modal-body"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="total-tasks-modal" tabindex="-1" role="dialog" aria-labelledby="total-tasks-modal-label" aria-hidden="true" data-backdrop="false">
+    <!-- 在这里渲染后端数据 -->
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="total-tasks-modal-label">Total Tasks</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="total-tasks-modal-body"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="task-types-modal" tabindex="-1" role="dialog" aria-labelledby="task-types-modal-label" aria-hidden="true" data-backdrop="false">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="task-types-modal-label">Task Types</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="task-types-modal-body"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Page 6 -->
+<div class="page">
+    <div class="container">
+        <div class="content"></div>
+        <h1 class="text-center">Contact us</h1>
+            <div class="col-md-6 left-content">
+                <img src="/static/Page6.png" alt="Adjustable Image5" class="img-fluid">
+            </div>
+        </div>
+        <div class="center">
+            <h2 class="text-center">Get in touch</h2>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="text-box">
+                        <h2>Clare Li</h2>
+                        <p class="adjustable-text">23918117@student.uwa.edu.au</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="text-box">
+                        <h2>ziqi Chen</h2>
+                        <p class="adjustable-text">23856227@student.uwa.edu.au</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="text-box">
+                        <h2>yunzhi Chen</h2>
+                        <p class="adjustable-text">23766091@student.uwa.edu.au</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="text-box">
+                        <h2>Fudong Qin</h2>
+                        <p class="adjustable-text">23992836@student.uwa.edu.au</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="right-bottom text-center">
+            <a href="https://github.com/Rebecca115/CITS-5505-group-work.git">
+                <img src="/static/c1.png" alt="Icon 1" class="icon">
+            </a>
+            <a href="">
+                <img src="/static/c4.png" alt="Icon 4" class="icon">
+            </a>    
+        </div>
+    </div>
+</div>
+    <!-- Links to JS -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+
+document.getElementById('searchInput').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {  // 检查是否按下Enter键
+        let query = e.target.value;  // 获取输入框中的查询内容
+        if (query) {  // 确保查询内容不为空
+            let xhr = new XMLHttpRequest();  // 创建一个新的XMLHttpRequest对象
+            xhr.open('GET', `/search?query=${encodeURIComponent(query)}`, true);  // 配置GET请求，包含查询参数
+            xhr.onreadystatechange = function() {  // 定义回调函数，处理服务器响应
+                if (xhr.readyState === 4) {  // 确保请求完成
+                    let searchResults = document.getElementById('search-results');
+                    if (xhr.status === 200) {  // 请求成功
+                        let data = JSON.parse(xhr.responseText);  // 解析JSON响应数据
+                        searchResults.innerHTML = '';
+                        if (data.length === 0) {  // 没有找到结果
+                            searchResults.innerHTML = "<p>No results found.</p >";
+                        } else {  // 显示搜索结果
+                            data.forEach(result => {
+                                let item = `
+                                    <div class="result-item">
+                                        <h4><a href=" ">${result.title}</a ></h4>
+                                        <p>${result.content}</p >
+                                    </div>
+                                `;
+                                searchResults.innerHTML += item;
+                            });
+                        }
+                    } else {  // 请求失败
+                        searchResults.innerHTML = "<p>An error occurred while fetching search results.</p >";
+                    }
+                    new bootstrap.Modal(document.getElementById('searchModal')).show();  // 显示模态框
+                }
+            };
+            xhr.send();  // 发送请求
+        }
+    }
+});
+//第五页的接口
+$(document).ready(function() {
+    // 监听按钮点击事件并绑定到函数
+    $('.btn-primary').click(function() {
+        var buttonId = $(this).attr('id');
+
+        if (buttonId === 'fetch-top-users') {
+            fetchTopUsers();
+        } else if (buttonId === 'fetch-total-tasks') {
+            fetchTotalTasks();
+        } else if (buttonId === 'fetch-task-types') {
+            fetchTaskTypes();
+        }
+    });
+
+    // 定义函数来获取并显示前端接口的用户详情
+    function fetchTopUsers() {
+        fetch(`/get_top_users`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log("Data received:", data); // 调试信息
+                // 清空模态框内容
+                $('#top-users-modal-body').empty();
+                // 对用户数据按回答数量进行降序排序
+                var sortedUsers = data.users.sort((a, b) => b.answer_count - a.answer_count);
+                // 如果没有错误，则显示用户详情
+                var userDetails = sortedUsers.map(user => `
+                    <p>Username: ${user.username}</p>
+                    <p>Answer Count: ${user.answer_count}</p>
+                `).join('');
+                $('#top-users-modal-body').html(userDetails);
+                $('#top-users-modal').modal('show');
+            })
+            .catch(error => {
+                console.error("Error fetching top users:", error);
+                $('#top-users-modal-body').html("<p>An error occurred while fetching top users.</p>");
+                $('#top-users-modal').modal('show');
+            });
+    }
+});
+
+    // 定义函数来获取并显示任务总数
+    function fetchTotalTasks() {
+        fetch(`/api/total-tasks`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // 清空模态框内容
+                $('#total-tasks-modal-body').empty();
+                // 如果没有错误，则显示任务总数
+                var taskDetails = `<p>Total Tasks: ${data.total}</p>`;
+                $('#total-tasks-modal-body').html(taskDetails);
+                $('#total-tasks-modal').modal('show');
+            })
+            .catch(error => {
+                console.error("Error fetching total tasks:", error);
+                $('#total-tasks-modal-body').html("<p>An error occurred while fetching total tasks.</p>");
+                $('#total-tasks-modal').modal('show');
+            });
+    }
+
+    // 定义函数来获取并显示任务类型
+    $(document).ready(function() {
+    // 监听按钮点击事件并绑定到函数
+    $('.btn-primary').click(function() {
+        var buttonId = $(this).attr('id');
+
+        if (buttonId === 'fetch-top-users') {
+            fetchTopUsers();
+        } else if (buttonId === 'fetch-total-tasks') {
+            fetchTotalTasks();
+        } else if (buttonId === 'fetch-task-types') {
+            fetchTaskTypes();
+        } else if (buttonId.startsWith('fetch-tasks-by-category-')) {
+            var category = buttonId.replace('fetch-tasks-by-category-', '');
+            fetchTasksByCategory(category);
+        }
+    });
+
+    // 定义函数来获取并显示任务类型
+    function fetchTaskTypes() {
+        fetch(`/api/task-types`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // 清空模态框内容
+                $('#task-types-modal-body').empty();
+                // 如果没有错误，则显示任务类型
+                var taskTypes = data.types.map(type => `<p>Task Type: ${type}</p>`).join('');
+                $('#task-types-modal-body').html(taskTypes);
+                $('#task-types-modal').modal('show');
+            })
+            .catch(error => {
+                console.error("Error fetching task types:", error);
+                $('#task-types-modal-body').html("<p>An error occurred while fetching task types.</p>");
+                $('#task-types-modal').modal('show');
+            });
+    }
+
+    // 定义函数来获取并显示特定类别的任务
+    function fetchTasksByCategory(category) {
+        fetch(`/task/category/${category}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // 清空模态框内容
+                $('#task-modal-body').empty();
+                // 如果没有错误，则显示任务详情
+                var tasks = data.data.map(task => `
+                    <p>Task ID: ${task.id}</p>
+                    <p>Title: ${task.title}</p>
+                    <p>Description: ${task.description}</p>
+                    <p>Category: ${task.category}</p>
+                    <hr>
+                `).join('');
+                $('#task-modal-body').html(tasks);
+                $('#task-modal').modal('show');
+            })
+            .catch(error => {
+                console.error("Error fetching tasks by category:", error);
+                $('#task-modal-body').html("<p>An error occurred while fetching tasks.</p>");
+                $('#task-modal').modal('show');
+            });
+    }
+});
+
+</script>
+</body>
+</html>
