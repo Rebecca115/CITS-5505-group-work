@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div id="task-container" class="container mt-5"></div>
+
+<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+$.ajax({
+  url: "/task",
+  type: "GET",
+  data: { per_page: 5, page: 2 },
+  success: function(response) {
+    if (response.message === "Success") {
+      const tasks = response.data;
+      const taskContainer = $("#task-container");
+
+      tasks.forEach(function(task) {
+        const taskCard = $("<div class='card mb-3'>");
+        const taskCardBody = $("<div class='card-body'>");
+        const taskTitle = $("<h5 class='card-title mb-1'>").text(task.title);
+        const taskContent = $("<p class='card-text mb-1'>").html(task.content);
+        const taskCategory = $("<span class='badge bg-primary rounded-pill me-2'>").text(task.category);
+        const taskViewCount = $("<small class='text-muted'>").text(`View Count: ${task.view_count}`);
+        const taskLink = $("<a class='stretched-link' href='/detail/" + task.id + "'>").text("View Details");
+
+        taskCardBody.append(taskTitle, taskContent, taskCategory, taskViewCount, taskLink);
+        taskCard.append(taskCardBody);
+        taskContainer.append(taskCard);
+      });
+    } else {
+      console.error("Error:", response.message);
+    }
+  },
+  error: function(xhr, status, error) {
+    console.error("Error:", error);
+  }
+});
+</script>
+
+</body>
+</html>
