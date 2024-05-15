@@ -250,3 +250,27 @@ def task_answer(t_id):
     if not answers:
         return jsonify({'message': 'No answers found'}), 404
     return jsonify({'message': 'Success', 'data': [ans.to_dict() for ans in answers]}), 200
+
+
+@user.route('/<int:t_id>/change_profile', methods=['POST'])
+@login_required
+def change_profile(id):
+    """ Route to change user profile. """
+    if id != current_user.id:
+        return jsonify({'error': 'You are not authorized to perform this action'}), 403
+
+    user_id = current_user.id
+    data = request.get_json()
+    user = User.query.filter_by(id=user_id).first_or_404(description='User not found.')
+
+    if 'username' in data:
+        user.nickname = data['username']
+    if 'email' in data:
+        user.email = data['email']
+    if 'avatar' in data:
+        user.profile_picture = data['avatar']
+    if 'gender' in data:
+        user.gender = data['gender']
+
+    db.session.commit()
+    return jsonify({'message': 'Profile updated successfully'}), 200
