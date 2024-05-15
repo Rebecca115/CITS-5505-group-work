@@ -22,7 +22,12 @@ def index_page():
 
 @quest.route('/accept')
 def accept():
-    return render_template('accept_task.html')
+
+    per_page = 5
+    page = request.args.get('page', 1, type=int)
+    page_data = Task.query.order_by(desc(Task.created_at)).paginate(page=page, per_page=per_page)
+
+    return render_template('accept_task.html', page_data=page_data)
 
 
 @quest.route('/post', methods=['GET', 'POST'])
