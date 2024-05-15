@@ -4,41 +4,42 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <title>creat account page</title>
-    <link rel="stylesheet" href="style_2.css">
+    <title>Create account page</title>
+    <link rel="stylesheet" href="/static/style_2.css">
 </head>
 <body>
-  <img src="Picture 1.png" alt="left_decoration">
+  <img src="/static/Picture1.png" alt="left_decoration">
   <div id="cloud"></div>
 
   
     <div id="central_from" class="col-md-6 offset-md-3" >
-        <div id="login">
-            <h1>Create  <br> New Account </h1>
-            <a href="loginpage.html">Already Registered? Login </a> <br> <br> 
+        <div id="register">
+            <h1>Create New Account</h1>
+            <a href="{{ url_for('user.login') }}">Already Registered? Login </a> <br> <br> 
             <form id="signup" class="login-form box-wrap" method="POST" enctype="multipart/form-data"
                   action="{{ url_for('user.register') }}">
                   {{ form.csrf_token }}
                   <div class="form-group">
                     <label for="id-user-avatar">Avatar</label>
-                    {{ form.avatar }}
+                    {{ form.avatar (class="form-control", id="avatar")  }}
+
                     {% if form.avatar.errors %}
-                        {{ form.avatar.errors[0] }}
+                    {{ form.avatar.errors[0](class="form-control") }}
                     {% endif %}
                 </div>
               <div >
-                <label>Please enter your Username</label> <br>
-                {{ form.username }}
-                {{ form.username.errors }}
+                <label>Username</label> <br>
+                {{ form.username(class="form-control", id="username") }}
 
-                <br>
-                <label>Please enter your Emial</label> <br>
-                {{ form.email }}               
-                <br>
-                <label> Please enter Password </label> <br>
-                {{ form.password }}
-                <label> Please confirm Password </label> <br>
-                {{ form.confirm_password }}
+
+                <label>Email</label> 
+                {{ form.email(class="form-control", id="email") }}               
+              
+                <label> Password </label> <br>
+                {{ form.password(class="form-control", id="password")}}
+
+                <label> Confirm Password</label> <br>
+                {{ form.confirm_password(class="form-control", id="confirm_password") }}
                 <br> <br> 
                 <button type="submit" id="signupbutton" class="btn btn-block">
                 Sign up
@@ -49,15 +50,29 @@
 
     </div>
 
-    <img src="Picture 2.png" alt="right_decoration" style="float: right;">
+    <img src="/static/Picture2.png" alt="right_decoration" style="float: right;">
 
 
-    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-    </body>
     <!-- partial -->
-      <script  src="script.js"></script>
-    
+    <script>
+      $(function () {
+       $('#avatar,#username, #email,#password,#confirm_password').on('keypress', function (e) {
+           if (e.which === 13) {
+               e.preventDefault(); 
+               var username = $('#username').val().trim();
+               var email = $('#email').val().trim(); 
+               var password = $('#password').val().trim(); 
+               var confirm_password = $('#confirm_password').val().trim(); 
+               if (username && email && password && confirm_password) { 
+                   $('#signup').submit(); 
+               }
+           }
+       });
+   });
+   
+   </script>
     </body>
 </html>
