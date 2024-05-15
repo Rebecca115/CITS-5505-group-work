@@ -106,7 +106,7 @@
                         <br>
                         <a id="logout-link" href="{{ url_for('user.logout') }}">
                             <img src="{{ url_for('static', filename='logout_icon.png') }}" alt="Logout">
-                            Logout  
+                            Logout
                         </a>
                 
                     {% else %}
@@ -364,12 +364,6 @@
         reader.readAsDataURL(this.files[0]);
     });
 
-    $('#logout-link').on('click', function(event) {
-        event.preventDefault();
-        if (confirm('Are you sure you want to log out?')) {
-            window.location.href = 'homepage.html';
-        }
-    });
 
 
     $('#searchForm').on('submit', function(e) {
