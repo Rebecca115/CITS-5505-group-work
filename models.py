@@ -49,7 +49,8 @@ class User(db.Model):
        return{
                 'nickname': self.nickname,
                 'avatar': self.avatar,
-                'gender' : self.gender
+                'gender' : self.gender,
+                'answer_count': self.answer_list.count(),
        }
 
 
@@ -93,9 +94,6 @@ class Task(db.Model):
             'location':self.location,
             'id': self.id,
         }
-
-
-
 
     @property
     def comment_count(self):
