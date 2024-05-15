@@ -23,24 +23,14 @@ def login():
         else:
             # Login failed, show message
             flash('Login failed, please try again.', 'danger')
-            return render_template('login_old.html', form=form)
+            return render_template('login.html', form=form)
 
 
     # Render the login template on GET or failed form submission
-    return render_template('login_old.html', form=form)
+    return render_template('login.html', form=form)
 
 
 # Route for handling logout
-# @user.route('/logout')
-# @login_required
-# def logout():
-#     """Route for logging out the user"""
-#     logout_user()  
-#     flash('You have been logged out.', 'success')
-#     redirect_url = url_for('quest.index_page')
-#     print(redirect_url) 
-#     return redirect(url_for('quest.index_page'))
-
 @user.route('/logout')
 @login_required
 def logout():
