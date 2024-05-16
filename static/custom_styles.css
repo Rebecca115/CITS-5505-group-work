@@ -52,7 +52,7 @@ input[type="file"] {
 .main {
     padding: 20px;  /* 统一内边距 */
     padding-top: 100px; /* 根据 top-bar 实际高度调整 */
-    background: #F8F6F1; /* 背景色 */
+    /* background: #F8F6F1;  */
     flex-grow: 1;  /* 确保它可以填满剩余空间 */
     min-height: calc(100vh - 100px);  /* 调整最小高度以适应 top-bar 的实际高度 */
     position: relative; /* 保持 relative 以便于定位内部元素 */
