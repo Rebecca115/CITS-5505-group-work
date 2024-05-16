@@ -423,3 +423,117 @@ button.active {
 .hidden {
     display: none;
 }
+
+
+a:hover {
+    background-color: rgba(0, 0, 0, 0.1); /* 设置背景颜色为灰色 */
+    border-radius: 5px; /* 可选：添加圆角效果 */
+    transition: background-color 0.3s; /* 可选：添加平滑过渡效果 */
+}
+
+/* 使用更具体的选择器路径 */
+body .sidebar a:hover {
+    background-color: rgba(0, 0, 0, 0.1); /* 设置背景颜色为灰色 */
+    border-radius: 5px; /* 可选：添加圆角效果 */
+    transition: background-color 0.3s; /* 可选：添加平滑过渡效果 */
+}
+
+.button:hover {
+    background-color: #9584FF; /* 悬停时背景颜色 */
+    color: #ffffff; /* 悬停时文字颜色 */
+}
+
+
+.question-card {
+    background-color: rgba(255, 249, 249, 0.9); /* 更改背景颜色 */
+    border-radius: 15px; /* 添加圆角效果 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 添加阴影 */
+    padding: 20px; /* 添加内边距 */
+}
+
+/* 设置任务列表的外部容器样式 */
+#task-list {
+    margin-top: 20px;
+}
+
+/* 设置卡片外观 */
+.card {
+    border: none;
+    border-radius: 15px; /* 增加圆角半径 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+    overflow: hidden; /* 确保内容不会超出卡片的圆角边界 */
+}
+
+/* 鼠标悬停时的卡片效果 */
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* 卡片标题的样式 */
+.card-header {
+    background-color: #715CF8;
+    color: white;
+    font-weight: bold;
+    border-top-left-radius: 15px; /* 增加圆角半径 */
+    border-top-right-radius: 15px; /* 增加圆角半径 */
+    margin: -1px; /* 确保标题部分与卡片整体无缝连接 */
+}
+
+/* 卡片正文的样式 */
+.card-body {
+    padding: 15px;
+    color: #333;
+}
+
+/* 按钮样式 */
+.btn {
+    margin-right: 5px;
+    margin-top: 10px;
+}
+
+.btn-outline-primary {
+    border-color: #715CF8;
+    color: #715CF8;
+}
+
+.btn-outline-primary:hover {
+    background-color: #715CF8;
+    color: white;
+}
+
+.btn-outline-danger {
+    border-color: #e3342f;
+    color: #e3342f;
+}
+
+.btn-outline-danger:hover {
+    background-color: #e3342f;
+    color: white;
+}
+
+/* 调整徽章样式 */
+.badge {
+    background-color: #715CF8;
+}
+
+/* 链接样式 */
+.stretched-link {
+    position: relative;
+    z-index: 1;
+    text-decoration: none;
+    color: #715CF8;
+    font-weight: bold;
+}
+
+.stretched-link:hover {
+    color: #533CB0;
+}
+
+/* 在较小的屏幕上调整列布局 */
+@media (max-width: 767px) {
+    .card-header, .card-body {
+        text-align: center;
+    }
+}
