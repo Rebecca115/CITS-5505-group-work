@@ -56,6 +56,11 @@
     {% if current_user.is_authenticated %}
     <div id="change-password-form" style="display: none;">
         <h2>Change Password</h2>
+        
+        <!-- Success and error messages -->
+        <div id="successMessage" class="hidden alert alert-success">Password changed successfully</div>
+        <div id="errorMessage" class="hidden alert alert-danger"></div>
+        
         <form id="passwordForm">
             <label for="old-password">Old Password:</label><br>
             <input type="password" id="old-password" name="old-password" required><br>
@@ -67,6 +72,7 @@
         </form>
     </div>
     {% endif %}
+    
 
     <div class="container-fluid">
         <div class="row">
@@ -100,9 +106,9 @@
                     {% if current_user.is_authenticated %}
                         <a href="{{ url_for('user.profile', id=current_user.id) }}"><img src="{{ url_for('static', filename='profile_icon.png') }}" alt="Profile"> Profile</a>
                         <br>
-                        <a href="{{ url_for('task.task_list') }}"><img src="{{ url_for('static', filename='accept_task_icon.png') }}" alt="Accept Task"> Accept Task</a>
+                        <a href="{{ url_for('task.accept') }}"><img src="{{ url_for('static', filename='accept_task_icon.png') }}" alt="Accept Task"> Answer Question</a>
                         <br>
-                        <a href="{{ url_for('task.post') }}"><img src="{{ url_for('static', filename='post_task_icon.png') }}" alt="Post Task"> Post Task</a>
+                        <a href="{{ url_for('task.post') }}"><img src="{{ url_for('static', filename='post_task_icon.png') }}" alt="Post Task"> Post Question</a>
                         <br>
                         <a id="logout-link" href="{{ url_for('user.logout') }}">
                             <img src="{{ url_for('static', filename='logout_icon.png') }}" alt="Logout">
@@ -231,6 +237,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
+
     document.getElementById('searchInput').addEventListener('keypress', function(e) {
     if (e.key === 'Enter') {  
         let query = e.target.value;  
@@ -266,45 +273,47 @@
         }
     }
 });
-
-
-    $(document).ready(function() {
-
+$(document).ready(function() {
+    var user_id = "{{ current_user.id }}";
     $('#edit-button').on('click', function() {
         $('#edit-form').show();
     });
 
     $('#edit-form form').on('submit', function(e) {
-    e.preventDefault();  
+        console.log('Form submitted');
+        e.preventDefault();
 
+        var formData = new FormData(this);
 
-    var formData = new FormData(this);
-
-    $.ajax({
-        url: '/update_user_profile',  
-        type: 'POST',
-        processData: false,  
-        contentType: false,  
-        data: formData, 
-        success: function(response) {
-           
-            $('#edit-form').hide();
-            $('h3').text(response.username);  
-            $('#personal-info p:eq(0)').text('Age: ' + response.age);  
-            $('#personal-info p:eq(1)').text('Gender: ' + response.gender); 
-            $('#avatar-preview').attr('src', '/static/uploads/' + response.avatar);  
-        },
-        error: function() {
-            alert("You failded to update your profile. Please try again.");
-        }
+        $.ajax({
+            url: '/user/' + user_id + '/change_profile',
+            type: 'POST',
+            processData: false,  
+            contentType: false,  
+            data: formData, 
+            success: function(response) {
+                $('#edit-form').hide();
+                
+                // Update the user profile information on the page
+                $('h3').text(response.username);  
+                $('#personal-info p:eq(0)').text('Age: ' + response.age);  
+                $('#personal-info p:eq(1)').text('Gender: ' + response.gender); 
+                $('#avatar-preview').attr('src', '/static/uploads/' + response.avatar);  
+            },
+            error: function() {
+                alert("You failed to update your profile. Please try again.");
+            }
+        });
     });
-});
-
 
     $('#cancel-button').on('click', function() {
         $('#edit-form').hide();
         $('#change-password-button').show();  
         $('#edit-button').show();  
+    });
+
+    $('#change-password-button').on('click', function() {
+        $('#change-password-form').show();
     });
 
     $('#cancel-change-password-button').on('click', function() {
@@ -313,28 +322,21 @@
         $('#edit-button').show();  
     });
 
-
-    $('#change-password-button').on('click', function() {
-        $('#change-password-form').show();
+    $('.button').on('click', function() {
+        var taskDetail = $(this).prev();
+        if (taskDetail.css('display') === "none") {
+            taskDetail.css('display', 'block');
+            $(this).text("Read Less");
+        } else {
+            taskDetail.css('display', 'none');
+            $(this).text("Read More");
+        }
     });
 
-
-
-    $('.button').on('click', function() {
-    var taskDetail = $(this).prev();
-    if (taskDetail.css('display') === "none") {
-        taskDetail.css('display', 'block');
-        $(this).text("Read Less");
-    } else {
-        taskDetail.css('display', 'none');
-        $(this).text("Read More");
-    }
-});
-
-    $('#passwordForm').on('submit', function (e) {
-    e.preventDefault();
-    var current_password = $('#old-password').val();
-    var new_password = $('#new-password').val();
+    $('#passwordForm').on('submit', function(e) {
+        e.preventDefault();
+        var current_password = $('#old-password').val();
+        var new_password = $('#new-password').val();
 
         $.ajax({
             url: '/user/change_password',
@@ -344,18 +346,19 @@
                 current_password: current_password,
                 new_password: new_password
             }),
-            success: function (response) {
-                $('#successMessage').text('Password changed successfully').removeClass('hidden');
+            success: function(response) {
+                $('#successMessage').removeClass('hidden');
                 $('#errorMessage').addClass('hidden');
                 $('#old-password, #new-password').val('');
+                $('#change-password-form').hide(); // Hide the form
             },
-            error: function (xhr) {
+            error: function(xhr) {
                 $('#errorMessage').text('Error changing password: ' + xhr.responseJSON.error).removeClass('hidden');
                 $('#successMessage').addClass('hidden');
             }
         });
     });
-    
+
     $('#avatar').on('change', function(e) {
         var reader = new FileReader();
         reader.onload = function(e) {
@@ -363,8 +366,6 @@
         };
         reader.readAsDataURL(this.files[0]);
     });
-
-
 
     $('#searchForm').on('submit', function(e) {
         e.preventDefault();
@@ -394,6 +395,57 @@
     });
 });
 
+//     $('#cancel-change-password-button').on('click', function() {
+//         $('#change-password-form').hide();
+//         $('#change-password-button').show();
+//         $('#edit-button').show();  
+//     });
+
+
+//     $('#change-password-button').on('click', function() {
+//         $('#change-password-form').show();
+//     });
+
+
+
+//     $('.button').on('click', function() {
+//     var taskDetail = $(this).prev();
+//     if (taskDetail.css('display') === "none") {
+//         taskDetail.css('display', 'block');
+//         $(this).text("Read Less");
+//     } else {
+//         taskDetail.css('display', 'none');
+//         $(this).text("Read More");
+//     }
+// });
+
+//     $('#passwordForm').on('submit', function (e) {
+//     e.preventDefault();
+//     var current_password = $('#old-password').val();
+//     var new_password = $('#new-password').val();
+
+//         $.ajax({
+//             url: '/user/change_password',
+//             type: 'POST',
+//             contentType: 'application/json',
+//             data: JSON.stringify({
+//                 current_password: current_password,
+//                 new_password: new_password
+//             }),
+//             success: function (response) {
+//                 $('#successMessage').text('Password changed successfully').removeClass('hidden');
+//                 $('#errorMessage').addClass('hidden');
+//                 $('#old-password, #new-password').val('');
+//                 $('#change-password-form').modal('hide');
+//             },
+//             error: function (xhr) {
+//                 $('#errorMessage').text('Error changing password: ' + xhr.responseJSON.error).removeClass('hidden');
+//                 $('#successMessage').addClass('hidden');
+//             }
+//         });
+//     });
+    
+    
     
 
 </script>
