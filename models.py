@@ -20,6 +20,7 @@ class User(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.now)
     updated_at = db.Column(db.DateTime,
                            default=datetime.now, onupdate=datetime.now)
+    age = db.Column(db.Integer)
 
     @property
     def is_authenticated(self):
@@ -51,6 +52,7 @@ class User(db.Model):
                 'avatar': self.avatar,
                 'gender' : self.gender,
                 'answer_count': self.answer_list.count(),
+                'age': self.age,
        }
 
 

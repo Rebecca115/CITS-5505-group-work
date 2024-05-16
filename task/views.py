@@ -1,8 +1,8 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify
 from flask_login import login_required, current_user
-from sqlalchemy import or_, desc
+from sqlalchemy import or_, desc, func
 
-from models import Task, Answer, db, AnswerLike
+from models import Task, Answer, db, AnswerLike, User
 from task.form import WriteTaskForm, WriteAnswerForm
 
 quest = Blueprint('task', __name__,
@@ -13,11 +13,33 @@ quest = Blueprint('task', __name__,
 @quest.route('/')
 def index_page():
     """ Home page route, display a list of paginated tasks. """
-    per_page = 5
-    page = request.args.get('page', 1, type=int)
-    page_data = Task.query.order_by(desc(Task.created_at)).paginate(page=page, per_page=per_page)
 
-    return render_template('index.html', page_data=page_data)
+    task_desc = db.session.query(Task.category, func.count(Task.category)).group_by(Task.category).order_by(
+        func.count(Task.category)).all()
+
+    top_user_ids_subquery = (db.session.query(
+        Answer.user_id,
+        func.count(Answer.id).label('answer_count'))
+                             .join(User)
+                             .group_by(Answer.user_id)
+                             .order_by(func.count(Answer.id).desc())
+                             .limit(10)
+                             .subquery())
+
+    top_users = db.session.query(
+        User,
+        top_user_ids_subquery.c.answer_count
+    ).join(
+        top_user_ids_subquery, User.id == top_user_ids_subquery.c.user_id
+    ).all()
+
+    users_data = []
+    for user, answer_count in top_users:
+        user_dict = user.to_dict()
+        user_dict['answer_count'] = answer_count
+        users_data.append(user_dict)
+
+    return render_template('index.html', task_desc=task_desc, top_users=top_users)
 
 
 @quest.route('/task', methods=['GET'])
@@ -43,6 +65,7 @@ def accept():
     per_page = 5
     page = request.args.get('page', 1, type=int)
     page_data = Task.query.order_by(desc(Task.created_at)).paginate(page=page, per_page=per_page)
+
 
     return render_template('accept_task.html', page_data=page_data)
 
@@ -351,10 +374,3 @@ def task_detail(t_id):
         return jsonify({'error': 'Task not found'}), 404
 
     return jsonify({'message': 'Success', 'data': task.to_dict()}), 200
-
-
-@quest.route('/task/category/<category>')
-def task_by_category(category):
-    """ Route to list tasks by category. """
-    tasks = Task.query.filter_by(category=category).all()
-    return jsonify({'message': 'Success', 'data': [q.to_dict() for q in tasks]}), 200
