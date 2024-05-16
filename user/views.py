@@ -262,7 +262,7 @@ def task_answer(t_id):
     return jsonify({'message': 'Success', 'data': [ans.to_dict() for ans in answers]}), 200
 
 
-@user.route('/<int:t_id>/change_profile', methods=['POST'])
+@user.route('/<int:id>/change_profile', methods=['POST'])
 @login_required
 def change_profile(id):
     """ Route to change user profile. """
