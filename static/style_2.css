@@ -17,6 +17,9 @@ a{
 img{
     width: 200px;
   }
+#img2{
+    float:right;
+}
   
 input{
     border: 1px solid black;

@@ -11,6 +11,10 @@ img{
   
 }
 
+#img2{
+  float:right;
+}
+
 h1{
     font-size: 50px;
     color: #715CF8;
