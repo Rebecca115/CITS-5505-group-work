@@ -14,8 +14,6 @@
 <link rel="stylesheet" type="text/css" href="/static/custom_styles.css">
 </head>
 
-<body>
-
     <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
@@ -39,27 +37,10 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="answerModalLabel">{{ task.title }}</h5>
+                
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-                <div id="taskDetails">
-                    <p id="taskTitle">{{ task.title }}</p>
-                    <p id="taskDetail"></p>
-                    <div class="task-detail" style="display: block;">
-                        <p>{{ task.content|safe }}</p> 
-                    </div>
-                
-
-
-                    {% if task.img %}
-                    <img id="taskPhoto" 
-                    src="{{ task.get_img_url }}" 
-                    alt="task photo" 
-                    srcset="{{ task.get_img_url }} 1x, {{ task.get_img_url_hd }} 2x, {{ task.get_img_url_full_hd }} 3x">
-                    {% endif %}
-
-                </div>
+            
 
                 <form id="answerForm">
                     <div class="mb-3">
@@ -105,10 +86,9 @@
                 {% if current_user.is_authenticated %}
                         <a href="{{ url_for('user.profile', id=current_user.id) }}"><img src="{{ url_for('static', filename='profile_icon.png') }}" alt="Profile"> Profile</a>
                         <br>
-                        <a href="/task/templates/accept_task.html"><img src="{{ url_for('static', filename='accept_task_icon.png') }}" alt="Accept Task"> Accept Task</a>
-
+                        <a href="{{ url_for('task.accept') }}"><img src="{{ url_for('static', filename='accept_task_icon.png') }}" alt="Accept Task"> Answer Question</a>
                         <br>
-                        <a href="{{ url_for('task.post') }}"><img src="{{ url_for('static', filename='post_task_icon.png') }}" alt="Post Task"> Post Task</a>
+                        <a href="{{ url_for('task.post') }}"><img src="{{ url_for('static', filename='post_task_icon.png') }}" alt="Post Task"> Post Question</a>
                         <br>
                         <a id="logout-link" href="{{ url_for('user.logout') }}">
                             <img src="{{ url_for('static', filename='logout_icon.png') }}" alt="Logout">
@@ -130,15 +110,30 @@
             <div class="main sticky-top">
                 <div class="main">
                     <div class="row">
-                        <!-- Task list -->
-                        <div class="list-group">
-                            {% for task in page_data.items %}
-                                <!-- Note: Added 'data-task-id' attribute to store task ID -->
-                                <a href="{{ url_for('task.detail', t_id=task.id) }}" class="list-group-item list-group-item-action" data-bs-toggle="modal" data-bs-target="#answerModal" data-task-id="{{ task.id }}" data-task-title="{{ task.title }}" data-task-content="{{ task.content|safe }}" data-task-time="{{ task.expectedtime.strftime('%Y-%m-%d') }}" data-task-img="{{ task.get_img_url if task.img }}">
-                                    {{ task.title }}
-                                </a>
-                            {% endfor %}
-                        </div>
+                        <div class="container mt-5">
+
+                            <div id="task-list" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                                <!-- for  -->
+                                {% for task in page_data.items %}
+                                <div class="col">
+                                  <div class="card h-100">
+                                    <div class="card-header">{{ task.title }}</div>
+                                    <div class="card-body">
+                                      <p class="card-text mb-2">{{ task.content|safe|truncate(200) }}</p><span class="badge bg-primary rounded-pill me-2"></span><button
+                                        type="button" class="btn btn-outline-primary like-btn" data-task-id="9">👍 <span class="like-count">0</span>
+                                        Like</button><button type="button" class="btn btn-outline-danger dislike-btn" data-task-id="9">👎 <span
+                                          class="like-count">0</span> Dislike</button><a class="stretched-link" href="/detail/9">View Details</a>
+                                    </div>
+                                  </div>
+                                </div>
+                                {% endfor %}
+                                
+                              <!-- </div>
+                            <h1 class="text-center mb-4">Task List</h1>
+                            <div id="task-list" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4"></div>
+                        </div> -->
+
+
                     </div>
                 </div>
             </div>
@@ -148,9 +143,93 @@
     </div>             
 
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
+
+$.ajax({
+    url: "/task",
+    type: "GET",
+    data: { per_page: 5, page: 2 },
+    success: function(response) {
+      if (response.message === "Success") {
+        const tasks = response.data;
+        const taskList = $("#task-list");
+
+        tasks.forEach(function(task) {
+          const taskCard = $("<div class='col'>");
+          const cardBody = $("<div class='card h-100'>");
+          const cardHeader = $("<div class='card-header'>").text(task.title);
+          const cardContent = $("<div class='card-body'>");
+          const taskContent = $("<p class='card-text mb-2'>").html(task.content);
+          const taskCategory = $("<span class='badge bg-primary rounded-pill me-2'>").text(task.category);
+          
+          // Ensure like_count and dislike_count are valid numbers
+          const likeCount = task.like_count !== undefined ? task.like_count : 0;
+          const dislikeCount = task.dislike_count !== undefined ? task.dislike_count : 0;
+
+          const likeButton = $("<button type='button' class='btn btn-outline-primary like-btn'>")
+            .html(`👍 <span class="like-count">${likeCount}</span> Like`)
+            .attr("data-task-id", task.id);
+
+          const dislikeButton = $("<button type='button' class='btn btn-outline-danger dislike-btn'>")
+            .html(`👎 <span class="like-count">${dislikeCount}</span> Dislike`)
+            .attr("data-task-id", task.id);
+
+          const taskLink = $("<a class='stretched-link' href='/detail/" + task.id + "'>").text("View Details");
+
+          cardContent.append(taskContent, taskCategory, likeButton, dislikeButton, taskLink);
+          cardBody.append(cardHeader, cardContent);
+          taskCard.append(cardBody);
+          taskList.append(taskCard);
+        });
+
+        $(".like-btn").on("click", function(e) {
+          e.preventDefault();
+          const button = $(this);
+          const taskId = button.data("task-id");
+
+          $.ajax({
+            url: `/task/like/${taskId}`,
+            method: "POST",
+            success: function(response) {
+              button.find(".like-count").text(response.like_count);
+              button.addClass("disabled");
+              button.siblings(".dislike-btn").removeClass("disabled");
+            },
+            error: function(xhr) {
+              alert("An error occurred while processing your request.");
+            }
+          });
+        });
+
+        $(".dislike-btn").on("click", function(e) {
+          e.preventDefault();
+          const button = $(this);
+          const taskId = button.data("task-id");
+
+          $.ajax({
+            url: `/task/dislike/${taskId}`,
+            method: "POST",
+            success: function(response) {
+              button.find(".like-count").text(response.dislike_count);
+              button.addClass("disabled");
+              button.siblings(".like-btn").removeClass("disabled");
+              button.siblings(".like-btn").find(".like-count").text(response.like_count);
+            },
+            error: function(xhr) {
+              alert("An error occurred while processing your request.");
+            }
+          });
+        });
+      } else {
+        console.error("Error:", response.message);
+      }
+    },
+    error: function(xhr, status, error) {
+      console.error("Error:", error);
+    }
+});
+
+
 
 document.getElementById('searchInput').addEventListener('keypress', function(e) {
     if (e.key === 'Enter') {  
@@ -222,7 +301,8 @@ $(document).ready(function() {
 });
 
 </script>
-</body>
+
+
 </html>
 
 
