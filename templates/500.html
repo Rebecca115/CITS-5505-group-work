@@ -18,3 +18,65 @@
 </div>
 </body>
 </html>
+<h5 class="card-title"><a href="{{ url_for('task.detail', t_id=task.id) }}">{{ task.title }}</a>
+
+  <h5 class="modal-title" id="answerModalLabel">{{ task.title }}</h5>
+  <p id="taskTitle">{{ task.title }}</p>
+
+  <div class="task-detail" style="display: block;">
+    <p>{{ task.content|safe }}</p> 
+</div>
+
+div class="normal">
+                                            <p class="card-text">{{ task.content|safe|truncate(200) }}</p>
+                                            <button class="btn btn-primary show-desc">Read More</button>
+                                        </div>
+                                        <div class="additional hidden">
+                                            <p class="card-text">{{ task.content|safe }}</p>
+                                            <button class="btn btn-secondary hide-desc">Collapse</button>
+                                        </div>
+
+
+
+
+                                        <div class="modal-body">
+                                          <div id="taskDetails">
+                          
+                                              <p id="taskDetail"></p>
+                          
+                                          
+                          
+                          
+                                              {% if task.img %}
+                                              <img id="taskPhoto" 
+                                              src="{{ task.get_img_url }}" 
+                                              alt="task photo" 
+                                              srcset="{{ task.get_img_url }} 1x, {{ task.get_img_url_hd }} 2x, {{ task.get_img_url_full_hd }} 3x">
+                                              {% endif %}
+                          
+                                          </div>
+
+
+
+
+
+                        {% for task in page_data.items %}
+                        <div class="card mb-3">
+                            <div class="row g-0">
+                                {% if task.img %}
+                                    <div class="col-md-4">
+                                        <img src="{{ url_for('static', filename='uploads/' + task.img) }}"
+                                             class="img-fluid rounded-start" alt="Task Image">
+                                    </div>
+                                {% endif %}
+                                <div class="col-md-8">
+                                    <div class="card-body">
+                                      
+                            
+                
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
