@@ -54,21 +54,7 @@ Login
   <img src="/static/Picture2.png" alt="right_decoration" style="float: right;">
 
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-  <script>
-   $(function () {
-    $('#username, #password').on('keypress', function (e) {
-        if (e.which === 13) {
-            e.preventDefault(); // Prevent default form submission behavior
-            var username = $('#username').val();
-            var password = $('#password').val();
-            if (username && password) { 
-                var query = username + '+' + password; // Concatenate username and password
-                window.location.href = `/search?query=${encodeURIComponent(query)}`;
-            }
-        }
-    });
-});
+  <script src="/static/login.js"></script>
 
-</script>
 {% endblock %}
 
