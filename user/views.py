@@ -209,6 +209,7 @@ def change_email(id):
 
     data = request.get_json()
     new_email = data.get('new_email')
+    age = data.get('age')
     current_user.email = new_email
     db.session.commit()
     return jsonify({'message': 'Email updated successfully'}), 200
@@ -223,8 +224,15 @@ def change_nickname(id):
         return jsonify({'error': 'You are not authorized to perform this action'}), 403
 
     data = request.get_json()
-    new_nickname = data.get('new_nickname')
-    current_user.nickname = new_nickname
+    if 'new_nickname' in data:
+        user.nickname = data['username']
+    if 'email' in data:
+        user.email = data['email']
+    if 'avatar' in data:
+        user.profile_picture = data['avatar']
+    if 'gender' in data:
+        user.gender = data['gender']
+
     db.session.commit()
     return jsonify({'message': 'Nickname updated successfully'}), 200
 
