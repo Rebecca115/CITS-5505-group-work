@@ -47,9 +47,8 @@
             <label for="avatar">Avatar:</label><br>
             <input type="file" id="avatar" name="avatar" accept="image/*"><br>
             <img id="avatar-preview" src="{{ url_for('static', filename='uploads/' + user.avatar if user.avatar else 'uploads/default_avatar.png') }}" alt="Avatar preview"><br>
-
-            <button type="button" id="cancel-button">Cancel</button>
-            <button type="submit" id="submit-button">Submit</button>
+            <button type="button" id="cancel-button" class="button">Cancel</button>
+            <button type="submit" id="submit-button" class="button">Submit</button>
         </form>
     </div>
 
@@ -66,9 +65,9 @@
             <input type="password" id="old-password" name="old-password" required><br>
             <label for="new-password">New Password:</label><br>
             <input type="password" id="new-password" name="new-password" required><br>
-    
-            <button type="button" id="cancel-change-password-button">Cancel</button>
-            <button type="submit" id="submit-change-password-button">Submit</button>
+
+            <button type="button" id="cancel-change-password-button" class="button">Cancel</button>
+            <button type="submit" id="submit-change-password-button" class="button">Submit</button>
         </form>
     </div>
     {% endif %}
@@ -142,10 +141,9 @@
                             <div id="personal-info"><h2>Your Profile</h2></div>
                             <p>Age: {{ user.age }}</p>
                             <p>Gender: {{ user.gender }}</p>
-                            <button class="control-button" id="edit-button">Edit Profile</button>    
-
+                            <button class="button control-button" id="edit-button">Edit Profile</button>
                             {% if current_user.is_authenticated %}
-                            <button class="control-button" id="change-password-button">Change Password</button>
+                            <button class="button control-button" id="change-password-button">Change Password</button>
                             {% endif %}
                         </div>
                     </div>
