@@ -1,13 +1,16 @@
 
 body {
     font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
     font-weight: 600;
     background-image: linear-gradient(90deg, #fff7ad, #ffa9f9), url('background.png');
     color: #545454;
     display: flex;
-    flex-direction: column; /* 垂直堆叠内容 */
+    flex-direction: column; 
     min-height: 100vh;
 }
+
+
 
 input[type="text"] {
     max-width: 100%;
@@ -50,12 +53,15 @@ input[type="file"] {
 }
 
 .main {
-    padding: 20px;  /* 统一内边距 */
+    padding: 20px;  
     padding-top: 100px; /* 根据 top-bar 实际高度调整 */
     /* background: #F8F6F1;  */
     flex-grow: 1;  /* 确保它可以填满剩余空间 */
     min-height: calc(100vh - 100px);  /* 调整最小高度以适应 top-bar 的实际高度 */
     position: relative; /* 保持 relative 以便于定位内部元素 */
+    width: 80%; /* 确保主内容区的宽度合适 */
+    padding: 1rem; /* 适当的内边距 */
+    font-size: 1rem; /
 }
 
 
@@ -81,6 +87,7 @@ input[type="file"] {
     top: 0; /* 固定在视窗顶部 */
     overflow-y: auto; /* 允许y轴滚动 */
     padding: 20px;
+    
 }
 
 .sidebar img {
@@ -531,9 +538,31 @@ body .sidebar a:hover {
     color: #533CB0;
 }
 
+
+.container-fluid {
+    max-width: 100%; /* 确保容器的宽度不超过视口宽度 */
+    padding: 0 1rem; /* 适当的内边距 */
+}
+
+
+
+
 /* 在较小的屏幕上调整列布局 */
 @media (max-width: 767px) {
     .card-header, .card-body {
         text-align: center;
+    }
+}
+
+/* 响应式布局调整 */
+@media (max-width: 1200px) {
+    .row-cols-lg-3 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .row-cols-md-2 {
+        grid-template-columns: 1fr;
     }
 }
