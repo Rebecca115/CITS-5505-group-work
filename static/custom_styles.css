@@ -11,7 +11,9 @@ input[type="file"] {
     white-space: nowrap;
     text-overflow: ellipsis;
 }
-
+#img2{
+    float: right;
+}
 .top-bar {
     background: linear-gradient(90deg, #fff7ad, #ffa9f9), url('background.png');
     z-index: 200;

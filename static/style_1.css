@@ -1,37 +1,12 @@
 @import "compass/css3";
 
-body, html {
-    background-color: rgb(248, 239, 229);
-    height:100%;
-    font-family:Verdana, Geneva, Tahoma, sans-serif;
-  }
 
-img{
-  width: 200px;
-  
-}
 
 #img2{
   float:right;
 }
 
-h1{
-    font-size: 50px;
-    color: #715CF8;
-   
-}
-a{
-    font-size: 12px;
-    color: #715CF8;
-    text-decoration: none;
-}
-input{
-    border: 1px solid black;
-    border-radius: 25px;
-    height: 35px;
-    width: 300px;
-   
-}
+
 #central_from{
     text-align: center;
     z-index: -1;
