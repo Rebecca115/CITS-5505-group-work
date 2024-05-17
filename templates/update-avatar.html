@@ -1,0 +1,38 @@
+{% extends "base_profile.html" %}
+
+{% block title %}Update Avatar - Study Perth Assistant{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="css/update-avatar.css" type="text/css">
+{% endblock %}
+
+{% block content %}
+    <!-- Main Content -->
+    <main id="main" class="mt-5 pt-3">
+        <section class="content">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2>Update Avatar</h2>
+                        <form>
+                            <div class="mb-3 text-center">
+                                <img src="images/user-avatar.jpg" alt="User Avatar" class="rounded-circle img-thumbnail" width="150">
+                            </div>
+                            <div class="mb-3 row">
+                                <label for="avatar" class="col-sm-3 col-form-label">Upload new avatar</label>
+                                <div class="col-sm-9">
+                                    <input type="file" class="form-control" id="avatar">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-9 offset-sm-3">
+                                    <button type="submit" class="btn btn-primary">Update</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+{% endblock %}

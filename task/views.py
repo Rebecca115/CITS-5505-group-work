@@ -6,7 +6,7 @@ from models import Task, Answer, db, AnswerLike, User
 from task.form import WriteTaskForm, WriteAnswerForm
 
 quest = Blueprint('task', __name__,
-                  template_folder='templates',
+                  template_folder='../templates',
                   static_folder='../static')
 
 
