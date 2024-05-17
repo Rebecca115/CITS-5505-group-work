@@ -1,321 +1,211 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Study Perth Assistant</title>
+{% block title %}Study Perth Assistant{% endblock %}
 
-    <!-- Bootstrap -->
-    <link href="lib/bootstrap-5.0.2-dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Project Icon -->
-    <link rel="icon" href="../static/image/logo.png" type="images/png">
-
-    <!-- Link custom css -->
-    <link rel="stylesheet" href="../static/css/base.css" type="text/css">
-</head>
-
-<body>
-    <!-- ************************ Header ************************ -->
-    <header>
-        <nav class="navbar navbar-expand-md navbar-light bg-light fixed-top shadow-sm w-100">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="#top">
-                    <img src="../static/image/logo.png" alt="logo" class="index-icon d-inline-block align-top img-fluid">
-                    Study Perth Assistant
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
-                    aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-                    <i class="fa-regular fa-list-ul navbar-icon"></i>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarCollapse">
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item d-md-none">
-                            <div class="user-info-mobile">
-                                <img src="../static/image/user-avatar.jpg" alt="User Avatar" class="rounded-circle" width="30">
-                                <span class="ms-2">Jack Qin</span>
-                            </div>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="index.html"><i class="fas fa-home navbar-icon"></i> Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="browse-question.html"><i class="fas fa-home navbar-icon"></i> Browse question</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href=""><i class="fas fa-question-circle navbar-icon"></i> Post a question</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#"><i class="fas fa-user navbar-icon"></i> Profile</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="login.html"><i class="fas fa-sign-in-alt navbar-icon"></i> Login</a>
-                        </li>
-
-                        <!-- Sidebar items for small screens -->
-                        <li class="nav-item d-md-none">
-                            <a class="nav-link" href="user-info.html"><i class="fas fa-user"></i> User Information</a>
-                        </li>
-                        <li class="nav-item d-md-none">
-                            <a class="nav-link" href="answered-questions.html"><i class="fas fa-calendar-check"></i> Answered Questions</a>
-                        </li>
-                        <li class="nav-item d-md-none">
-                            <a class="nav-link" href="posted-questions.html"><i class="fas fa-question-circle"></i> Posted Questions</a>
-                        </li>
-                        <li class="nav-item d-md-none">
-                            <a class="nav-link" href="active-history.html"><i class="fas fa-history"></i> Active History</a>
-                        </li>
-                        <li class="nav-item d-md-none">
-                            <a class="nav-link" href="#"><i class="fas fa-sign-out-alt"></i> Logout</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
-
-    <!-- Main Content -->
-    <main class="mt-5 pt-1">
-        <!-- ************************ Q&A System ************************ -->
-        <section class="content">
-            <div class="container">
-                <div class="row align-items-center justify-content-between">
-                    <h1 class="text-center mb-4">Study Perth Assistant Q&A System</h1>
-                    <div class="input-group mb-3">
-                        <input type="text" class="form-control" id="search-input" placeholder="Search">
-                        <div class="input-group-append">
-                            <button class="btn btn-primary" type="button" id="search-button">Search</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="content">
-            <div class="container">
-                <div class="row align-items-center justify-content-between">
-                    <div class="row">
-                        <div class="col-md-3">
-                            <div class="image-box">
-                                <img src="../static/image/Picture1.png" alt="Image 1" class="img-fluid">
-                                <div class="text-box text-center">
-                                    <a href="URL_HERE" class="no-decoration">
-                                        <h2>Post task</h2>
-                                    </a>
-                                    <p>Post your first task.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="image-box">
-                                <img src="../static/image/Picture2.png" alt="Image 2" class="img-fluid">
-                                <div class="text-box text-center">
-                                    <a href="URL_HERE" class="no-decoration">
-                                        <h2>Accept task</h2>
-                                    </a>
-                                    <p>Accept your first task.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="image-box">
-                                <img src="../static/image/Picture3.png" alt="Image 3" class="img-fluid">
-                                <div class="text-box text-center">
-                                    <a href="URL_HERE" class="no-decoration">
-                                        <h2>Profile</h2>
-                                    </a>
-                                    <p>Get social with friends.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="image-box">
-                                <img src="../static/image/Picture4.png" alt="Image 4" class="img-fluid">
-                                <div class="text-box text-center">
-                                    <a href="URL_HERE" class="no-decoration">
-                                        <h2>Task ranking</h2>
-                                    </a>
-                                    <p>Take a look at everyone's contributions.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="content">
-            <div class="container">
-                <div class="row align-items-center justify-content-between">
-                    <div class="page">
-                        <div class="left-content">
-                            <img src="../static/image/Page2.png" alt="Image" class="img-fluid">
-                        </div>
-                        <div class="center">
-                            <h1>We believe in the power of helping each other</h1>
-                            <div class="text-box">
-                                <h2>Our original intention</h2>
-                                <p class="adjustable-text">Study Perth Assistant hopes to help international students in
-                                    Perth solve various
-                                    problems encountered in life and study through voluntary mutual assistance, help
-                                    them make more friends,
-                                    better integrate into the University and community, and live a successful life.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="content">
-            <div class="container">
-                <div class="row align-items-center justify-content-between">
-                    <div class="page">
-                        <h1>How to use? Just four simple steps</h1>
-                        <div class="row">
-                            <div class="col-md-3">
-                                <div class="text-box">
-                                    <h2>Step 1</h2>
-                                    <p>Create your Study Perth Assistant account.</p>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="text-box">
-                                    <h2>Step 2</h2>
-                                    <p>Post Task: Click the task post button to enter the task posting page.
-                                        <br>Accept Task: Enter the Task list to browse various task information.</p>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="text-box">
-                                    <h2>Step 3</h2>
-                                    <p>Post Task: Fill in the relevant information according to the requirements of the task release page,
-                                        add the task picture, and publish the task.
-                                        <br>Accept Task: Decide whether to accept a task based on the information on the task list page.</p>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="text-box">
-                                    <h2>Step 4</h2>
-                                    <p>Let's give each other good reviews after the task is over.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="content">
-            <div class="container">
-                <div class="row align-items-center justify-content-between">
-                    <div class="page">
-                        <div class="col-md-6 left-content">
-                            <h1>Post your tasks directly</h1>
-                            <img src="../static/image/Page4.png" alt="Adjustable Image" class="img-fluid">
-                        </div>
-                        <div class="col-md-6 right-content">
-                            <div class="image-gallery">
-                                <div class="image-box" id="housing-task">
-                                    <div class="text-box">
-                                        <h2>Housing</h2>
-                                    </div>
-                                </div>
-                                <div class="image-box" id="transportation-task">
-                                    <div class="text-box">
-                                        <h2>Transportation</h2>
-                                    </div>
-                                </div>
-                                <div class="image-box" id="entertainment-task">
-                                    <div class="text-box">
-                                        <h2>Entertainment</h2>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="content">
-            <div class="container">
-                <div class="row align-items-center justify-content-between"></div>
-            </div>
-        </section>
-
-        <section class="content">
-            <div class="container">
-                <div class="row align-items-center justify-content-between">
-                    <div class="page">
-                        <div class="container">
-                            <div class="content"></div>
-                            <h1>Task Dashboard</h1>
-                            <div class="row charts">
-                                <div class="col-md-4 chart">
-                                    <h2 class="text-center">Scoreboard</h2>
-                                    <div id="top-users-chart" class="chart-container"></div>
-                                </div>
-                                <div class="col-md-4 chart">
-                                    <h2 class="text-center">Total Tasks</h2>
-                                    <div id="total-tasks-chart" class="chart-container"></div>
-                                </div>
-                                <div class="col-md-4 chart">
-                                    <h2 class="text-center">Task Types</h2>
-                                    <div id="task-types-chart" class="chart-container"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="content">
-            <div class="container">
-                <div class="row align-items-center justify-content-between"></div>
-            </div>
-        </section>
-    </main>
-
-    <footer class="mt-5">
+{% block maincontent %}
+<main class="mt-5 pt-1">
+    <!-- ************************ Q&A System ************************ -->
+    <section class="content">
         <div class="container">
             <div class="row align-items-center justify-content-between">
-                <div class="col-md-6">
-                    <p class="text-center text-md-start">&copy; This website is created for educational purposes and
-                        inspired by React official website.</p>
-                </div>
-                <div class="col-md-6">
-                    <ul class="nav justify-content-center justify-content-md-end">
-                        <li class="nav-item">
-                            <a class="nav-link" href="index.html">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="author.html">Author</a>
-                        </li>
-                    </ul>
+                <h1 class="text-center mb-4">Study Perth Assistant Q&A System</h1>
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" id="search-input" placeholder="Search">
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" type="button" id="search-button">Search</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </footer>
+    </section>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="lib/bootstrap-5.0.2-dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        function askQuestion() {
-            const question = document.getElementById('questionInput').value;
-            if (question.trim() === "") {
-                alert("Please enter a question.");
-                return;
-            }
-            const qaSection = document.getElementById('qaSection');
-            const newQuestion = document.createElement('div');
-            newQuestion.classList.add('mb-3', 'p-3', 'border', 'border-secondary', 'rounded');
-            newQuestion.innerHTML = `<strong>Q:</strong> ${question}<br><strong>A:</strong> This is a sample answer.`;
-            qaSection.appendChild(newQuestion);
-            document.getElementById('questionInput').value = "";
-        }
-    </script>
-</body>
+    <section class="content">
+        <div class="container">
+            <div class="row align-items-center justify-content-between">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="image-box">
+                            <img src="{{ url_for('static', filename='image/Picture1.png') }}" alt="Image 1" class="img-fluid">
+                            <div class="text-box text-center">
+                                <a href="URL_HERE" class="no-decoration">
+                                    <h2>Post task</h2>
+                                </a>
+                                <p>Post your first task.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="image-box">
+                            <img src="{{ url_for('static', filename='image/Picture2.png') }}" alt="Image 2" class="img-fluid">
+                            <div class="text-box text-center">
+                                <a href="URL_HERE" class="no-decoration">
+                                    <h2>Accept task</h2>
+                                </a>
+                                <p>Accept your first task.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="image-box">
+                            <img src="{{ url_for('static', filename='image/Picture3.png') }}" alt="Image 3" class="img-fluid">
+                            <div class="text-box text-center">
+                                <a href="URL_HERE" class="no-decoration">
+                                    <h2>Profile</h2>
+                                </a>
+                                <p>Get social with friends.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="image-box">
+                            <img src="{{ url_for('static', filename='image/Picture4.png') }}" alt="Image 4" class="img-fluid">
+                            <div class="text-box text-center">
+                                <a href="URL_HERE" class="no-decoration">
+                                    <h2>Task ranking</h2>
+                                </a>
+                                <p>Take a look at everyone's contributions.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-</html>
+    <section class="content">
+        <div class="container">
+            <div class="row align-items-center justify-content-between">
+                <div class="page">
+                    <div class="left-content">
+                        <img src="{{ url_for('static', filename='image/Page2.png') }}" alt="Image" class="img-fluid">
+                    </div>
+                    <div class="center">
+                        <h1>We believe in the power of helping each other</h1>
+                        <div class="text-box">
+                            <h2>Our original intention</h2>
+                            <p class="adjustable-text">Study Perth Assistant hopes to help international students in Perth solve various problems encountered in life and study through voluntary mutual assistance, help them make more friends, better integrate into the University and community, and live a successful life.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="content">
+        <div class="container">
+            <div class="row align-items-center justify-content-between">
+                <div class="page">
+                    <h1>How to use? Just four simple steps</h1>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="text-box">
+                                <h2>Step 1</h2>
+                                <p>Create your Study Perth Assistant account.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="text-box">
+                                <h2>Step 2</h2>
+                                <p>Post Task: Click the task post button to enter the task posting page.
+                                    <br>Accept Task: Enter the Task list to browse various task information.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="text-box">
+                                <h2>Step 3</h2>
+                                <p>Post Task: Fill in the relevant information according to the requirements of the task release page, add the task picture, and publish the task.
+                                    <br>Accept Task: Decide whether to accept a task based on the information on the task list page.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="text-box">
+                                <h2>Step 4</h2>
+                                <p>Let's give each other good reviews after the task is over.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="content">
+        <div class="container">
+            <div class="row align-items-center justify-content-between">
+                <div class="page">
+                    <div class="col-md-6 left-content">
+                        <h1>Post your tasks directly</h1>
+                        <img src="{{ url_for('static', filename='image/Page4.png') }}" alt="Adjustable Image" class="img-fluid">
+                    </div>
+                    <div class="col-md-6 right-content">
+                        <div class="image-gallery">
+                            <div class="image-box" id="housing-task">
+                                <div class="text-box">
+                                    <h2>Housing</h2>
+                                </div>
+                            </div>
+                            <div class="image-box" id="transportation-task">
+                                <div class="text-box">
+                                    <h2>Transportation</h2>
+                                </div>
+                            </div>
+                            <div class="image-box" id="entertainment-task">
+                                <div class="text-box">
+                                    <h2>Entertainment</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="content">
+        <div class="container">
+            <div class="row align-items-center justify-content-between"></div>
+        </div>
+    </section>
+
+    <section class="content">
+        <div class="container">
+            <div class="row align-items-center justify-content-between">
+                <div class="page">
+                    <div class="container">
+                        <div class="content"></div>
+                        <h1>Task Dashboard</h1>
+                        <div class="row charts">
+                            <div class="col-md-4 chart">
+                                <h2 class="text-center">Scoreboard</h2>
+                                <ul>
+                                    {% for user in users_data %}
+                                        <li>{{ user.username }}: {{ user.answer_count }} answers</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                            <div class="col-md-4 chart">
+                                <h2 class="text-center">Total Tasks</h2>
+                                <p class="text-center">{{ task_count }}</p>
+                            </div>
+                            <div class="col-md-4 chart">
+                                <h2 class="text-center">Task Types</h2>
+                                <ul>
+                                    {% for task in task_desc %}
+                                        <li>{{ task[0] }}: {{ task[1] }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="content">
+        <div class="container">
+            <div class="row align-items-center justify-content-between"></div>
+        </div>
+    </section>
+</main>
+{% endblock %}
