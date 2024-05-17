@@ -12,6 +12,7 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     username = db.Column(db.String(64), unique=True, nullable=False)
     nickname = db.Column(db.String(64))
+    age = db.Column(db.Integer)
     password = db.Column(db.String(256), nullable=False)
     avatar = db.Column(db.String(256))
     gender = db.Column(db.String(16))
@@ -20,7 +21,6 @@ class User(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.now)
     updated_at = db.Column(db.DateTime,
                            default=datetime.now, onupdate=datetime.now)
-    age = db.Column(db.Integer)
 
     @property
     def is_authenticated(self):
