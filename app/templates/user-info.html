@@ -1,0 +1,76 @@
+{% extends "base_profile.html" %}
+
+{% block title %}User Information - Study Perth Assistant{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/user-info.css') }}" type="text/css">
+{% endblock %}
+
+{% block content %}
+    <!-- Main Content -->
+    <main id="main" class="mt-5 pt-3">
+        <section class="content">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2>User Information</h2>
+                        <form>
+                            <div class="mb-3 row">
+                                <label for="nickname" class="col-sm-3 col-form-label">Nickname</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="nickname" placeholder="Nickname">
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label for="username" class="col-sm-3 col-form-label">Username</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="username" placeholder="Username">
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label for="signature" class="col-sm-3 col-form-label">Signature</label>
+                                <div class="col-sm-9">
+                                    <textarea class="form-control" id="signature" rows="3" placeholder="Signature"></textarea>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label class="col-sm-3 col-form-label">Gender</label>
+                                <div class="col-sm-9">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="gender" id="male" value="male">
+                                        <label class="form-check-label" for="male">Male</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="gender" id="female" value="female">
+                                        <label class="form-check-label" for="female">Female</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="gender" id="secret" value="secret">
+                                        <label class="form-check-label" for="secret">Secret</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label for="dob" class="col-sm-3 col-form-label">DOB</label>
+                                <div class="col-sm-9">
+                                    <input type="date" class="form-control" id="dob">
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label for="school-info" class="col-sm-3 col-form-label">School</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="school-info" placeholder="Which University">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-9 offset-sm-3">
+                                    <button type="submit" class="btn btn-primary">Save</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+{% endblock %}
