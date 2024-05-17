@@ -38,21 +38,21 @@
                         </div>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="index.html"><i class="fas fa-home navbar-icon"></i> Home</a>
+                        <a class="nav-link" href="{{ url_for('task.index') }}"><i class="fas fa-home navbar-icon"></i> Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="browse-question.html"><i class="fas fa-home navbar-icon"></i> Browse
+                        <a class="nav-link" href=""><i class="fas fa-home navbar-icon"></i> Browse
                             question</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href=""><i class="fas fa-question-circle navbar-icon"></i> Post a
+                        <a class="nav-link" href="{{ url_for('task.post') }}"><i class="fas fa-question-circle navbar-icon"></i> Post a
                             question</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fas fa-user navbar-icon"></i> Profile</a>
+                        <a class="nav-link" href="{{ url_for('user.info') }}"><i class="fas fa-user navbar-icon"></i> Profile</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="login.html"><i class="fas fa-sign-in-alt navbar-icon"></i> Login</a>
+                        <a class="nav-link" href="{{ url_for('user.login') }}"><i class="fas fa-sign-in-alt navbar-icon"></i> Login</a>
                     </li>
 
                     <!-- Sidebar items for small screens -->
