@@ -10,7 +10,9 @@ from flask_wtf.file import FileField, FileRequired, FileAllowed
 from itsdangerous import URLSafeTimedSerializer
 from werkzeug.utils import secure_filename
 from wtforms import StringField, PasswordField, ValidationError
-from wtforms.validators import DataRequired, Length, EqualTo
+from wtforms.fields.core import DateField, RadioField
+from wtforms.fields.simple import TextAreaField, SubmitField
+from wtforms.validators import DataRequired, Length, EqualTo, Optional
 
 from models import User, db
 from utils import constants
@@ -196,3 +198,18 @@ class ForgotPassForm(FlaskForm):
         msg.body = f'Please click on the link to reset your password: {reset_url}'
         Mail(current_app).send(msg)
         return user
+
+
+
+class UserProfileForm(FlaskForm):
+    nickname = StringField('Nickname', validators=[Optional(), Length(max=64)])
+    username = StringField('Username', render_kw={'readonly': True})
+    signature = TextAreaField('Signature', validators=[Optional(), Length(max=200)])
+    gender = RadioField('Gender', choices=[('male', 'Male'), ('female', 'Female'), ('secret', 'Secret')], validators=[Optional()])
+    dob = DateField('DOB', validators=[Optional()])
+    school_info = StringField('School', validators=[Optional(), Length(max=64)])
+    submit = SubmitField('Save')
+
+class UpdateAvatarForm(FlaskForm):
+    avatar = FileField('Upload new avatar', validators=[DataRequired()])
+    submit = SubmitField('Update')
