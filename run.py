@@ -12,6 +12,7 @@ from models import db, User
 from app.user.views import user
 from utils import initialize_database
 
+
 app = Flask(__name__, static_folder='/app/static', static_url_path='/../static')
 app.config.from_object('app.conf.Config')
 
@@ -40,10 +41,9 @@ login_manager.init_app(app)
 def load_user(user_id):
     return User.query.get(user_id)
 
+
 if not os.path.exists('instance/data.db'):
-    initialize_database.create_local_db(app,db)
+    initialize_database.create_local_db(app, db)
 
 if __name__ == '__main__':
-
     app.run(host="0.0.0.0", port=8080, debug=True)
-
