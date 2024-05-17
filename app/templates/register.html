@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Create Account - Study Perth Assistant
+{% endblock %}
+
+{% block header %}
+<!-- Link to custom CSS file -->
+<link rel="stylesheet" href="{{ url_for('static', filename='style_2.css') }}">
+{% endblock %}
+
+{% block maincontent %}
+<main class="mt-5 pt-1">
+    <div class="container">
+        <img src="{{ url_for('static', filename='Picture1.png') }}" alt="left_decoration">
+        <div id="cloud"></div>
+        <div id="central_from" class="col-md-6 offset-md-3">
+            <div id="register">
+                <h1 class="text-center">Create New Account</h1>
+                <p class="text-center">
+                    <a href="{{ url_for('user.login') }}">Already Registered? Login</a>
+                </p>
+                <form id="signup" class="login-form box-wrap" method="POST" enctype="multipart/form-data" action="{{ url_for('user.register') }}">
+                    {{ form.csrf_token }}
+                    <div class="form-group">
+                        <label for="id-user-avatar">Avatar</label>
+                        {{ form.avatar(class="form-control", id="avatar") }}
+                        {% if form.avatar.errors %}
+                            <p class="text-danger">{{ form.avatar.errors[0] }}</p>
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        {{ form.username(class="form-control", id="username") }}
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        {{ form.email(class="form-control", id="email") }}
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        {{ form.password(class="form-control", id="password") }}
+                    </div>
+                    <div class="form-group">
+                        <label for="confirm_password">Confirm Password</label>
+                        {{ form.confirm_password(class="form-control", id="confirm_password") }}
+                    </div>
+                    <button type="submit" id="signupbutton" class="btn btn-primary btn-block mt-4">
+                        Sign up
+                    </button>
+                </form>
+            </div>
+        </div>
+        <img src="{{ url_for('static', filename='Picture2.png') }}" alt="right_decoration" id="img2" style="float: right;">
+    </div>
+</main>
+{% endblock %}
