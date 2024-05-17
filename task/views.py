@@ -67,7 +67,7 @@ def accept():
     page_data = Task.query.order_by(desc(Task.created_at)).paginate(page=page, per_page=per_page)
 
 
-    return render_template('qa_list.html', page_data=page_data)
+    return render_template('accept_task.html', page_data=page_data)
 
 
 @quest.route('/post', methods=['GET', 'POST'])
