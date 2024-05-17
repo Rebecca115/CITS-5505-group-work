@@ -37,11 +37,16 @@ def index():
 
     users_data = []
     for user, answer_count in top_users:
-        user_dict = user.to_dict()
-        user_dict['answer_count'] = answer_count
+        user_dict = {
+            'username': user.username,
+            'avatar': user.avatar,
+            'answer_count': answer_count
+        }
         users_data.append(user_dict)
 
-    return render_template('base.html', task_count=task_count, task_desc=task_desc, top_users=top_users)
+    return render_template('index.html', task_count=task_count, task_desc=task_desc, users_data=users_data)
+
+
 
 
 @quest.route('/task', methods=['GET'])
@@ -89,20 +94,16 @@ def post():
     return render_template('post.html', form=form)
 
 
-@quest.route('/task/list')
+@quest.route('/browse')
 def task_list():
     """
     Route to list tasks in a paginated manner and return as JSON.
     Tasks are sorted by their creation time in descending order.
     """
-    try:
-        per_page = 5  # Define the number of items per page.
-        page = request.args.get('page', 1, type=int)
-        page_data = Task.query.order_by(desc(Task.created_at)).paginate(page=page, per_page=per_page)
-        data = render_template('qa_list.html', page_data=page_data)
-        return jsonify(code=0, data=data)
-    except Exception as e:
-        return jsonify(code=1, data=str(e)), 400
+    per_page = 5  # Define the number of items per page.
+    page = request.args.get('page', 1, type=int)
+    page_data = Task.query.order_by(desc(Task.created_at)).paginate(page=page, per_page=per_page)
+    return  render_template('browse-question.html', page_data=page_data)
 
 
 @quest.route('/detail/<int:t_id>', methods=['GET', 'POST'])

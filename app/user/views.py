@@ -1,8 +1,12 @@
+import os
+
 from flask import Blueprint, render_template, flash, redirect, url_for, request, jsonify, current_app
 from flask_login import logout_user, login_required, current_user
 from itsdangerous import SignatureExpired, BadSignature, URLSafeTimedSerializer
 from sqlalchemy import func
-from app.user.forms import RegisterForm, LoginForm, RestPassForm, ForgotPassForm
+from werkzeug.utils import secure_filename
+
+from app.user.forms import RegisterForm, LoginForm, RestPassForm, ForgotPassForm, UserProfileForm, UpdateAvatarForm
 from models import User, db, Task, Answer
 
 user = Blueprint('user', __name__, template_folder='../templates')
@@ -18,13 +22,12 @@ def login():
         user = form.do_login()
         if user:
             # Successful login
-            flash(f'Welcome back,{user.nickname}.','success')
+            flash(f'Welcome back,{user.nickname}.', 'success')
             return redirect("/")
         else:
             # Login failed, show message
             flash('Login failed, please try again.', 'danger')
             return render_template('login.html', form=form)
-
 
     # Render the login template on GET or failed form submission
     return render_template('login.html', form=form)
@@ -36,7 +39,7 @@ def logout():
     """Route for logging out the user"""
     logout_user()  # Logout the current user
     flash('You have been logged out.', 'success')
-    return redirect(url_for('task.index_page')) 
+    return redirect(url_for('task.index'))
 
 
 # Route for handling registration
@@ -63,31 +66,38 @@ def register():
                 flash(f'Error in {fieldName}: {err}', 'danger')
 
     # Render the registration template on GET or failed form submission
-    return render_template('templates/register.html', form=form)
+    return render_template('register.html', form=form)
 
 
-@user.route('/info/<int:id>/')
+@user.route('/<int:id>/info/')
 # @login_required
-def info():
+def info(id):
     """Route for displaying user profile information"""
     # Fetch user by ID
-    id = 1
+    if id != current_user.id:
+        return jsonify({'error': 'You are not authorized to perform this action'}), 403
+
     user = User.query.filter_by(id=id).first_or_404(description='User not found.')
-    # Render the user profile template
-    return render_template('user-info.html', user=user)
+    form = UserProfileForm(obj=user)
+
+    if form.validate_on_submit():
+        form.populate_obj(user)
+        db.session.commit()
+        flash('Your profile has been updated.', 'success')
+        return redirect(url_for('user.change_profile', id=user.id))
+
+    return render_template('user-info.html', form=form, user=user)
 
 
-@user.route('/<int:id>/tasks')
-# @login_required
-def my_tasks(id):
-    """Retrieve and display tasks posted by the current logged-in user."""
-    try:
-        user_id = id
-        tasks = Task.query.filter_by(user_id=user_id).all()
-        return render_template('templates/mytask.html', tasks=tasks, current_user=current_user)
-    except Exception as e:
-        flash(str(e), 'danger')
-        return redirect('/')
+@user.route('/<int:id>/posted')
+@login_required
+def user_posted_questions(id):
+        user = User.query.get_or_404(id)
+        print(f"User ID: {user.id}, Type: {type(user.id)}")
+
+        tasks = Task.query.filter_by(user_id=user.id).all()
+
+        return render_template('posted-questions.html', user=user, tasks=tasks)
 
 
 @user.route('/change_password', methods=['POST'])
@@ -110,7 +120,6 @@ def change_password():
     db.session.commit()
 
     return jsonify({'message': 'Password updated successfully'}), 200
-
 
 
 @user.route('/confirm-email/<token>')
@@ -163,130 +172,38 @@ def reset_password(token):
     return render_template('templates/reset_password.html', form=form, token=token)
 
 
-@user.route('/get_top_users')
-def get_top_users():
-    """Route for getting top users"""
-    top_user_ids_subquery = (db.session.query(
-        Answer.user_id,
-        func.count(Answer.id).label('answer_count'))
-                             .join(User)
-                             .group_by(Answer.user_id)
-                             .order_by(func.count(Answer.id).desc())
-                             .limit(10)
-                             .subquery())
 
-    top_users = db.session.query(
-        User,
-        top_user_ids_subquery.c.answer_count
-    ).join(
-        top_user_ids_subquery, User.id == top_user_ids_subquery.c.user_id
-    ).all()
-
-    users_data = []
-    for user, answer_count in top_users:
-        user_dict = user.to_dict()
-        user_dict['answer_count'] = answer_count
-        users_data.append(user_dict)
-
-    return jsonify({"users": users_data}), 200
-
-@user.route('/change_email/<int:id>')
+@user.route('/<int:id>/answers', methods=['GET'])
 @login_required
-def change_email(id):
-    """Route for changing the user's email address"""
+def user_answers(id):
     if id != current_user.id:
-        return jsonify({'error': 'You are not authorized to perform this action'}), 403
+        flash('You are not authorized to view this page.', 'danger')
+        return redirect(url_for('index'))
 
-    data = request.get_json()
-    new_email = data.get('new_email')
-    age = data.get('age')
-    current_user.email = new_email
-    db.session.commit()
-    return jsonify({'message': 'Email updated successfully'}), 200
+    user = User.query.get_or_404(id)
+    answers = Answer.query.filter_by(user_id=user.id).all()
 
-
-@user.route('/change_nickname/<int:id>')
-@login_required
-def change_nickname(id):
-    """Route for changing the user's nickname"""
-
-    if id != current_user.id:
-        return jsonify({'error': 'You are not authorized to perform this action'}), 403
-
-    data = request.get_json()
-    if 'new_nickname' in data:
-        user.nickname = data['username']
+    return render_template('user_answers.html', user=user, answers=answers)
 
 
-    db.session.commit()
-    return jsonify({'message': 'Nickname updated successfully'}), 200
-
-
-
-# @user.route('/upload/<int:id>', methods=['POST'])
-# @login_required
-# def upload(id):
-#     """Route for uploading user profile picture"""
-#     if current_user.id != id:
-#         return jsonify({'error': 'You are not authorized to perform this action'}), 403
-#     user = User.query.filter_by(id=id).first_or_404(description='User not found.')
-#     if 'file' not in request.files:
-#         return jsonify({'error': 'No file part'}), 400
-#     file = request.files['file']
-#     if file.filename == '':
-#         return jsonify({'error': 'No selected file'}), 400
-#     if file and allowed_file(file.filename):
-#         filename = secure_filename(file.filename)
-#         file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
-#         user.profile_picture = filename
-#         db.session.commit()
-#         return jsonify({'message': 'Profile picture uploaded successfully'}), 200
-#     return jsonify({'error': 'Invalid file type'}), 400
-
-@user.route('/<int:t_id>/answer', methods=['GET'])
-@login_required
-def task_answer(t_id):
-    """ Route to get answer by user. """
-    user_id = current_user.id
-    answers = Answer.query.filter_by(user_id=user_id).all()
-
-    if not answers:
-        return jsonify({'message': 'No answers found'}), 404
-    return jsonify({'message': 'Success', 'data': [ans.to_dict() for ans in answers]}), 200
-
-
-@user.route('/<int:id>/change_profile', methods=['POST'])
+@user.route('/<int:id>/change_profile', methods=['GET', 'POST'])
 @login_required
 def change_profile(id):
-    """ Route to change user profile. """
+    """Route to change user profile."""
     if id != current_user.id:
         return jsonify({'error': 'You are not authorized to perform this action'}), 403
 
-    data = request.get_json()
     user = User.query.filter_by(id=id).first_or_404(description='User not found.')
+    form = UserProfileForm(obj=user)
 
-    if 'new_nickname' in data:
-        user.nickname = data['username']
-    if 'email' in data:
-        user.email = data['email']
-    if 'avatar' in data:
-        user.profile_picture = data['avatar']
-    if 'gender' in data:
-        user.gender = data['gender']
+    if form.validate_on_submit():
+        form.populate_obj(user)
+        db.session.commit()
+        flash('Your profile has been updated.', 'success')
+        return redirect(url_for('user.change_profile', id=user.id))
 
+    return render_template('user-info.html', form=form, user=user)
 
-
-    if 'username' in data:
-        user.nickname = data['username']
-    if 'email' in data:
-        user.email = data['email']
-    if 'avatar' in data:
-        user.profile_picture = data['avatar']
-    if 'gender' in data:
-        user.gender = data['gender']
-
-    db.session.commit()
-    return jsonify({'message': 'Profile updated successfully'}), 200
 
 @user.route('/<int:id>/answered', methods=['GET', 'POST'])
 def answered(id):
@@ -297,3 +214,28 @@ def answered(id):
     if not answers:
         return jsonify({'message': 'No answers found'}), 404
     return jsonify({'message': 'Success', 'data': [ans.to_dict() for ans in answers]}), 200
+
+
+@user.route('/<int:id>/update-avatar', methods=['GET', 'POST'])
+@login_required
+def update_avatar(id):
+    if id != current_user.id:
+        flash('You are not authorized to perform this action.', 'danger')
+        return redirect(url_for('index'))
+
+    user = User.query.get_or_404(id)
+    form = UpdateAvatarForm()
+
+    if form.validate_on_submit():
+        file = form.avatar.data
+        filename = secure_filename(file.filename)
+        file_path = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
+        file.save(file_path)
+
+        user.avatar = filename
+        db.session.commit()
+
+        flash('Your avatar has been updated!', 'success')
+        return redirect(url_for('user_profile', id=user.id))
+
+    return render_template('update_avatar.html', user=user, form=form)
