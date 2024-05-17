@@ -30,17 +30,6 @@ def login():
     return render_template('login.html', form=form)
 
 
-# Route for handling logout
-# @user.route('/logout')
-# @login_required
-# def logout():
-#     """Route for logging out the user"""
-#     logout_user()  
-#     flash('You have been logged out.', 'success')
-#     redirect_url = url_for('quest.index_page')
-#     print(redirect_url) 
-#     return redirect(url_for('quest.index_page'))
-
 @user.route('/logout')
 @login_required
 def logout():
@@ -79,9 +68,10 @@ def register():
 
 @user.route('/info/<int:id>/')
 # @login_required
-def profile(id):
+def info():
     """Route for displaying user profile information"""
     # Fetch user by ID
+    id = 1
     user = User.query.filter_by(id=id).first_or_404(description='User not found.')
     # Render the user profile template
     return render_template('user-info.html', user=user)

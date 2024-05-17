@@ -12,7 +12,7 @@ quest = Blueprint('task', __name__,
 
 
 @quest.route('/')
-def index_page():
+def index():
     """ Home page route, display a list of paginated tasks. """
 
     task_desc = db.session.query(Task.category, func.count(Task.category)).group_by(Task.category).order_by(
