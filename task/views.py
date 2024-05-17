@@ -34,13 +34,15 @@ def index_page():
         top_user_ids_subquery, User.id == top_user_ids_subquery.c.user_id
     ).all()
 
+    task_count = Task.query.count()
+
     users_data = []
     for user, answer_count in top_users:
         user_dict = user.to_dict()
         user_dict['answer_count'] = answer_count
         users_data.append(user_dict)
 
-    return render_template('index.html', task_desc=task_desc, top_users=top_users)
+    return render_template('index.html', task_count=task_count, task_desc=task_desc, top_users=top_users)
 
 
 @quest.route('/task', methods=['GET'])
