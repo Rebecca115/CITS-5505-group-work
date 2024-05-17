@@ -1,0 +1,37 @@
+{% extends "base_profile.html" %}
+
+{% block title %}Posted Questions - Study Perth Assistant{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="css/posted-questions.css" type="text/css">
+{% endblock %}
+
+{% block content %}
+    <!-- Main Content -->
+    <main id="main" class="mt-5 pt-3">
+        <section class="content">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2>Posted Questions</h2>
+                        <div class="list-group">
+                            <a href="#" class="list-group-item list-group-item-action">
+                                <h5 class="mb-1">What are the best places to visit in Perth?</h5>
+                                <p class="mb-1">Posted on: 2024-04-15</p>
+                            </a>
+                            <a href="#" class="list-group-item list-group-item-action">
+                                <h5 class="mb-1">How to find part-time jobs in Perth?</h5>
+                                <p class="mb-1">Posted on: 2024-03-10</p>
+                            </a>
+                            <a href="#" class="list-group-item list-group-item-action">
+                                <h5 class="mb-1">What are some good restaurants for international students?</h5>
+                                <p class="mb-1">Posted on: 2024-02-20</p>
+                            </a>
+                            <!-- Add more questions here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+{% endblock %}

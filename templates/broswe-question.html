@@ -1,0 +1,40 @@
+{% extends "base_profile.html" %}
+
+{% block title %}Browse Questions - Study Perth Assistant{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="css/browse-questions.css" type="text/css">
+{% endblock %}
+
+{% block content %}
+    <!-- Main Content -->
+    <main id="main" class="mt-5 pt-3">
+        <section class="content">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2>Browse Questions</h2>
+                        <div class="list-group">
+                            <a href="question-detail.html" class="list-group-item list-group-item-action">
+                                <h5 class="mb-1">How to apply for a student visa in Australia?</h5>
+                                <p class="mb-1">I'm planning to study in Australia and need information about the student visa application process. What are the requirements and steps involved?</p>
+                                <small>Posted by John Doe on May 1, 2024</small>
+                            </a>
+                            <a href="question-detail.html" class="list-group-item list-group-item-action">
+                                <h5 class="mb-1">What are the best universities in Perth for international students?</h5>
+                                <p class="mb-1">I'm looking for recommendations on the best universities in Perth that have good programs for international students. Any suggestions?</p>
+                                <small>Posted by Jane Smith on May 2, 2024</small>
+                            </a>
+                            <a href="question-detail.html" class="list-group-item list-group-item-action">
+                                <h5 class="mb-1">How to find accommodation in Perth?</h5>
+                                <p class="mb-1">I'm moving to Perth soon and need advice on finding accommodation. What are the best areas to live in, and how can I find affordable housing?</p>
+                                <small>Posted by Michael Brown on May 3, 2024</small>
+                            </a>
+                            <!-- Add more questions as needed -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+{% endblock %}
