@@ -10,6 +10,7 @@ quest = Blueprint('task', __name__,
                   static_folder='../static')
 
 
+
 @quest.route('/')
 def index_page():
     """ Home page route, display a list of paginated tasks. """
