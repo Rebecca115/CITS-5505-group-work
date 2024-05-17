@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fudong's Project</title>
+
+    <!-- Bootstrap -->
+    <link href="lib/bootstrap-5.0.2-dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Project Icon -->
+    <link rel="icon" href="images/heimao.png" type="image/png">
+
+    <!-- Link custom css -->
+    <link rel="stylesheet" href="css/style.css" type="text/css">
+
+    <style>
+        .non-bold {
+            font-weight: normal;
+        }
+
+        .list-item-border {
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .circular-image {
+            border-radius: 5%;
+            width: 50%;
+            height: auto;
+            object-fit: cover;
+            left: 0;
+        }
+
+        #photo-stream {
+            overflow-x: hidden;
+            white-space: nowrap;
+        }
+
+        .photo-item {
+            display: inline-flex;
+
+        }
+
+        .photo-item img {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+
+        }
+
+        .photo-item img.odd {
+            transform: rotate(-2deg);
+        }
+
+        .photo-item img.even {
+            transform: rotate(2deg);
+        }
+
+        .code-custom {
+            background-color: rgba(229, 231, 235);
+            padding: 8px;
+            color: #4553f0;
+            border-radius: 10px;
+        }
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- ************************ NAV BAR ************************ -->
+    <nav class="navbar navbar-expand-md navbar-white bg-white fixed-top navbar-custom bg-opacity-90 shadow-nav">
+        <div class="container">
+
+            <a class="navbar-brand " href="#top">
+                <img src="images/logo.png" alt="logo" class="index-icon d-inline-block align-top img-fliud">
+                Fudong's Project</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+                aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="author.html">Author</a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <section class="content mt-2">
+            <div class="container">
+                <div class="row align-items-center justify-content-between">
+                    <div class="col-md">
+                        <div class="col-md">
+                            <img src="images/author.JPG" alt="Author's profile picture"
+                                class="img-fluid mx-auto d-block circular-image">
+                        </div>
+                    </div>
+                    <div class="col-md pt-5">
+                        <h2 class="pb-2">About me</h2>
+                        <ul class="d-flex list-unstyled p-1 flex-wrap ">
+                            <li><span class="badge bg-primary p-2 mx-1 my-1 non-bold">Software Engineer</span></li>
+                            <li><span class="badge bg-primary p-2 mx-1 my-1 non-bold">Backpacker</span></li>
+                            <li><span class="badge bg-primary p-2 mx-1 my-1 non-bold">Photographer</span></li>
+                            <li><span class="badge bg-primary p-2 mx-1 my-1 non-bold">INSJ</span></li>
+                            <li><span class="badge bg-primary p-2 mx-1 my-1 non-bold">Cat-Lover</span></li>
+                            <li><span class="badge bg-primary p-2 mx-1 my-1 non-bold">Gamer</span></li>
+                            <li><span class="badge bg-primary p-2 mx-1 my-1 non-bold">Truck Driver</span></li>
+                            <li><span class="badge bg-primary p-2 mx-1 my-1 non-bold">Machinery Driver</span></li>
+                        </ul>
+
+
+                        <p>
+                            From a programmer to a backpacker and now a student, my journey is anything but ordinary.
+                            Fifth year
+                            in Australia, getting more and more Aussie. Have done variety of kinds of jobs.</p>
+
+                        <p>Prior to my backpacker adventure in Australia, I worked as a software engineer in China.
+                            However, Tired of the dullness of city life, I chose to venture into the vast expanses of
+                            Australia.
+
+                        </p>
+
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ************************  Author Page ************************ -->
+
+
+        <div id="Welcome" class="containe pb-3">
+            <h2 class="pb-2">My adventure in Australia</h2>
+            <div class="container-fluid p-0">
+                <div id="photo-stream" class="d-flex">
+                </div>
+            </div>
+        </div>
+
+
+        <!-- ************************ Technical Proficiencies ************************ -->
+        <section class="content">
+            <div class="container">
+                <h2 class="pb-3">Technical Proficiencies</h2>
+                <div class="row">
+                    <!-- Programming Languages -->
+                    <div class="col-lg-6 mb-3">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h5 class="card-title">Programming Languages</h5>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">Python <span
+                                            class="badge bg-info text-dark">Advanced</span></li>
+                                    <li class="list-group-item">Java <span
+                                            class="badge bg-info text-dark">Advanced</span></li>
+                                    <li class="list-group-item">C# <span class="badge bg-primary">Competent</span></li>
+                                    <li class="list-group-item">HTML/CSS <span
+                                            class="badge bg-warning text-dark">Intermediate</span></li>
+                                    <li class="list-group-item">JavaScript <span
+                                            class="badge bg-warning text-dark">Intermediate</span></li>
+                                    <li class="list-group-item">SQL <span class="badge bg-primary">Competent</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Frameworks & Tools -->
+                    <div class="col-lg-6 mb-3">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h5 class="card-title">Frameworks & Tools</h5>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">Django <span
+                                            class="badge bg-warning text-dark">Intermediate</span></li>
+                                    <li class="list-group-item">.Net Core <span
+                                            class="badge bg-warning text-dark">Intermediate</span></li>
+                                    <li class="list-group-item">Scrapy <span
+                                            class="badge bg-info text-dark">Advanced</span></li>
+                                    <li class="list-group-item">Spring Boot <span
+                                            class="badge bg-info text-dark">Advanced</span></li>
+                                    <li class="list-group-item">SpringMVC <span
+                                            class="badge bg-info text-dark">Advanced</span></li>
+                                    <li class="list-group-item">Docker <span class="badge bg-primary">Competent</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ************************ Education ************************ -->
+        <section class="content">
+            <div class="container">
+                <h2 class="pb-3">Education</h2>
+
+                <!-- Master's Degree -->
+                <div class="row mb-4">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Master of Information Technology</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">The University of Western Australia, Jul 2023
+                                    – Jun 2025 (Expected)</h6>
+                                <p class="card-text">
+                                    Specialization in Cloud Computing, Software Requirements and Design, Software
+                                    Testing and Quality Assurance,
+                                    Agile Web Development, Computational Data Analysis, Artificial Intelligence and
+                                    Adaptive Systems, Machine Learning.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bachelor's Degree -->
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Bachelor of E-Commerce and Computer Science (Double major)</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">South China University of Technology, Sep 2015
+                                    – Jun 2019</h6>
+                                <p class="card-text">
+                                    Coursework included Programming in Python, Introduction to Computer Science, Data
+                                    Structures, Computer Networks,
+                                    Software Engineering, Operating Systems, Java Programming, Database Principles and
+                                    Applications, Data Mining,
+                                    Website Planning and Design.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- ************************ Work Experience ************************ -->
+        <section class="content bg-light py-5">
+            <div class="container">
+                <h2 class="pb-3">Work Experience</h2>
+                <div class="row">
+                    <div class="col-lg-6 mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Bus Driver</h5>
+                                <div class="d-flex justify-content-between">
+                                    <h6 class="card-subtitle mb-2 text-muted">LionTown Resource - Kathleen Valley,
+                                        WA</h6>
+                                    <h6 class="card-subtitle mb-2 text-muted text-end">Nov 2023 - Mar 2024</h6>
+                                </div>
+                                <p class="card-text">Principal responsibilities encompass robust safety protocol
+                                    adherence and the provision of timely, reliable transportation service within a
+                                    challenging mining environment.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6 mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Dump Truck Operator</h5>
+                                <div class="d-flex justify-content-between">
+                                    <h6 class="card-subtitle mb-2 text-muted">Anglo American - Moranbah North,
+                                        Queensland</h6>
+                                    <h6 class="card-subtitle mb-2 text-muted text-end">Aug 2022 - Jun 2023</h6>
+                                </div>
+                                <p class="card-text">Operated a dump truck in a safe and efficient manner, adhering to
+                                    all safety protocols and supporting the mining team operations.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6 mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Trade Assistant</h5>
+                                <div class="d-flex justify-content-between">
+                                    <h6 class="card-subtitle mb-2 text-muted">Workpac Pty Ltd - Dysart, Queensland</h6>
+                                    <h6 class="card-subtitle mb-2 text-muted text-end">Dec 2021 - Jul 2022</h6>
+                                </div>
+                                <p class="card-text">Aided in various tasks supporting skilled tradespeople, maintaining
+                                    an organized work environment and ensuring equipment readiness.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6 mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Utility Worker</h5>
+                                <div class="d-flex justify-content-between">
+                                    <h6 class="card-subtitle mb-2 text-muted">Civeo Dysart - Workpac Pty Ltd, Queensland
+                                    </h6>
+                                    <h6 class="card-subtitle mb-2 text-muted text-end">Jul 2021 - Sep 2021</h6>
+                                </div>
+                                <p class="card-text">Performed various duties including facility maintenance, kitchen
+                                    assistance, and housekeeping to support daily site operations.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <div class="container">
+                <div class="row align-items-center justify-content-between">
+                    <div class="col-md-6">
+                        <p class="text-center text-md-start">
+                            &copy; This website is created for educational purposes and inspired by React official
+                            website.
+                        </p>
+                    </div>
+                    <div class="col-md-6">
+                        <ul class="nav justify-content-center justify-content-md-end">
+                            <li class="nav-item">
+                                <a class="nav-link" href="index.html">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="author.html">Author</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="js/script.js"></script>
+        <script>
+            $(function () {
+                // Define photo stream list, cannot read local storage files due to security reasons. HAve to add 
+                // the images manually
+                var images = [
+                    'images/photo-stream/1.jpg',
+                    'images/photo-stream/2.jpg',
+                    'images/photo-stream/3.jpg',
+                    'images/photo-stream/4.jpg',
+                    'images/photo-stream/5.jpg',
+                    'images/photo-stream/6.jpg',
+                    'images/photo-stream/7.jpg',
+                    'images/photo-stream/8.jpg',
+                    'images/photo-stream/9.jpg',
+                    'images/photo-stream/10.jpg',
+                    'images/photo-stream/11.jpg',
+                    'images/photo-stream/12.jpg',
+                    'images/photo-stream/13.jpg'
+                ];
+
+                // Loop through each image source in the images array, and mark each image as even or odd
+                // based on the index of the image in the array. Will add different transform to the odd images and even images
+                images.forEach(function (img, index) {
+                    var imgClass = (index % 2 === 0) ? 'even' : 'odd';
+                    var imgElement = $('<img>').addClass(imgClass).attr('src', img);
+                    var itemElement = $('<div class="photo-item p-2">').append(imgElement);
+                    $('#photo-stream').append(itemElement);
+                });
+
+
+                // Define the animatePhotos function to animate the photo stream
+                function animatePhotos() {
+                    var $stream = $('#photo-stream');
+                    var $firstItem = $stream.find('.photo-item:first');
+                    var firstItemWidth = $firstItem.outerWidth(true);
+
+                    $firstItem.animate({ marginLeft: -firstItemWidth }, 5000, 'linear', function () {
+                        $firstItem.appendTo($stream);
+                        $firstItem.css('margin-left', '');
+                        animatePhotos();
+                    });
+                }
+
+                animatePhotos();
+            });
+        </script>
+    </main>
+</body>
+
+</html>
