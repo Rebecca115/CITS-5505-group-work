@@ -1,0 +1,47 @@
+/* common_styles.css */
+body, html {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    background: linear-gradient(90deg, #fff7ad, #ffa9f9), url('background.png');
+    color: #545454;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+h1 {
+    color: #715CF8;
+    font-size: 50px;
+    font-weight: 600;
+}
+
+a {
+    text-decoration: none;
+    color: #715CF8;
+    font-size: 12px;
+}
+
+img {
+    width: 200px;
+}
+
+input {
+    border: 1px solid black;
+    border-radius: 25px;
+    height: 35px;
+    width: 300px;
+}
+
+button {
+    padding: 10px 20px;
+    margin: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f8f6f1;
+    cursor: pointer;
+}
+
+button.active {
+    background-color: #715CF8;
+    color: white;
+}
