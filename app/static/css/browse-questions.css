@@ -1,0 +1,30 @@
+/* Style for the Browse Questions page */
+.container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    text-align: left;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.list-group-item {
+    margin-bottom: 15px;
+}
+
+.list-group-item h5 {
+    font-weight: bold;
+}
+
+.list-group-item p {
+    margin-bottom: 5px;
+    color: #555;
+}
+
+.list-group-item small {
+    color: #999;
+}
