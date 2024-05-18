@@ -25,6 +25,7 @@ migrate = Migrate(app, db)
 
 mail = Mail(app)
 s = URLSafeTimedSerializer(app.config['SECRET_KEY'])
+app.config['WTF_CSRF_ENABLED'] = True
 
 app.register_blueprint(quest, url_prefix='/')
 app.register_blueprint(user, url_prefix='/user')
@@ -42,8 +43,6 @@ def load_user(user_id):
     return User.query.get(user_id)
 
 
-if not os.path.exists('instance/data.db'):
-    initialize_database.create_local_db(app, db)
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=8080, debug=True)

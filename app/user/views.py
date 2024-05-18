@@ -1,6 +1,7 @@
 import os
+from datetime import datetime
 
-from flask import Blueprint,  flash, redirect, url_for,  current_app
+from flask import Blueprint, flash, redirect, url_for, current_app, render_template, jsonify
 from flask_login import logout_user, login_required, current_user
 from itsdangerous import SignatureExpired, BadSignature, URLSafeTimedSerializer
 from werkzeug.utils import secure_filename
@@ -80,11 +81,13 @@ def info(id):
     user = User.query.filter_by(id=id).first_or_404(description='User not found.')
     form = UserProfileForm(obj=user)
 
+
+
     if form.validate_on_submit():
         form.populate_obj(user)
         db.session.commit()
         flash('Your profile has been updated.', 'success')
-        return redirect(url_for('user.change_profile', id=user.id))
+        return redirect(url_for('user.update_profile', id=user.id))
 
     return render_template('user-info.html', form=form, user=user)
 
@@ -100,33 +103,23 @@ def user_posted_questions(id):
         return render_template('posted-questions.html', user=user, questions=questions)
 
 
-@user.route('/change_password')
+@user.route('/change_password', methods=['GET', 'POST'])
 @login_required
 def change_password():
     """Route for changing the user's password"""
+    if not current_user:
+        flash('You need to login to access this page.', 'danger')
+        return redirect(url_for('user.login'))
+
     form = ChangePasswordForm()
-
+    user = User.query.get_or_404(current_user.id)
     if form.validate_on_submit():
-        # Check if the current password matches
-        if not current_user.check_password(form.current_password.data):
-            flash('Current password is incorrect.', 'danger')
-            return redirect(url_for('user.change_password'))
-
-        # Check if new password and confirm password match
-        if form.new_password.data != form.confirm_password.data:
-            flash('New password and confirm password do not match.', 'danger')
-            return redirect(url_for('user.change_password'))
-
-
-        # Update the user's password
-        current_user.set_password(form.current_password.data)
-        db.session.commit()
+        form.change_password(user)
 
         flash('Your password has been successfully updated.', 'success')
         return redirect(url_for('user.info', id=current_user.id))
 
     return render_template('change_password.html', form=form)
-from flask import render_template, jsonify
 
 @user.route('/confirm-email/<token>')
 def confirm_email(token):
@@ -196,21 +189,20 @@ def user_answers(id):
     return render_template('user_answers.html', user=user, answers=answers)
 
 
-@user.route('/<int:id>/change_profile', methods=['GET', 'POST'])
+@user.route('/<int:id>/update_profile', methods=['GET', 'POST'])
 @login_required
-def change_profile(id):
+def update_profile(id):
     """Route to change user profile."""
     if id != current_user.id:
         return jsonify({'error': 'You are not authorized to perform this action'}), 403
 
     user = User.query.filter_by(id=id).first_or_404(description='User not found.')
-    form = UserProfileForm(obj=user)
+    form = UserProfileForm()
 
-    if form.validate_on_submit():
-        form.populate_obj(user)
-        db.session.commit()
-        flash('Your profile has been updated.', 'success')
-        return redirect(url_for('user.change_profile', id=user.id))
+    if form:
+        print('Form data:', form.data)
+        user = form.update_user(user)
+
 
     return render_template('user-info.html', form=form, user=user)
 

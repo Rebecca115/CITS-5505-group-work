@@ -193,12 +193,22 @@ class ForgotPassForm(FlaskForm):
 
 
 class UserProfileForm(FlaskForm):
-    username = StringField('Username', render_kw={'readonly': True})
+    username = StringField('Username')
     signature = TextAreaField('Signature', validators=[Optional(), Length(max=200)])
     gender = RadioField('Gender', choices=[('male', 'Male'), ('female', 'Female'), ('secret', 'Secret')], validators=[Optional()])
-    dob = DateField('DOB', validators=[Optional()])
-    school_info = StringField('School', validators=[Optional(), Length(max=64)])
-    submit = SubmitField('Save')
+    DOB = DateField('DOB', validators=[Optional()])
+    school = StringField('School', validators=[Optional(), Length(max=64)])
+
+    def update_user(self, user):
+        user.username = self.username.data
+        user.signature = self.signature.data
+        user.gender = self.gender.data
+        user.DOB = self.DOB.data
+        user.school = self.school.data
+
+        db.session.commit()
+        return user
+
 
 class UpdateAvatarForm(FlaskForm):
     avatar = FileField('Upload new avatar', validators=[DataRequired()])
@@ -210,3 +220,12 @@ class ChangePasswordForm(FlaskForm):
     confirm_password = PasswordField('Confirm Password', validators=[
         DataRequired(), EqualTo('new_password', message='Passwords must match')
     ])
+
+    def change_password(self, user):
+        if not user.check_password(self.current_password.data):
+            return False
+        if self.new_password.data != self.confirm_password.data:
+            return False
+        user.set_password(self.new_password.data)
+        db.session.commit()
+        return user
