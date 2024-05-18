@@ -78,7 +78,9 @@ body {
 }
 
 .sidebar a:hover {
-    background-color: #e2e6ea;
+    background-color: #B8B8FA;
+    border-radius: 15px
+
 }
 
 .sidebar .menu-btn {
@@ -164,6 +166,16 @@ body {
 
     #main {
         margin-left: 0;
+    }
+    .buttton.btn {
+        background-color: #B8B8FA 
+        color: white;
+        padding: 10px 20px; 
+        border: none;
+        border-radius: 5px;
+        cursor: pointer; 
+        font-size: 16px;
+        transition: background-color 0.3s; 
     }
 
     .navbar .navbar-collapse {
@@ -325,18 +337,17 @@ h1, h2 {
     transform: scaleX(-1);
 }
 
-button, .btn {
-    background-color: #B8B8FA /* 设置默认按钮背景色 */
-    color: white; /* 设置按钮文本颜色 *
-    padding: 10px 20px; /* 设置按钮内边距 */
-    border: none; /* 移除按钮边框 */
-    border-radius: 5px; /* 设置按钮圆角 */
-    cursor: pointer; /* 设置鼠标悬停时的指针样式 */
-    font-size: 16px; /* 设置按钮字体大小 */
-    transition: background-color 0.3s; /* 添加背景色过渡效果 */
+.buttton.btn {
+    background-color: #B8B8FA 
+    color: white;
+    padding: 10px 20px; 
+    border: none;
+    border-radius: 5px;
+    cursor: pointer; 
+    font-size: 16px;
+    transition: background-color 0.3s; 
 }
 
-/* 鼠标悬停时按钮样式 */
-button:hover, .btn:hover {
-    background-color: #E3E9F7; /* 设置鼠标悬停时的背景色 */
+.button:hover, .btn:hover {
+    background-color: #E3E9F7; 
 }
