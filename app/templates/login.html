@@ -13,12 +13,12 @@ Login - Study Perth Assistant
     <div id="cloud1"></div>
     <div id="cloud2"></div>
     <div class="container">
-        <div class="row justify-content-center" >
+        <div class="row col-md-14" >
             <video autoplay muted loop id="background-video">
                 <source src="{{ url_for('static', filename='image/background4.mp4') }}" type="video/mp4">
             </video>
-            <div class="col-md-6" id="login">
-                
+            <div class="row col-md-8" id="login">
+                 
                 <h1 class="text-center">Login</h1>
                 <p class="text-center">
                     <a href="{{ url_for('user.register') }}">Sign up to Continue</a>

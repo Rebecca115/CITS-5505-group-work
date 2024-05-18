@@ -2,7 +2,7 @@
 
 .container {
   position: relative;
-  margin-top: 100px;
+  margin-top: 140px;
   z-index: 1;
 }
 
@@ -76,13 +76,13 @@ img {
 }
 
 #cloud1 {
-  top: 160px;
+  top: 200px;
   left: 30%;
   animation-duration: 8s;
 }
 
 #cloud2 {
-  top: 180px;
+  top: 220px;
   left: 70%;
   animation-duration: 10s; 
 }
