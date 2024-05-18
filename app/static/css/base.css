@@ -21,7 +21,6 @@ body {
 
 
 /* Navbar styles */
-/* Navbar styles */
 .navbar {
     background: linear-gradient(to right,
             rgba(104, 92, 254, 0.4),
@@ -449,7 +448,3 @@ footer {
     }
 }
 
-
-#navbarCollapse {
-    text-align: left;
-}
