@@ -3,50 +3,52 @@
 {% block styles %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}" type="text/css">
 <style>
-    /* 在这里添加自定义样式 */
-    /* 例如： */
-    /* .section-1 {        background-color: #f0f0f0;    } */
+
+
 </style>{% endblock %}
-{% block maincontent %}<div class="main-container"> <!-- Main 1 -->
+{% block maincontent %}
+
+<div class="main-container">
+
     <main>
         <section class="container mt-5 pt-5">
             <div class="row">
                 <div class="col-md-3 col-sm-6 image-box">
-                    <img src="{{ url_for('static', filename='image/Postquetion.png') }}" alt="Image 1"
+                    <img src="{{ url_for('static', filename='image/Postquestion.png') }}" alt="Image 1"
                         class="img-fluid">
-                    <div class="text-box text-center">
-                        <a href="{{ url_for('question.post') }}" class="no-decoration">
-                            <h5>Post questions</h5>
-                        </a>
-                        <p>Post your first question.</p>
-                    </div>
+                        <div class="text-box text-center">
+                            <a href="{{'question.post' }}" class="no-decoration">
+                                <h5>Post questions</h5>
+                            </a>
+                            <p>Post your first question.</p>
+                        </div>
                 </div>
                 <div class="col-md-3 col-sm-6 image-box">
                     <img src="{{ url_for('static', filename='image/answerquestion.png') }}" alt="Image 2"
                         class="img-fluid">
-                    <div class="text-box text-center">
-                        <a href="#" class="no-decoration">
-                            <h5>Answer questions</h5>
-                        </a>
-                        <p>Answer your first question.</p>
-                    </div>
+                        <div class="text-box text-center">
+                            <a href="#" class="no-decoration">
+                                <h5>Answer questions</h5>
+                            </a>
+                            <p>Answer your first question.</p>
+                        </div>
                 </div>
                 <div class="col-md-3 col-sm-6 image-box">
                     <img src="{{ url_for('static', filename='image/profile.png') }}" alt="Image 3" class="img-fluid">
-                    <div class="text-box text-center">
-                        <a href="{{ url_for('user.info', id=current_user.id)  }}" class="no-decoration">
-                            <h5>Profile</h5>
-                        </a>
-                        <p>Get social with friends.</p>
-                    </div>
+                        <div class="text-box text-center">
+                            <a href="{{ url_for('user.info', id=current_user.id)  }}" class="no-decoration">
+                                <h5>Profile</h5>
+                            </a>
+                            <p>Get social with friends.</p>
+                        </div>
                 </div>
                 <div class="col-md-3 col-sm-6 image-box">
                     <img src="{{ url_for('static', filename='image/raking.png') }}" alt="Image 4" class="img-fluid">
-                    <div class="text-box text-center"> <a href="URL_HERE" class="no-decoration">
-                            <h5>Ranking</h5>
-                        </a>
-                        <p>Look at everyone's contributions.</p>
-                    </div>
+                        <div class="text-box text-center"> <a href="URL_HERE" class="no-decoration">
+                                <h5>Ranking</h5>
+                            </a>
+                            <p>Look at everyone's contributions.</p>
+                        </div>
                 </div>
             </div>
         </section>
@@ -56,9 +58,10 @@
         <section class="container my-5 section-2">
             <div class="row">
                 <div class="col-md-6">
-                    <img src="{{ url_for('static', filename='image/homepage_cartoon.png') }}" alt="Image" class="img-fluid">
+                    <img src="{{ url_for('static', filename='image/homepage_cartoon.png') }}" alt="Image"
+                        class="img-fluid">
                 </div>
-                <div class="col-md-6">
+                <div id="intention_description" class="col-md-6">
                     <h4>We believe in the power of helping each other</h4>
                     <div class="text-box">
                         <h5>Our original intention</h5>
@@ -134,17 +137,6 @@
                     <div id="photo-stream" class="d-flex"> </div>
                 </div>
             </div>
-            <script>              
-             $(function () {
-                    var images = ['{{ url_for('static', filename='image / photo - stream / 1.jpg') }}', '{{ url_for('static', filename='image / photo - stream / 2.jpg') }}', '{{ url_for('static', filename='image / photo - stream / 3.jpg') }}', '{{ url_for('static', filename='image / photo - stream / 4.jpg') }}', '{{ url_for('static', filename='image / photo - stream / 5.jpg') }}', '{{ url_for('static', filename='image / photo - stream / 6.jpg') }}', '{{ url_for('static', filename='image / photo - stream / 7.jpg') }}', '{{ url_for('static', filename='image / photo - stream / 8.jpg') }}', '{{ url_for('static', filename='image / photo - stream / 9.jpg') }}', '{{ url_for('static', filename='image / photo - stream / 10.jpg') }}'];
-                    images.forEach(function (img, index) { var imgClass = (index % 2 === 0) ? 'even' : 'odd'; var imgElement = $('<img>').addClass(imgClass).attr('src', img); var itemElement = $('<div class="photo-item p-2">').append(imgElement); $('#photo-stream').append(itemElement); });
-                    function animatePhotos() {
-                        var $stream = $('#photo-stream'); var $firstItem = $stream.find('.photo-item:first'); var firstItemWidth = $firstItem.outerWidth(true);
-                        $firstItem.animate({ marginLeft: -firstItemWidth }, 5000, 'linear', function () { $firstItem.appendTo($stream); $firstItem.css('margin-left', ''); animatePhotos(); });
-                    }
-                    animatePhotos();
-                });           
-                 </script>
         </section>
     </main>
 </div>
@@ -156,7 +148,52 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script>document.getElementById('searchInput').addEventListener('keypress', function (e) { if (e.key === 'Enter') { let query = e.target.value; if (query) { let xhr = new XMLHttpRequest(); xhr.open('GET', `/search?query=${encodeURIComponent(query)}`, true); xhr.onreadystatechange = function () { if (xhr.readyState === 4) { let searchResults = document.getElementById('search-results'); if (xhr.status === 200) { let data = JSON.parse(xhr.responseText); searchResults.innerHTML = ''; if (data.length === 0) { searchResults.innerHTML = "<p>No results found.</p >"; } else { data.forEach(result => { let item = `                                    <div class="result-item">                                        <h4><a href=" ">${result.title}</a ></h4>                                        <p>${result.content}</p >                                    </div>                                `; searchResults.innerHTML += item; }); } } else { searchResults.innerHTML = "<p>An error occurred while fetching search results.</p >"; } new bootstrap.Modal(document.getElementById('searchModal')).show(); } }; xhr.send(); } } });
     $(document).ready(function () {
-        $(".fetch-data-btn").click(function () { var endpoint = $(this).data("endpoint"); $.ajax({ url: endpoint, type: "GET", success: function (response) { console.log("Data received:", response); var sortedUsers = response.users.sort((a, b) => b.answer_count - a.answer_count); displayData(sortedUsers); }, error: function (xhr, status, error) { console.error("Error:", error); } }); });
+        $(".fetch-data-btn").click(function () 
+        { var endpoint = $(this).data("endpoint"); $.ajax({ url: endpoint, type: "GET", success: function (response) { console.log("Data received:", response); var sortedUsers = response.users.sort((a, b) => b.answer_count - a.answer_count); displayData(sortedUsers); }, error: function (xhr, status, error) { console.error("Error:", error); } }); });
         function displayData(users) { var modalBody = $("#modal-body"); modalBody.empty(); users.forEach(function (user, index) { var userHtml = `<div class="user-card">                                < img src="/static/uploads/${user.avatar}" alt="User Avatar" class="img-fluid rounded-circle mb-3">                                <p>${user.username}</p >                                <p>Answer Count: ${user.answer_count}</p >                            </div>`; modalBody.append(userHtml); }); }
     });</script>
+
+<script>
+    $(function () {
+             // Define photo stream list, cannot read local storage files due to security reasons. HAve to add 
+             // the image manually
+             var images = [
+                //  'static/image/photo-stream/1.jpg',
+                //  'static/image/photo-stream/2.jpg',
+                //  'static/image/photo-stream/3.jpg',
+                //  'static/image/photo-stream/4.jpg',
+                //  'static/image/photo-stream/5.jpg',
+                //  'static/image/photo-stream/6.jpg',
+                //  'static/image/photo-stream/7.jpg',
+                //  'static/image/photo-stream/8.jpg',
+                 'static/image/photo-stream/9.jpg',
+                //  'static/image/photo-stream/10.jpg',
+             ];
+
+             // Loop through each image source in the image array, and mark each image as even or odd
+             // based on the index of the image in the array. Will add different transform to the odd image and even image
+             images.forEach(function (img, index) {
+                 var imgClass = (index % 2 === 0) ? 'even' : 'odd';
+                 var imgElement = $('<img>').addClass(imgClass).attr('src', img);
+                 var itemElement = $('<div class="photo-item p-2">').append(imgElement);
+                 $('#photo-stream').append(itemElement);
+             });
+
+
+             // Define the animatePhotos function to animate the photo stream
+             function animatePhotos() {
+                 var $stream = $('#photo-stream');
+                 var $firstItem = $stream.find('.photo-item:first');
+                 var firstItemWidth = $firstItem.outerWidth(true);
+
+                 $firstItem.animate({ marginLeft: -firstItemWidth }, 5000, 'linear', function () {
+                     $firstItem.appendTo($stream);
+                     $firstItem.css('margin-left', '');
+                     animatePhotos();
+                 });
+             }
+
+             animatePhotos();
+         });         
+         </script>
 {% endblock %}

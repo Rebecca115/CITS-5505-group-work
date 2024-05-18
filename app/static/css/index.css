@@ -36,9 +36,10 @@ body {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.text-box h2 {
+.text-box h5 {
     font-size: 1.2em; /* 调整标题字体大小 */
     margin-bottom: 10px;
+    color:red
 }
 
 .text-box p {
@@ -55,13 +56,6 @@ body {
     box-sizing: border-box;
     padding: 10px;
 }
-
-
-
-
-
-
-
 
 /* Navbar styles */
 .navbar {
@@ -107,6 +101,6 @@ body {
     font-size: 14px; /* 调整搜索按钮的字体大小 */
 }
 
-
-
-
+#intention_description {
+    align-items: center;
+}
