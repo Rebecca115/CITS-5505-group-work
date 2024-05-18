@@ -9,7 +9,7 @@
 body {
     padding-bottom: 56px; /* Padding for fixed navbar */
     font-family: 'Inter', sans-serif;
-    background-color: #f4f5f7;
+    background-color: #E3E9F7;
     color: #333;
     margin: 0; /* Reset body margin */
     padding: 0; /* Reset body padding */
@@ -75,6 +75,7 @@ body {
     align-items: center;
     padding: 10px 20px;
     transition: background-color 0.3s, color 0.3s;
+    border-radius: 15px;
 }
 
 .sidebar a:hover {
