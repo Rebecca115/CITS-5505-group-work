@@ -1,0 +1,66 @@
+{% extends "base_profile.html" %}
+
+{% block title %}User Information - Study Perth Assistant{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/user-info.css') }}" type="text/css">
+{% endblock %}
+
+{% block content %}
+<main id="main" class="mt-5 pt-3">
+    <section class="content">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <h2 class="text-center">User Information</h2>
+                    <form method="POST" action="{{ url_for('user.change_profile', id=user.id) }}">
+                        {{ form.hidden_tag() }}
+
+                        <div class="mb-3 row">
+                            <label for="username" class="col-sm-3 col-form-label">Username</label>
+                            <div class="col-sm-9">
+                                {{ form.username(class="form-control", readonly=True) }}
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="signature" class="col-sm-3 col-form-label">Signature</label>
+                            <div class="col-sm-9">
+                                {{ form.signature(class="form-control", rows=3) }}
+                            </div>
+                        </div>
+                         <div class="mb-3 row">
+                            <label class="col-sm-3 col-form-label">Gender</label>
+                            <div class="col-sm-9">
+                                {% for subfield in form.gender %}
+                                    <div class="form-check form-check-inline">
+                                        {{ subfield(class="form-check-input", id=subfield.id) }}
+                                        <label class="form-check-label" for="{{ subfield.id }}">{{ subfield.label.text }}</label>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                        <div class="mb-3 row">
+                            <label for="dob" class="col-sm-3 col-form-label">DOB</label>
+                            <div class="col-sm-9">
+                                {{ form.dob(class="form-control") }}
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="school_info" class="col-sm-3 col-form-label">School</label>
+                            <div class="col-sm-9">
+                                {{ form.school_info(class="form-control") }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-9 offset-sm-3">
+                                {{ form.submit(class="btn btn-primary") }}
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}
