@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}Email Confirmation{% endblock %}
+
+{% block maincontent %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header text-center">
+                    <h3>Email Confirmation</h3>
+                </div>
+                <div class="card-body text-center">
+                    {% if message %}
+                        <p class="lead">{{ message }}</p>
+                    {% endif %}
+                    <a href="/" class="btn btn-primary mt-3">Go to Home</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
