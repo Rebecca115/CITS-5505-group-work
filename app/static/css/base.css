@@ -241,7 +241,11 @@ h1, h2 {
     background-color: #ffffff;
     background-image: conic-gradient(from -90deg at 110% 100%, #fff 0deg, #ebecf0 90deg, #ebecf0 1turn);
 }
-
+footer {
+    background-color: #ffffff;
+    background-image: conic-gradient(from -90deg at 110% 100%, #fff 0deg, #ebecf0 90deg, #ebecf0 1turn);
+    padding: 20px 0; /* 确保有足够的内边距 */
+}
 .content:nth-child(even) {
     background-color: #f0f0f0;
 }
