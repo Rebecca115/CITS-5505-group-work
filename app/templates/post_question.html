@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}Post a New Question{% endblock %}
+
+{% block maincontent %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h2 class="mb-4">Post a New Question</h2>
+            <form method="POST" enctype="multipart/form-data">
+                {{ form.hidden_tag() }}
+                <div class="mb-3">
+                    {{ form.title.label(class="form-label") }}
+                    {{ form.title(**{'class': 'form-control', 'placeholder': 'Enter title (up to 50 characters)'}) }}
+                    {% if form.title.errors %}
+                        <div class="alert alert-danger mt-2">
+                            {% for error in form.title.errors %}
+                                <p>{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="mb-3">
+                    {{ form.img.label(class="form-label") }}
+                    {{ form.img(**{'class': 'form-control'}) }}
+                    {% if form.img.errors %}
+                        <div class="alert alert-danger mt-2">
+                            {% for error in form.img.errors %}
+                                <p>{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="mb-3">
+                    {{ form.content.label(class="form-label") }}
+                    {{ form.content(**{'class': 'form-control', 'placeholder': 'Enter your content'}) }}
+                    {% if form.content.errors %}
+                        <div class="alert alert-danger mt-2">
+                            {% for error in form.content.errors %}
+                                <p>{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <button type="submit" class="btn btn-primary">Post Question</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
