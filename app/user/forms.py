@@ -10,7 +10,9 @@ from flask_wtf.file import FileField, FileRequired, FileAllowed
 from itsdangerous import URLSafeTimedSerializer
 from werkzeug.utils import secure_filename
 from wtforms import StringField, PasswordField, ValidationError
-from wtforms.validators import DataRequired, Length, EqualTo
+from wtforms import DateField, RadioField
+from wtforms.fields.simple import TextAreaField, SubmitField
+from wtforms.validators import DataRequired, Length, EqualTo, Optional
 
 from models import User, db
 from utils import constants
@@ -32,15 +34,6 @@ class RegisterForm(FlaskForm):
         render_kw={'class': FORM_CLASS, 'placeholder': 'Please upload avatar'},
         validators=[
             FileAllowed(['jpg', 'png'], 'Images only!')
-        ]
-    )
-
-    nickname = StringField(
-        'Nickname',
-        render_kw={'class': FORM_CLASS, 'placeholder': 'Please enter nickname'},
-        validators=[
-            DataRequired('Please enter nickname'),
-            Length(min=2, max=20, message='Length of nickname is between 2 and 20')
         ]
     )
 
@@ -80,8 +73,8 @@ class RegisterForm(FlaskForm):
         if self.avatar.data is None:
             # self.avatar.data = request.files[constants.DEFAULT_AVATAR]
             self.avatar.data = 'None'
-        username, password, nickname, email, avatar_file = (self.username.data, self.password.data,
-                                                            self.nickname.data, self.email.data, self.avatar.data)
+        username, password, email, avatar_file = (self.username.data, self.password.data,
+                                                             self.email.data, self.avatar.data)
         password = hashlib.sha256(password.encode()).hexdigest()
 
         file_extension = os.path.splitext(avatar_file.filename)[1]
@@ -91,7 +84,7 @@ class RegisterForm(FlaskForm):
         save_path = os.path.join(current_app.config['UPLOAD_FOLDER'], secure_random_filename)
         avatar_file.save(save_path)
 
-        user_obj = User(username=username, password=password, nickname=nickname,
+        user_obj = User(username=username, password=password,
                         email=email, email_verified=False, avatar=secure_random_filename)
 
         serializer = URLSafeTimedSerializer(current_app.config['SECRET_KEY'])
@@ -169,7 +162,7 @@ class RestPassForm(FlaskForm):
 
 
 class ForgotPassForm(FlaskForm):
-    """Form for forgot password with validations."""
+    """Form for forget password with validations."""
     FORM_CLASS = 'form-group'
 
     email = StringField('Email', render_kw={
@@ -183,7 +176,7 @@ class ForgotPassForm(FlaskForm):
         if not User.query.filter_by(email=email.data).first():
             raise ValidationError('Email does not exist')
 
-    def forgot_password(self):
+    def forget_password(self):
         """Sends reset password link to user's email."""
         email = self.email.data
         user = User.query.filter_by(email=email).first()
@@ -196,3 +189,24 @@ class ForgotPassForm(FlaskForm):
         msg.body = f'Please click on the link to reset your password: {reset_url}'
         Mail(current_app).send(msg)
         return user
+
+
+
+class UserProfileForm(FlaskForm):
+    username = StringField('Username', render_kw={'readonly': True})
+    signature = TextAreaField('Signature', validators=[Optional(), Length(max=200)])
+    gender = RadioField('Gender', choices=[('male', 'Male'), ('female', 'Female'), ('secret', 'Secret')], validators=[Optional()])
+    dob = DateField('DOB', validators=[Optional()])
+    school_info = StringField('School', validators=[Optional(), Length(max=64)])
+    submit = SubmitField('Save')
+
+class UpdateAvatarForm(FlaskForm):
+    avatar = FileField('Upload new avatar', validators=[DataRequired()])
+    submit = SubmitField('Update')
+
+class ChangePasswordForm(FlaskForm):
+    current_password = PasswordField('Current Password', validators=[DataRequired()])
+    new_password = PasswordField('New Password', validators=[DataRequired()])
+    confirm_password = PasswordField('Confirm Password', validators=[
+        DataRequired(), EqualTo('new_password', message='Passwords must match')
+    ])

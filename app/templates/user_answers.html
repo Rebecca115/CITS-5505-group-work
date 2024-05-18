@@ -1,0 +1,32 @@
+{% extends "base_profile.html" %}
+
+{% block title %}Answered Questions - Study Perth Assistant{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/user-answers.css') }}" type="text/css">
+{% endblock %}
+
+{% block content %}
+<main id="main" class="mt-5 pt-3">
+    <section class="content">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-10">
+                    <h2 class="text-center">Answered Questions</h2>
+                    {% for answer in answers %}
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h5 class="card-title">
+{#                                    <a href="{{ url_for('question_detail', q_id=answer.q_id) }}">{{ answer.question.title }}</a>#}
+                                </h5>
+                                <p class="card-text">{{ answer.content }}</p>
+                                <p class="card-text"><small class="text-muted">Answered on {{ answer.created_at.strftime('%Y-%m-%d') }}</small></p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}

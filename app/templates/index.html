@@ -18,11 +18,11 @@
 {#                <a href="{{ url_for('user.profile', id=current_user.id) }}">#}
 {#                    <img src="{{ url_for('static', filename='profile_icon.png') }}" alt="Profile"> Profile#}
 {#                </a>#}
-{#                <a href="{{ url_for('task.accept') }}">#}
-{#                    <img src="{{ url_for('static', filename='accept_task_icon.png') }}" alt="Accept Task"> Accept Task#}
+{#                <a href="{{ url_for('question.accept') }}">#}
+{#                    <img src="{{ url_for('static', filename='accept_question_icon.png') }}" alt="Accept Question"> Accept Question#}
 {#                </a>#}
-{#                <a href="{{ url_for('task.post') }}">#}
-{#                    <img src="{{ url_for('static', filename='post_task_icon.png') }}" alt="Post Task"> Post Task#}
+{#                <a href="{{ url_for('question.post') }}">#}
+{#                    <img src="{{ url_for('static', filename='post_question_icon.png') }}" alt="Post Question"> Post Question#}
 {#                </a>#}
 {#                <a id="logout-link" href="{{ url_for('user.logout') }}">#}
 {#                    <img src="{{ url_for('static', filename='logout_icon.png') }}" alt="Logout"> Logout#}
@@ -142,13 +142,13 @@
 {#            <div class="col">#}
 {#                <div class="image-container">#}
 {#                    <img src="/static/Picture2.png" alt="Image 2" class="img-fluid">#}
-{#                    <button class="btn btn-primary mt-3 fetch-data-btn" data-endpoint="/user/get_total_tasks" data-toggle="modal" data-target="#dataModal">Fetch Data</button>#}
+{#                    <button class="btn btn-primary mt-3 fetch-data-btn" data-endpoint="/user/get_total_questions" data-toggle="modal" data-target="#dataModal">Fetch Data</button>#}
 {#                </div>#}
 {#            </div>#}
 {#            <div class="col">#}
 {#                <div class="image-container">#}
 {#                    <img src="/static/Picture3.png" alt="Image 3" class="img-fluid">#}
-{#                    <button class="btn btn-primary mt-3 fetch-data-btn" data-endpoint="/user/get_task_types" data-toggle="modal" data-target="#dataModal">Fetch Data</button>#}
+{#                    <button class="btn btn-primary mt-3 fetch-data-btn" data-endpoint="/user/get_question_types" data-toggle="modal" data-target="#dataModal">Fetch Data</button>#}
 {#                </div>#}
 {#            </div>#}
 {#        </div>#}
@@ -161,7 +161,7 @@
                 <div class="page">
                     <div class="container">
                         <div class="content"></div>
-                        <h1>Task Dashboard</h1>
+                        <h1>Question Dashboard</h1>
                         <div class="row charts">
                             <div class="col-md-4 chart">
                                 <h2 class="text-center">Scoreboard</h2>
@@ -172,14 +172,14 @@
                                 </ul>
                             </div>
                             <div class="col-md-4 chart">
-                                <h2 class="text-center">Total Tasks</h2>
-                                <p class="text-center">{{ task_count }}</p>
+                                <h2 class="text-center">Total Questions</h2>
+                                <p class="text-center">{{ question_count }}</p>
                             </div>
                             <div class="col-md-4 chart">
-                                <h2 class="text-center">Task Types</h2>
+                                <h2 class="text-center">Question Types</h2>
                                 <ul>
-                                    {% for task in task_desc %}
-                                        <li>{{ task[0] }}: {{ task[1] }}</li>
+                                    {% for question in question_desc %}
+                                        <li>{{ question[0] }}: {{ question[1] }}</li>
                                     {% endfor %}
                                 </ul>
                             </div>
@@ -272,7 +272,7 @@ $(document).ready(function() {
         users.forEach(function(user, index) {
             var userHtml = `<div class="user-card">
                                 <img src="/static/uploads/${user.avatar}" alt="User Avatar" class="img-fluid rounded-circle mb-3">
-                                <p>${user.nickname}</p>
+                                <p>${user.username}</p>
                                 <p>Answer Count: ${user.answer_count}</p>
                             </div>`;
             modalBody.append(userHtml);

@@ -2,38 +2,21 @@ from flask import Blueprint, render_template, request, redirect, url_for, flash,
 from flask_login import login_required, current_user
 from sqlalchemy import or_, desc, func
 
-<<<<<<<< HEAD:app/question/views.py
 from models import Question, Answer, db, AnswerLike, User
 from app.question.form import WriteQuestionForm, WriteAnswerForm
 
 quest = Blueprint('question', __name__,
                      template_folder='../templates',
                      static_folder='../static')
-========
-from models import Task, Answer, db, AnswerLike, User
-from app.task.form import WriteTaskForm, WriteAnswerForm
-
-quest = Blueprint('task', __name__,
-                  template_folder='../templates',
-                  static_folder='../static')
->>>>>>>> 49afeb2f0a47bb527dc779a1403ccd89c2e23b6d:app/task/views.py
-
 
 
 @quest.route('/')
 def index():
-<<<<<<<< HEAD:app/question/views.py
     """ Home page route, display a list of paginated questions. """
 
     question_desc = db.session.query(Question.category, func.count(Question.category)).group_by(
         Question.category).order_by(
         func.count(Question.category)).all()
-========
-    """ Home page route, display a list of paginated tasks. """
-
-    task_desc = db.session.query(Task.category, func.count(Task.category)).group_by(Task.category).order_by(
-        func.count(Task.category)).all()
->>>>>>>> 49afeb2f0a47bb527dc779a1403ccd89c2e23b6d:app/task/views.py
 
     top_user_ids_subquery = (db.session.query(
         Answer.user_id,
@@ -51,11 +34,7 @@ def index():
         top_user_ids_subquery, User.id == top_user_ids_subquery.c.user_id
     ).all()
 
-<<<<<<<< HEAD:app/question/views.py
     question_count = Question.query.count()
-========
-    task_count = Task.query.count()
->>>>>>>> 49afeb2f0a47bb527dc779a1403ccd89c2e23b6d:app/task/views.py
 
     users_data = []
     for user, answer_count in top_users:
@@ -66,37 +45,16 @@ def index():
         }
         users_data.append(user_dict)
 
-<<<<<<<< HEAD:app/question/views.py
     return render_template('index.html', question_count=question_count, question_desc=question_desc,
                            users_data=users_data)
 
 
 @quest.route('/question', methods=['GET'])
 def question():
-========
-    return render_template('index.html', task_count=task_count, task_desc=task_desc, users_data=users_data)
-
-
-
-
-@quest.route('/task', methods=['GET'])
-def task():
-    page = request.args.get('page', 1, type=int)
-    per_page = request.args.get('per_page', 1, type=int)
-    page_data = Task.query.order_by(desc(Task.created_at)).paginate(page=page, per_page=per_page)
-
-    return jsonify(message="Success", data=[task.to_dict() for task in page_data.items])
-
-
-@quest.route('/question_list/', methods=['GET', 'POST'])
-def question_list():
-    per_page = 5
->>>>>>>> 49afeb2f0a47bb527dc779a1403ccd89c2e23b6d:app/task/views.py
     page = request.args.get('page', 1, type=int)
     per_page = request.args.get('per_page', 1, type=int)
     page_data = Question.query.order_by(desc(Question.created_at)).paginate(page=page, per_page=per_page)
 
-<<<<<<<< HEAD:app/question/views.py
     return jsonify(message="Success", data=[question.to_dict() for question in page_data.items])
 
 
@@ -107,19 +65,6 @@ def question_list():
 #     page_data = Question.query.order_by(desc(Question.created_at)).paginate(page=page, per_page=per_page)
 #
 #     return render_template('question_list.html', page_data=page_data)
-========
-    return render_template('question_list.html', page_data=page_data)
-
-
-@quest.route('/accept')
-def accept():
-    per_page = 5
-    page = request.args.get('page', 1, type=int)
-    page_data = Task.query.order_by(desc(Task.created_at)).paginate(page=page, per_page=per_page)
-
-
-    return render_template('qa_list.html', page_data=page_data)
->>>>>>>> 49afeb2f0a47bb527dc779a1403ccd89c2e23b6d:app/task/views.py
 
 
 @quest.route('/post', methods=['GET', 'POST'])
@@ -140,24 +85,15 @@ def post():
 
 
 @quest.route('/browse')
-<<<<<<<< HEAD:app/question/views.py
 def question_list():
-========
-def task_list():
->>>>>>>> 49afeb2f0a47bb527dc779a1403ccd89c2e23b6d:app/task/views.py
     """
     Route to list questions in a paginated manner and return as JSON.
     Questions are sorted by their creation time in descending order.
     """
     per_page = 5  # Define the number of items per page.
     page = request.args.get('page', 1, type=int)
-<<<<<<<< HEAD:app/question/views.py
     page_data = Question.query.order_by(desc(Question.created_at)).paginate(page=page, per_page=per_page)
     return render_template('browse-question.html', page_data=page_data)
-========
-    page_data = Task.query.order_by(desc(Task.created_at)).paginate(page=page, per_page=per_page)
-    return  render_template('browse-question.html', page_data=page_data)
->>>>>>>> 49afeb2f0a47bb527dc779a1403ccd89c2e23b6d:app/task/views.py
 
 
 @quest.route('/question/<int:q_id>', methods=['GET', 'POST'])
@@ -425,7 +361,3 @@ def question_edit(q_id):
 
 
 
-<<<<<<<< HEAD:app/question/views.py
-========
-    return jsonify({'message': 'Success', 'data': task.to_dict()}), 200
->>>>>>>> 49afeb2f0a47bb527dc779a1403ccd89c2e23b6d:app/task/views.py

@@ -7,10 +7,10 @@ from flask_mail import Mail
 from flask_migrate import Migrate
 from itsdangerous import URLSafeTimedSerializer
 
-from task.views import quest
+from app.question.views import quest
 from models import db, User
-from user.views import user
-from utils import initialize_database
+from app.user.views import user
+# from utils import initialize_database
 
 app = Flask(__name__, static_folder='static')
 app.config.from_object('conf.Config')

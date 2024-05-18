@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block title %}Study Perth Assistant{% endblock %}
+
+{% block maincontent %}
+    <div class="d-flex">
+        <!-- ************************ Sidebar ************************ -->
+
+        <aside id="mySidebar" class="sidebar">
+            <button class="menu-btn" onclick="toggleSidebar()"><i class="fa-regular fa-list-ul"></i></button>
+            <div class="user-info d-none d-md-block">
+                {% if current_user.avatar %}
+                    <img src="{{ url_for('static', filename='uploads/' + current_user.avatar) }}" alt="Avatar"
+                         class="rounded-circle img-fluid mb-3 shadow-sm">
+                {% else %}
+                    <img src="{{ url_for('static', filename='uploads/default_avatar.png') }}" alt="Default Avatar"
+                         class="rounded-circle img-fluid mb-3 shadow-sm">
+                {% endif %}
+                <h4 class="menu-text mt-3">{{ current_user.username }}</h4>
+                <p class="menu-text">{{ current_user.email }}</p>
+            </div>
+
+            <ul class="menu-items">
+                <li>
+                    <a href="/user/{{ current_user.id }}/info"><i class="fas fa-user"></i><span class="menu-text">User Information</span></a>
+                </li>
+                <li>
+                    <a href="/user/change_password"><i class="fas fa-key"></i><span
+                            class="menu-text">Change Password</span></a>
+                </li>
+                <li>
+                    <a href="/user/{{ current_user.id }}/update-avatar"><i class="fas fa-camera"></i><span
+                            class="menu-text">Update Avatar</span></a>
+                </li>
+                <li>
+                    <a href="/user/{{ current_user.id }}/answers"><i class="fas fa-check-circle"></i><span
+                            class="menu-text">Answered Questions</span></a>
+                </li>
+                <li>
+                    <a href="/user/{{ current_user.id }}/posted"><i class="fas fa-question-circle"></i><span
+                            class="menu-text">Posted Questions</span></a>
+                </li>
+                <li>
+                    <a href="/user/logout"><i class="fas fa-sign-out-alt"></i><span class="menu-text">Logout</span></a>
+                </li>
+            </ul>
+
+        </aside>
+
+
+        <!-- Main Content Area -->
+        <div id="main" class="content flex-grow-1">
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById("mySidebar");
+            const main = document.getElementById("main");
+
+            sidebar.classList.toggle("collapsed");
+            main.classList.toggle("collapsed");
+        }
+    </script>
+{% endblock %}
