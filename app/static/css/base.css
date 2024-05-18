@@ -33,6 +33,9 @@ body {
 .navbar-brand {
     font-weight: bold;
 }
+.navbar-brand img {
+    max-width: 200px; /* 设置图片的最大宽度为200像素，你可以根据需要调整这个值 */
+}
 
 .nav-link {
     color: rgb(64, 71, 86);
@@ -246,8 +249,6 @@ footer {
     background-image: conic-gradient(from -90deg at 110% 100%, #fff 0deg, #ebecf0 90deg, #ebecf0 1turn);
     padding: 20px 0; 
     border-radius: 15px;
-    width:90%; 
-    margin: 0 auto;
 }
 .content:nth-child(even) {
     background-color: #f0f0f0;
