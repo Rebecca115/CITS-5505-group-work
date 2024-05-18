@@ -10,7 +10,7 @@ from flask_wtf.file import FileField, FileRequired, FileAllowed
 from itsdangerous import URLSafeTimedSerializer
 from werkzeug.utils import secure_filename
 from wtforms import StringField, PasswordField, ValidationError
-from wtforms.fields.core import DateField, RadioField
+from wtforms import DateField, RadioField
 from wtforms.fields.simple import TextAreaField, SubmitField
 from wtforms.validators import DataRequired, Length, EqualTo, Optional
 
@@ -73,8 +73,8 @@ class RegisterForm(FlaskForm):
         if self.avatar.data is None:
             # self.avatar.data = request.files[constants.DEFAULT_AVATAR]
             self.avatar.data = 'None'
-        username, password, nickname, email, avatar_file = (self.username.data, self.password.data,
-                                                            self.nickname.data, self.email.data, self.avatar.data)
+        username, password, email, avatar_file = (self.username.data, self.password.data,
+                                                             self.email.data, self.avatar.data)
         password = hashlib.sha256(password.encode()).hexdigest()
 
         file_extension = os.path.splitext(avatar_file.filename)[1]
@@ -84,7 +84,7 @@ class RegisterForm(FlaskForm):
         save_path = os.path.join(current_app.config['UPLOAD_FOLDER'], secure_random_filename)
         avatar_file.save(save_path)
 
-        user_obj = User(username=username, password=password, nickname=nickname,
+        user_obj = User(username=username, password=password,
                         email=email, email_verified=False, avatar=secure_random_filename)
 
         serializer = URLSafeTimedSerializer(current_app.config['SECRET_KEY'])
@@ -193,7 +193,6 @@ class ForgotPassForm(FlaskForm):
 
 
 class UserProfileForm(FlaskForm):
-    nickname = StringField('Nickname', validators=[Optional(), Length(max=64)])
     username = StringField('Username', render_kw={'readonly': True})
     signature = TextAreaField('Signature', validators=[Optional(), Length(max=200)])
     gender = RadioField('Gender', choices=[('male', 'Male'), ('female', 'Female'), ('secret', 'Secret')], validators=[Optional()])

@@ -1,9 +1,8 @@
 import os
 
-from flask import Blueprint, render_template, flash, redirect, url_for, request, jsonify, current_app
+from flask import Blueprint,  flash, redirect, url_for,  current_app
 from flask_login import logout_user, login_required, current_user
 from itsdangerous import SignatureExpired, BadSignature, URLSafeTimedSerializer
-from sqlalchemy import func
 from werkzeug.utils import secure_filename
 
 from app.user.forms import RegisterForm, LoginForm, RestPassForm, ForgotPassForm, UserProfileForm, UpdateAvatarForm, \
@@ -127,6 +126,7 @@ def change_password():
         return redirect(url_for('user.info', id=current_user.id))
 
     return render_template('change_password.html', form=form)
+from flask import render_template, jsonify
 
 @user.route('/confirm-email/<token>')
 def confirm_email(token):
@@ -138,17 +138,21 @@ def confirm_email(token):
         user = User.query.filter_by(email=email).first_or_404(description='User not found.')
 
         if user.email_verified:
-            return jsonify(message="This email is already confirmed."), 200
+            message = "This email is already confirmed."
         else:
             user.email_verified = True
             db.session.commit()
-            return jsonify(message="You have successfully confirmed your email."), 200
+            message = "You have successfully confirmed your email."
+
+        return render_template('confirm_email.html', message=message), 200
 
     except SignatureExpired:
-        return jsonify({'error': "The confirmation link has expired."}), 400
+        message = "The confirmation link has expired."
+        return render_template('confirm_email.html', message=message), 400
     except BadSignature:
+        message = "Invalid confirmation link."
+        return render_template('confirm_email.html', message=message), 400
 
-        return jsonify({'error': "Invalid confirmation link."}), 400
 
 
 @user.route('/forget-password', methods=['POST', 'GET'])
