@@ -37,15 +37,6 @@ class RegisterForm(FlaskForm):
         ]
     )
 
-    nickname = StringField(
-        'Nickname',
-        render_kw={'class': FORM_CLASS, 'placeholder': 'Please enter nickname'},
-        validators=[
-            DataRequired('Please enter nickname'),
-            Length(min=2, max=20, message='Length of nickname is between 2 and 20')
-        ]
-    )
-
     email = StringField(
         'Email',
         render_kw={'class': FORM_CLASS, 'placeholder': 'Please enter email'},
@@ -171,7 +162,7 @@ class RestPassForm(FlaskForm):
 
 
 class ForgotPassForm(FlaskForm):
-    """Form for forgot password with validations."""
+    """Form for forget password with validations."""
     FORM_CLASS = 'form-group'
 
     email = StringField('Email', render_kw={
@@ -185,7 +176,7 @@ class ForgotPassForm(FlaskForm):
         if not User.query.filter_by(email=email.data).first():
             raise ValidationError('Email does not exist')
 
-    def forgot_password(self):
+    def forget_password(self):
         """Sends reset password link to user's email."""
         email = self.email.data
         user = User.query.filter_by(email=email).first()
@@ -213,3 +204,10 @@ class UserProfileForm(FlaskForm):
 class UpdateAvatarForm(FlaskForm):
     avatar = FileField('Upload new avatar', validators=[DataRequired()])
     submit = SubmitField('Update')
+
+class ChangePasswordForm(FlaskForm):
+    current_password = PasswordField('Current Password', validators=[DataRequired()])
+    new_password = PasswordField('New Password', validators=[DataRequired()])
+    confirm_password = PasswordField('Confirm Password', validators=[
+        DataRequired(), EqualTo('new_password', message='Passwords must match')
+    ])

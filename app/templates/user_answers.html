@@ -17,7 +17,7 @@
                         <div class="card mb-3">
                             <div class="card-body">
                                 <h5 class="card-title">
-{#                                    <a href="{{ url_for('task_detail', t_id=answer.t_id) }}">{{ answer.task.title }}</a>#}
+{#                                    <a href="{{ url_for('question_detail', q_id=answer.q_id) }}">{{ answer.question.title }}</a>#}
                                 </h5>
                                 <p class="card-text">{{ answer.content }}</p>
                                 <p class="card-text"><small class="text-muted">Answered on {{ answer.created_at.strftime('%Y-%m-%d') }}</small></p>
