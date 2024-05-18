@@ -34,7 +34,7 @@ body {
     font-weight: bold;
 }
 .navbar-brand img {
-    max-width: 200px; /* 设置图片的最大宽度为200像素，你可以根据需要调整这个值 */
+    max-width: 200px; 
 }
 
 .nav-link {
@@ -174,7 +174,7 @@ body {
     }
     .buttton.btn {
         background-color: #B8B8FA 
-        color: white;
+        color:#fffwhite;
         padding: 10px 20px; 
         border: none;
         border-radius: 5px;

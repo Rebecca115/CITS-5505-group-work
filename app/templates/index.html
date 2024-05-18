@@ -5,6 +5,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}" type="text/css">
 
 {% block maincontent %}
+<main>
     <!-- Topbar -->
 {#    <div class="topbar">#}
 {#        <div class="input-group">#}
@@ -40,46 +41,30 @@
 
     <!-- Page 1 -->
     <section class="container">
-        <h1>Study Perth Assistant</h1>
-        <!-- Search result -->
-        <div class="modal fade" id="searchModal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="searchModalLabel">Search Results</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body" id="search-results"></div>
-                </div>
-            </div>
-        </div>
-
         <div class="row">
             <div class="col-md-3 col-sm-6 image-box">
-                <img src="{{ url_for('static', filename='image/Picture1.png') }}" alt="Image 1" class="img-fluid">
+                <img src="{{ url_for('static', filename='image/Postquetion.png') }}" alt="Image 1" class="img-fluid">
                 <div class="text-box text-center">
                     <a href="URL_HERE" class="no-decoration"><h2>Post questions</h2></a>
                     <p>Post your first question.</p>
                 </div>
             </div>
             <div class="col-md-3 col-sm-6 image-box">
-                <img src="{{ url_for('static', filename='image/Picture2.png') }}" alt="Image 2" class="img-fluid">
+                <img src="{{ url_for('static', filename='image/answerquestion.png') }}" alt="Image 2" class="img-fluid">
                 <div class="text-box text-center">
                     <a href="URL_HERE" class="no-decoration"><h2>Answer questions</h2></a>
                     <p>Answer your first question.</p>
                 </div>
             </div>
             <div class="col-md-3 col-sm-6 image-box">
-                <img src="{{ url_for('static', filename='image/Picture3.png') }}" alt="Image 3" class="img-fluid">
+                <img src="{{ url_for('static', filename='image/profile.png') }}" alt="Image 3" class="img-fluid">
                 <div class="text-box text-center">
                     <a href="URL_HERE" class="no-decoration"><h2>Profile</h2></a>
                     <p>Get social with friends.</p>
                 </div>
             </div>
             <div class="col-md-3 col-sm-6 image-box">
-                <img src="{{ url_for('static', filename='image/Picture4.png') }}" alt="Image 4" class="img-fluid">
+                <img src="{{ url_for('static', filename='image/raking.png') }}" alt="Image 4" class="img-fluid">
                 <div class="text-box text-center">
                     <a href="URL_HERE" class="no-decoration"><h2>Ranking</h2></a>
                     <p>Look at everyone's contributions.</p>
@@ -92,7 +77,7 @@
     <section class="container">
         <div class="row">
             <div class="col-md-6">
-                <img src="{{ url_for('static', filename='image/Page2.png') }}" alt="Image" class="img-fluid">
+                <img src="{{ url_for('static', filename='image/Page6.png') }}" alt="Image" class="img-fluid">
             </div>
             <div class="col-md-6">
                 <h1>We believe in the power of helping each other</h1>
@@ -106,7 +91,7 @@
 
     <!-- Page 3 -->
     <section class="container">
-        <h1 class="text-center">How to use? Just four simple steps</h1>
+        <h1 class="text-center">How to use? Just three simple steps</h1>
         <div class="row">
             <div class="col-md-3 col-sm-6">
                 <div class="text-box text-center">
@@ -130,37 +115,11 @@
     </section>
 
     <!-- Page 4 -->
-{#    <section class="container">#}
-{#        <h1 class="text-center">Dashboard</h1>#}
-{#        <div class="row">#}
-{#            <div class="col">#}
-{#                <div class="image-container">#}
-{#                    <img src="/static/Picture1.png" alt="Image 1" class="img-fluid">#}
-{#                    <button class="btn btn-primary mt-3 fetch-data-btn" data-endpoint="/user/get_top_users" data-toggle="modal" data-target="#dataModal">Fetch Data</button>#}
-{#                </div>#}
-{#            </div>#}
-{#            <div class="col">#}
-{#                <div class="image-container">#}
-{#                    <img src="/static/Picture2.png" alt="Image 2" class="img-fluid">#}
-{#                    <button class="btn btn-primary mt-3 fetch-data-btn" data-endpoint="/user/get_total_questions" data-toggle="modal" data-target="#dataModal">Fetch Data</button>#}
-{#                </div>#}
-{#            </div>#}
-{#            <div class="col">#}
-{#                <div class="image-container">#}
-{#                    <img src="/static/Picture3.png" alt="Image 3" class="img-fluid">#}
-{#                    <button class="btn btn-primary mt-3 fetch-data-btn" data-endpoint="/user/get_question_types" data-toggle="modal" data-target="#dataModal">Fetch Data</button>#}
-{#                </div>#}
-{#            </div>#}
-{#        </div>#}
-{#    </section>#}
-
-
         <section class="content">
         <div class="container">
             <div class="row align-items-center justify-content-between">
                 <div class="page">
                     <div class="container">
-                        <div class="content"></div>
                         <h1>Question Dashboard</h1>
                         <div class="row charts">
                             <div class="col-md-4 chart">
@@ -189,24 +148,6 @@
             </div>
         </div>
     </section>
-
-
-    <!-- Modal -->
-    <div class="modal fade" id="dataModal" tabindex="-1" role="dialog" aria-labelledby="dataModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="dataModalLabel">Data</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body" id="modal-body">
-                    <!-- Data will be displayed here -->
-                </div>
-            </div>
-        </div>
-    </div>
 {% endblock %}
 
 {% block scripts %}
