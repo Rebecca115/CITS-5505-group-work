@@ -37,6 +37,9 @@ login_manager.login_message = 'Please login'
 login_manager.login_message_category = "danger"
 login_manager.init_app(app)
 
+with app.app_context():
+    db.create_all()
+
 
 @login_manager.user_loader
 def load_user(user_id):
