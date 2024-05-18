@@ -1,4 +1,9 @@
 /* Style for the Browse Questions page */
+main{
+    padding: 30px;
+    margin-top: 50px;
+}
+
 .container {
     background-color: #fff;
     padding: 20px;
