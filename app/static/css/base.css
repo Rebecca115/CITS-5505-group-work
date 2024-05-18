@@ -9,18 +9,25 @@
 body {
     padding-bottom: 56px; /* Padding for fixed navbar */
     font-family: 'Inter', sans-serif;
-    background-color: #f4f5f7;
+    background-color: #E3E9F7;
     color: #333;
     margin: 0; /* Reset body margin */
     padding: 0; /* Reset body padding */
 }
 
+/* Navbar styles */
 .navbar {
+    background: linear-gradient(
+        to right, 
+        rgba(104, 92, 254, 0.4), 
+        rgba(227, 233, 247, 0.4)
+    );
     z-index: 1030;
     width: 100%; /* Ensure navbar takes full width */
     padding-bottom: 0;
     margin-bottom: 0; /* Ensure no margin at the bottom of the navbar */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    height: 15vh;
 }
 
 .navbar-brand {
@@ -36,6 +43,163 @@ body {
     width: auto;
 }
 
+/* Sidebar styles */
+.sidebar {
+    height: calc(100% - 56px); /* Adjust based on navbar height */
+    width: 250px;
+    position: fixed;
+    top: 56px; /* Adjust this value according to the height of your topbar */
+    bottom: 0; /* Ensure the sidebar stretches to the bottom */
+    background-color: #fff;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    padding-top: 20px;
+    overflow-x: hidden;
+    transition: width 0.3s;
+    z-index: 1040;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 16px;
+    border-radius: 15px;
+}
+
+.sidebar.dark {
+    background-color: #2c2c2c;
+    color: #fff;
+}
+
+.sidebar a {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    transition: background-color 0.3s, color 0.3s;
+    border-radius: 15px;
+}
+
+.sidebar a:hover {
+    background-color:  #B8B8FA;
+    border-radius: 15px;
+}
+
+.sidebar .menu-btn {
+    margin-bottom: 20px;
+    font-size: 24px;
+    cursor: pointer;
+    color: inherit;
+    border: none;
+    background: none;
+}
+
+.sidebar .menu-text {
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.sidebar .menu-items {
+    list-style-type: none;
+    padding: 0;
+    margin-top: 20px; /* Adjusted to move the items below the button */
+}
+
+.sidebar .menu-items li {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+}
+
+.sidebar .menu-items li .fas {
+    width: 24px;
+    margin-right: 15px;
+}
+
+.sidebar .user-info {
+    text-align: center;
+    padding: 20px 0;
+    border-top: 1px solid #e2e6ea;
+    border-bottom: 1px solid #e2e6ea;
+    width: 100%;
+}
+
+.sidebar .user-info img {
+    width: 50px;
+    height: 50px; /* Ensuring the image is square */
+    object-fit: cover; /* Ensuring the image does not stretch */
+    border-radius: 50%;
+}
+
+.sidebar.collapsed {
+    width: 80px;
+}
+
+.sidebar.collapsed .menu-text {
+    display: none;
+}
+
+.sidebar.collapsed .user-info img {
+    width: 40px;
+    height: 40px; /* Ensuring the image is square */
+}
+
+.sidebar.collapsed .menu-btn {
+    top: 10px;
+    right: 10px;
+}
+
+/* Main content styles */
+#main {
+    background-color: #E3E9F7;
+    transition: margin-left 0.3s;
+    padding: 20px;
+    margin-left: 250px; 
+}
+
+.sidebar.collapsed + #main {
+    margin-left: 80px; /* Adjust margin when sidebar is collapsed */
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 768px) {
+    .sidebar {
+        display: none; /* Hide sidebar on small screens */
+    }
+
+    #main {
+        margin-left: 0;
+    }
+
+    .navbar .navbar-collapse {
+        justify-content: space-between;
+    }
+
+    .navbar .nav-item {
+        display: flex;
+        align-items: center;
+    }
+
+    .navbar .nav-item .nav-link {
+        display: flex;
+        align-items: center;
+        padding: 0.5rem 1rem;
+    }
+
+    .navbar .nav-item .nav-link .fas {
+        margin-right: 10px;
+    }
+
+    .navbar .nav-item .user-info {
+        display: none;
+    }
+
+    .navbar .nav-item .user-info-mobile {
+        display: flex;
+        align-items: center;
+        padding: 0.5rem 1rem;
+    }
+}
+
+/* Other element styles */
 h1, h2 {
     text-align: center;
     color: rgb(35, 39, 47);
@@ -59,20 +223,23 @@ h1, h2 {
 
 .content {
     padding: 56px 0;
-    background-image: conic-gradient(from 90deg at -10% 100%, #bcc1cd 0deg, #bcc1cd 90deg, #fff 1turn);
+    background-color: #E3E9F7;
+   
 }
 
 .content:nth-child(odd) {
-    background-color: #ffffff;
+   
     background-image: conic-gradient(from -90deg at 110% 100%, #fff 0deg, #ebecf0 90deg, #ebecf0 1turn);
+    border-radius: 15px;
+    overflow: hidden;
 }
 
 .content:nth-child(even) {
-    background-color: #f0f0f0;
+    background-color: #E3E9F7;
 }
 
 .content:last-child {
-    background-color: #ffffff;
+    background-color: #E3E9F7;
 }
 
 .navbar-toggler-icon {
@@ -164,145 +331,21 @@ h1, h2 {
     transform: scaleX(-1);
 }
 
-.sidebar {
-    height: calc(100% - 56px); /* Adjust based on navbar height */
-    width: 250px;
-    position: fixed;
-    top: 56px; /* Adjust based on navbar height */
-    left: 0;
-    background-color: #fff;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-    padding-top: 20px;
-    overflow-x: hidden;
-    transition: width 0.3s;
-    z-index: 1040; /* Ensure sidebar is above the navbar */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+button, .btn {
+    background-color: #695DFB;
+    color: white; /* 设置按钮文本颜色 *
+    padding: 10px 20px; /* 设置按钮内边距 */
+    border: none; /* 移除按钮边框 */
+    border-radius: 5px; /* 设置按钮圆角 */
+    cursor: pointer; /* 设置鼠标悬停时的指针样式 */
+    font-size: 16px; /* 设置按钮字体大小 */
+    transition: background-color 0.3s; /* 添加背景色过渡效果 */
 }
 
-.sidebar.dark {
-    background-color: #2c2c2c;
-    color: #fff;
+/* 鼠标悬停时按钮样式 */
+button:hover{
+    background-color: #B8B8FA /* 设置鼠标悬停时的背景色 */
 }
-
-.sidebar a {
-    text-decoration: none;
-    color: inherit;
-    display: flex;
-    align-items: center;
-    padding: 10px 20px;
-    transition: background-color 0.3s, color 0.3s;
-}
-
-.sidebar a:hover {
-    background-color: #e2e6ea;
-}
-
-.sidebar .menu-btn {
-    margin-bottom: 20px;
-    font-size: 24px;
-    cursor: pointer;
-    color: inherit;
-    border: none;
-    background: none;
-}
-
-.sidebar .menu-items {
-    list-style-type: none;
-    padding: 0;
-    margin-top: 20px; /* Adjusted to move the items below the button */
-}
-
-.sidebar .menu-items li {
-    display: flex;
-    align-items: center;
-    padding: 10px 20px;
-}
-
-.sidebar .menu-items li .fas {
-    width: 24px;
-    margin-right: 15px;
-}
-
-.sidebar .user-info {
-    text-align: center;
-    padding: 20px 0;
-    border-top: 1px solid #e2e6ea;
-    border-bottom: 1px solid #e2e6ea;
-    width: 100%;
-}
-
-.sidebar .user-info img {
-    width: 50px;
-    height: 50px; /* Ensuring the image is square */
-    object-fit: cover; /* Ensuring the image does not stretch */
-    border-radius: 50%;
-}
-
-.sidebar.collapsed {
-    width: 80px;
-}
-
-.sidebar.collapsed .menu-text {
-    display: none;
-}
-
-.sidebar.collapsed .user-info img {
-    width: 40px;
-    height: 40px; /* Ensuring the image is square */
-}
-
-.sidebar.collapsed .menu-btn {
-    top: 10px;
-    right: 10px;
-}
-
-#main {
-    transition: margin-left 0.3s;
-    padding: 20px;
-    margin-left: 250px;
-}
-
-.sidebar.collapsed + #main {
-    margin-left: 80px;
-}
-
-@media screen and (max-width: 768px) {
-    .sidebar {
-        display: none; /* Hide sidebar on small screens */
-    }
-
-    #main {
-        margin-left: 0;
-    }
-
-    .navbar .navbar-collapse {
-        justify-content: space-between;
-    }
-
-    .navbar .nav-item {
-        display: flex;
-        align-items: center;
-    }
-
-    .navbar .nav-item .nav-link {
-        display: flex;
-        align-items: center;
-        padding: 0.5rem 1rem;
-    }
-
-    .navbar .nav-item .nav-link .fas {
-        margin-right: 10px;
-    }
-
-    .navbar .nav-item .user-info {
-        display: none;
-    }
-
-    .navbar .nav-item .user-info-mobile {
-        display: flex;
-        align-items: center;
-        padding: 0.5rem 1rem;
-    }
+.btn:hover {
+    background-color:  #B8B8FA /* 设置鼠标悬停时的背景色 */
 }
