@@ -21,32 +21,51 @@ body {
 
 
 /* Navbar styles */
+/* Navbar styles */
 .navbar {
     background: linear-gradient(to right,
             rgba(104, 92, 254, 0.4),
             rgba(227, 233, 247, 0.4));
     z-index: 1030;
     width: 100%;
-    /* Ensure navbar takes full width */
+    display: flex;
+    align-items: center; /* 确保内容垂直居中 */
     padding-bottom: 0;
     margin-bottom: 0;
-    /* Ensure no margin at the bottom of the navbar */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    height: 15vh;
+    height: 20vh;
 }
 
 .navbar-brand {
     font-weight: bold;
+    display: flex;
+    align-items: center; /* 确保 brand 内容垂直居中 */
 }
 
 .nav-link {
     color: rgb(64, 71, 86);
+    font-size: 16px; /* 调整字体大小 */
 }
 
 .index-icon {
-    height: 30px;
+    height: 70px;
     width: auto;
 }
+
+.navbar-toggler {
+    display: flex;
+    align-items: center; /* 确保 toggle icon 垂直居中 */
+}
+
+.form-control {
+    font-size: 14px; /* 调整搜索栏输入框的字体大小 */
+}
+
+.btn {
+    font-size: 14px; /* 调整搜索按钮的字体大小 */
+}
+
+
 
 /* Sidebar styles */
 .sidebar {
@@ -57,16 +76,16 @@ body {
     overflow-x: hidden;
     overflow-y: auto; /* Add a vertical scrollbar */
     transition: width 0.3s;
-    z-index: 1040; 
+    z-index: 1040;
     display: flex;
     flex-direction: column;
     align-items: center;
     font-size: 16px;
     border-radius: 15px;
-    top: calc(15vh + 20px); /* Adjust this value according to the height of your navbar */
+    top: calc(15vh + 50px); /* Adjust this value according to the height of your navbar */
     bottom: 20px; /* Adjust this value to make the sidebar closer to the footer */
-    max-height: 80vh; /* Maximum height of the sidebar */
     height: auto; /* Auto height to fit the content */
+    max-height: 70vh; /* Maximum height of the sidebar */
 }
 
 .sidebar.dark {
@@ -81,8 +100,28 @@ body {
     align-items: center;
     padding: 10px 20px;
     transition: background-color 0.3s, color 0.3s;
-    border-radius: 15px;
+    border-radius: 0 15px 15px 0; /* Add right border-radius */
 }
+
+.sidebar::before, .sidebar::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    width: 20px; /* Adjust to fit the border-radius */
+    height: 20px; /* Adjust to fit the border-radius */
+    background: #fff;
+}
+
+.sidebar::before {
+    top: 0;
+    border-top-right-radius: 15px;
+}
+
+.sidebar::after {
+    bottom: 0;
+    border-bottom-right-radius: 15px;
+}
+
 
 .sidebar a:hover {
     background-color: #B8B8FA;
@@ -363,16 +402,16 @@ button,
     /* 设置按钮圆角 */
     cursor: pointer;
     /* 设置鼠标悬停时的指针样式 */
-    font-size: 16px;
+    font-size: 14px;
     /* 设置按钮字体大小 */
     transition: background-color 0.3s;
     /* 添加背景色过渡效果 */
+
 }
 
-/* 鼠标悬停时按钮样式 */
+
 button:hover {
-    background-color: #B8B8FA
-        /* 设置鼠标悬停时的背景色 */
+    background-color: #B8B8FA;
 }
 
 .btn:hover {
@@ -410,12 +449,3 @@ footer {
     }
 }
 
-
-
-#sidebarimg {
-    max-width: 50px;  /* 设置最大宽度 */
-    max-height: 50px; /* 设置最大高度 */
-    width: 100%;      /* 使图片宽度自适应 */
-    height: auto;     /* 使图片高度自适应 */
-    object-fit: contain; 
-}

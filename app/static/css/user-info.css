@@ -44,12 +44,3 @@ button {
     transition: background-color 0.3s;
 }
 
-
-
-#sidebarimg {
-    max-width: 50px;  /* 设置最大宽度 */
-    max-height: 50px; /* 设置最大高度 */
-    width: 100%;      /* 使图片宽度自适应 */
-    height: auto;     /* 使图片高度自适应 */
-    object-fit: contain; 
-}
