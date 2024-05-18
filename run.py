@@ -7,14 +7,13 @@ from flask_mail import Mail
 from flask_migrate import Migrate
 from itsdangerous import URLSafeTimedSerializer
 
-from app.question.views import quest
+from task.views import quest
 from models import db, User
-from app.user.views import user
-# from utils import initialize_database
+from user.views import user
+from utils import initialize_database
 
-
-app = Flask(__name__, static_folder='/app/static', static_url_path='/../static')
-app.config.from_object('app.conf.Config')
+app = Flask(__name__, static_folder='static')
+app.config.from_object('conf.Config')
 
 ckeditor = CKEditor()
 ckeditor.init_app(app)
@@ -41,9 +40,10 @@ login_manager.init_app(app)
 def load_user(user_id):
     return User.query.get(user_id)
 
-
 if not os.path.exists('instance/data.db'):
-    initialize_database.create_local_db(app, db)
+    initialize_database.create_local_db(app,db)
 
 if __name__ == '__main__':
+
     app.run(host="0.0.0.0", port=8080, debug=True)
+

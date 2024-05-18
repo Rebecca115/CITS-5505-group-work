@@ -11,7 +11,7 @@ class User(db.Model):
     __tablename__ = 'user'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     username = db.Column(db.String(64), unique=True, nullable=False)
-    DOB = db.Column(db.String(64))
+    nickname = db.Column(db.String(64))
     password = db.Column(db.String(256), nullable=False)
     avatar = db.Column(db.String(256))
     gender = db.Column(db.String(16))
@@ -44,12 +44,11 @@ class User(db.Model):
         return self.password == hashlib.sha256(password.encode()).hexdigest()
 
     def to_dict(self):
-        return {
-
-            'avatar': self.avatar,
-            'gender': self.gender,
-            'answer_count': self.answer_list.count(),
-        }
+       return{
+                'nickname': self.nickname,
+                'avatar': self.avatar,
+                'gender' : self.gender
+       }
 
 
 class Question(db.Model):
@@ -79,7 +78,10 @@ class Question(db.Model):
             'category': self.category,
             'created_at': self.created_at,
             'updated_at': self.updated_at,
-            'id': self.id,
+            'date_to_finish': self.date_to_finish,
+            'nickname': self.user.nickname,
+            'accepted_user': self.accepted_user.username if self.accepted_user else None,
+            'location':self.location
         }
 
     @property
