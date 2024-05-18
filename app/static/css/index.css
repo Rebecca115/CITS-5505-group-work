@@ -3,23 +3,24 @@ body {
     font-family: Arial, sans-serif;
 }
 
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
 .main-container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
 }
 
-main {
-    margin: 20px auto;
-    padding: 20px;
-    background-color: #f9f9f9;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    background-image: conic-gradient(from -90deg at 110% 100%, #fff 0deg, #ebecf0 90deg, #ebecf0 1turn);
-}
-
 .image-box {
-    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     text-align: center;
+    margin-bottom: 20px;
 }
 
 .image-box img {
@@ -36,5 +37,21 @@ main {
 }
 
 .text-box h2 {
-    font-size:
+    font-size: 1.2em; /* 调整标题字体大小 */
+    margin-bottom: 10px;
+}
+
+.text-box p {
+    font-size: 1em; /* 调整段落字体大小 */
+}
+
+.row {
+    display: flex;
+    justify-content: space-between; /* 水平等距分布 */
+}
+
+.col-md-3, .col-sm-6 {
+    flex: 0 0 23%; /* 确保四个元素水平排列，稍微减少宽度以便均匀分布 */
+    box-sizing: border-box;
+    padding: 10px;
 }
