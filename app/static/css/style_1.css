@@ -2,7 +2,7 @@
 
 .container {
   position: relative;
-  margin-top: 200px;
+  margin-top: 100px;
   z-index: 1;
 }
 
@@ -16,9 +16,9 @@ img {
 
 #background-video {
   position: absolute;
-  left: 50%;  
+  left: 40%;  
   transform: translateX(-50%);  
-  width: 80%;
+  width: 50%;
   height: 100%;
   object-fit: cover;
   z-index: -1;
@@ -27,6 +27,7 @@ img {
 
 #login {
   width: 300px;
+  margin-left: 50%;
   position: relative; 
   z-index: 1; 
   padding: 20px; 
@@ -38,7 +39,8 @@ img {
 
 
 #forget {
-  width: 300px;
+  margin-left: 45%;
+  width: 250px;
   position: relative; 
   z-index: 1; 
   padding: 20px; 
@@ -47,7 +49,8 @@ img {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
 }
 #register {
-  width: 500px;
+  margin-left: 80%;
+  width: 300px;
   position: relative; 
   z-index: 1; 
   padding: 20px; 
@@ -61,27 +64,27 @@ img {
   animation: move 6s ease infinite;
   border-radius: 50px;
   position: absolute;
-  background-color: #0088ff;
+  background-color: white;
   height: 60px;
   width: 60px;
   box-shadow: 
-    #0088ff 65px -15px 0 -5px, 
-    #0088ff 25px -25px, 
-    #0088ff 30px 10px, 
-    #0088ff 60px 15px 0 -10px, 
-    #0088ff 85px 5px 0 -5px;
+    white 65px -15px 0 -5px, 
+    white 25px -25px, 
+    white 30px 10px, 
+    white 60px 15px 0 -10px, 
+    white 85px 5px 0 -5px;
 }
 
 #cloud1 {
-  top: 130px;
+  top: 160px;
   left: 30%;
-  animation-duration: 8s; /* 设置不同的动画时长 */
+  animation-duration: 8s;
 }
 
 #cloud2 {
   top: 180px;
   left: 70%;
-  animation-duration: 10s; /* 设置不同的动画时长 */
+  animation-duration: 10s; 
 }
 
 
