@@ -6,8 +6,9 @@ from itsdangerous import SignatureExpired, BadSignature, URLSafeTimedSerializer
 from sqlalchemy import func
 from werkzeug.utils import secure_filename
 
-from app.user.forms import RegisterForm, LoginForm, RestPassForm, ForgotPassForm, UserProfileForm, UpdateAvatarForm
-from models import User, db, Task, Answer
+from app.user.forms import RegisterForm, LoginForm, RestPassForm, ForgotPassForm, UserProfileForm, UpdateAvatarForm, \
+    ChangePasswordForm
+from models import User, db, Question, Answer
 
 user = Blueprint('user', __name__, template_folder='../templates')
 
@@ -22,7 +23,7 @@ def login():
         user = form.do_login()
         if user:
             # Successful login
-            flash(f'Welcome back,{user.nickname}.', 'success')
+            flash(f'Welcome back,{user.username}.', 'success')
             return redirect("/")
         else:
             # Login failed, show message
@@ -39,7 +40,7 @@ def logout():
     """Route for logging out the user"""
     logout_user()  # Logout the current user
     flash('You have been logged out.', 'success')
-    return redirect(url_for('task.index'))
+    return redirect(url_for('question.index'))
 
 
 # Route for handling registration
@@ -95,32 +96,37 @@ def user_posted_questions(id):
         user = User.query.get_or_404(id)
         print(f"User ID: {user.id}, Type: {type(user.id)}")
 
-        tasks = Task.query.filter_by(user_id=user.id).all()
+        questions = Question.query.filter_by(user_id=user.id).all()
 
-        return render_template('posted-questions.html', user=user, tasks=tasks)
+        return render_template('posted-questions.html', user=user, questions=questions)
 
 
-@user.route('/change_password', methods=['POST'])
+@user.route('/change_password')
 @login_required
 def change_password():
     """Route for changing the user's password"""
+    form = ChangePasswordForm()
 
-    data = request.get_json()
-    current_password = data.get('current_password')
-    new_password = data.get('new_password')
+    if form.validate_on_submit():
+        # Check if the current password matches
+        if not current_user.check_password(form.current_password.data):
+            flash('Current password is incorrect.', 'danger')
+            return redirect(url_for('user.change_password'))
 
-    # Verify and update password logic
-    if not current_user.check_password(current_password):
-        return jsonify({'error': 'Current password is incorrect.'}), 400
+        # Check if new password and confirm password match
+        if form.new_password.data != form.confirm_password.data:
+            flash('New password and confirm password do not match.', 'danger')
+            return redirect(url_for('user.change_password'))
 
-    if current_user.check_password(new_password):
-        return jsonify({'error': 'New password cannot be the same as current password.'}), 400
 
-    current_user.set_password(new_password)
-    db.session.commit()
+        # Update the user's password
+        current_user.set_password(form.current_password.data)
+        db.session.commit()
 
-    return jsonify({'message': 'Password updated successfully'}), 200
+        flash('Your password has been successfully updated.', 'success')
+        return redirect(url_for('user.info', id=current_user.id))
 
+    return render_template('change_password.html', form=form)
 
 @user.route('/confirm-email/<token>')
 def confirm_email(token):
@@ -145,12 +151,12 @@ def confirm_email(token):
         return jsonify({'error': "Invalid confirmation link."}), 400
 
 
-@user.route('/forgot-password', methods=['POST', 'GET'])
-def forgot_password():
-    """Route for handling forgot password request"""
+@user.route('/forget-password', methods=['POST', 'GET'])
+def forget_password():
+    """Route for handling forget password request"""
     form = ForgotPassForm()
     if form.validate_on_submit():
-        user = form.forgot_password()
+        user = form.forget_password()
         if user:
             return redirect(url_for('user.login'))
         else:
