@@ -1,243 +1,165 @@
 {% extends "base.html" %}
-
 {% block title %}Homepage{% endblock %}
-
 {% block styles %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}" type="text/css">
-{% endblock %}
+<style>
 
+
+</style>{% endblock %}
 {% block maincontent %}
+
 <div class="main-container">
-    <!-- Section 1 -->
+
     <main>
         <section class="container mt-5 pt-5">
             <div class="row">
                 <div class="col-md-3 col-sm-6 image-box">
-                    <img src="{{ url_for('static', filename='image/Postquetion.png') }}" alt="Image 1" class="img-fluid">
-                    <div class="text-box text-center">
-                        <a href="{{ url_for('question.post') }}" class="no-decoration"><h2>Post questions</h2></a>
-                        <p>Post your first question.</p>
-                    </div>
+                    < img src="{{ url_for('static', filename='image/Postquestion.png') }}" alt="Image 1"
+                        class="img-fluid">
+                        <div class="text-box text-center">
+                            <a href="{{'question.post' }}" class="no-decoration">
+                                <h5>Post questions</h5>
+                            </a>
+                            <p>Post your first question.</p>
+                        </div>
                 </div>
                 <div class="col-md-3 col-sm-6 image-box">
-                    <img src="{{ url_for('static', filename='image/answerquestion.png') }}" alt="Image 2" class="img-fluid">
-                    <div class="text-box text-center">
-                        <a href="#" class="no-decoration"><h2>Answer questions</h2></a>
-                        <p>Answer your first question.</p>
-                    </div>
+                    < img src="{{ url_for('static', filename='image/answerquestion.png') }}" alt="Image 2"
+                        class="img-fluid">
+                        <div class="text-box text-center">
+                            <a href="#" class="no-decoration">
+                                <h5>Answer questions</h5>
+                            </a>
+                            <p>Answer your first question.</p>
+                        </div>
                 </div>
                 <div class="col-md-3 col-sm-6 image-box">
-                    <img src="{{ url_for('static', filename='image/profile.png') }}" alt="Image 3" class="img-fluid">
-                    <div class="text-box text-center">
-                        <a href="URL_HERE" class="no-decoration"><h2>Profile</h2></a>
-                        <p>Get social with friends.</p>
-                    </div>
+                    < img src="{{ url_for('static', filename='image/profile.png') }}" alt="Image 3" class="img-fluid">
+                        <div class="text-box text-center">
+                            <a href="{{ url_for('user.info', id=current_user.id)  }}" class="no-decoration">
+                                <h5>Profile</h5>
+                            </a>
+                            <p>Get social with friends.</p>
+                        </div>
                 </div>
                 <div class="col-md-3 col-sm-6 image-box">
-                    <img src="{{ url_for('static', filename='image/raking.png') }}" alt="Image 4" class="img-fluid">
-                    <div class="text-box text-center">
-                        <a href="URL_HERE" class="no-decoration"><h2>Ranking</h2></a>
-                        <p>Look at everyone's contributions.</p>
-                    </div>
+                    < img src="{{ url_for('static', filename='image/raking.png') }}" alt="Image 4" class="img-fluid">
+                        <div class="text-box text-center"> <a href="URL_HERE" class="no-decoration">
+                                <h5>Ranking</h5>
+                            </a>
+                            <p>Look at everyone's contributions.</p>
+                        </div>
                 </div>
             </div>
         </section>
-        
-
-
-        <!-- Section 2 -->
-        <section class="container my-5">
+    </main>
+    <!-- Main 2 -->
+    <main>
+        <section class="container my-5 section-2">
             <div class="row">
                 <div class="col-md-6">
-                    < img src="{{ url_for('static', filename='image/Page6.png') }}" alt="Image" class="img-fluid">
+                    < img src="{{ url_for('static', filename='image/homepage_cartoon.png') }}" alt="Image"
+                        class="img-fluid">
                 </div>
-                <div class="col-md-6">
-                    <h1>We believe in the power of helping each other</h1>
+                <div id="intention_description" class="col-md-6">
+                    <h4>We believe in the power of helping each other</h4>
                     <div class="text-box">
-                        <h2>Our original intention</h2>
-                        <p class="adjustable-text">Study Perth Assistant hopes to help international students in Perth solve various problems encountered in life and study through voluntary mutual assistance, help them make more friends, better integrate into the University and community, and live a successful life.</p >
+                        <h5>Our original intention</h5>
+                        <p class="adjustable-text">Study Perth Assistant hopes to help international students in Perth
+                            solve various problems encountered in life and study through voluntary mutual assistance,
+                            help them make more friends, better integrate into the University and community, and live a
+                            successful life.</p>
                     </div>
                 </div>
             </div>
         </section>
-
-        <!-- Section 3 -->
-        <section class="container my-5">
-            <h1 class="text-center">How to use? Just three simple steps</h1>
+    </main>
+    <!-- Main 3 -->
+    <main>
+        <section class="container my-5 section-3">
+            <h4 class="text-center">How to use? Just three simple steps</h4>
             <div class="row">
                 <div class="col-md-4 col-sm-6">
                     <div class="text-box text-center">
-                        <h2>Step 1</h2>
-                        <p>Create your Study Perth Assistant account.</p >
+                        <h5>Step 1</h5>
+                        <p>Create your Study Perth Assistant account.</p>
                     </div>
                 </div>
                 <div class="col-md-4 col-sm-6">
                     <div class="text-box text-center">
-                        <h2>Step 2</h2>
-                        <p>Post questions or Answer questions.</p >
+                        <h5>Step 2</h5>
+                        <p>Post questions or Answer questions.</p>
                     </div>
                 </div>
                 <div class="col-md-4 col-sm-6">
                     <div class="text-box text-center">
-                        <h2>Step 3</h2>
-                        <p>Let's give each other good reviews after the questions be answered.</p >
+                        <h5>Step 3</h5>
+                        <p>Let's give each other good reviews after the questions be answered.</p>
                     </div>
                 </div>
             </div>
         </section>
-
-        <!-- Section 4 -->
-        <section class="container my-5">
+    </main>
+    <!-- Main 4 -->
+    <main>
+        <section class="container my-5 section-4">
             <div class="row align-items-center justify-content-between">
                 <div class="page">
                     <div class="container">
-                        <h1>Question Dashboard</h1>
+                        <h4>Question Dashboard</h4>
                         <div class="row charts">
                             <div class="col-md-4 chart">
-                                <h2 class="text-center">Scoreboard</h2>
-                                <ul>
-                                    {% for user in users_data %}
-                                    <li>{{ user.username }}: {{ user.answer_count }} answers</li>
-                                    {% endfor %}
-                                </ul>
+                                <h4 class="text-center">Scoreboard</h4>
+                                <ul> {% for user in users_data %} <li>{{ user.username }}: {{ user.answer_count }}
+                                        answers</li> {% endfor %} </ul>
                             </div>
                             <div class="col-md-4 chart">
-                                <h2 class="text-center">Total Questions</h2>
-                                <p class="text-center">{{ question_count }}</p >
+                                <h5 class="text-center">Total Questions</h5>
+                                <p class="text-center">{{ question_count }}</p>
                             </div>
                             <div class="col-md-4 chart">
-                                <h2 class="text-center">Question Types</h2>
-                                <ul>
-                                    {% for question in question_desc %}
-                                    <li>{{ question[0] }}: {{ question[1] }}</li>
-                                    {% endfor %}
-                                </ul>
+                                <h5 class="text-center">Question Types</h5>
+                                <ul> {% for question in question_desc %} <li>{{ question[0] }}: {{ question[1] }}</li>
+                                    {% endfor %} </ul>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
-
-        <!-- Section 5: Photo Stream -->
-        <section class="container my-5">
+    </main>
+    <!-- Main 5 -->
+    <main>
+        <section class="container my-5 section-5">
             <div id="Welcome" class="container pb-3">
-                <h2 class="pb-2">My adventure in Australia</h2>
+                <h4 class="pb-2">My adventure in Australia</h4>
                 <div class="container-fluid p-0">
-                    <div id="photo-stream" class="d-flex">
-                    </div>
+                    <div id="photo-stream" class="d-flex"> </div>
                 </div>
             </div>
             <script>
                 $(function () {
-                    var images = [
-                        '{{ url_for('static', filename='image/photo-stream/1.jpg') }}',
-                        '{{ url_for('static', filename='image/photo-stream/2.jpg') }}',
-                        '{{ url_for('static', filename='image/photo-stream/3.jpg') }}',
-                        '{{ url_for('static', filename='image/photo-stream/4.jpg') }}',
-                        '{{ url_for('static', filename='image/photo-stream/5.jpg') }}',
-                        '{{ url_for('static', filename='image/photo-stream/6.jpg') }}',
-                        '{{ url_for('static', filename='image/photo-stream/7.jpg') }}',
-                        '{{ url_for('static', filename='image/photo-stream/8.jpg') }}',
-                        '{{ url_for('static', filename='image/photo-stream/9.jpg') }}',
-                        '{{ url_for('static', filename='image/photo-stream/10.jpg') }}'
-                    ];
-
-                    images.forEach(function (img, index) {
-                        var imgClass = (index % 2 === 0) ? 'even' : 'odd';
-                        var imgElement = $('<img>').addClass(imgClass).attr('src', img);
-                        var itemElement = $('<div class="photo-item p-2">').append(imgElement);
-                        $('#photo-stream').append(itemElement);
-                    });
-
+                    var images = ['{{ url_for('static', filename='image / photo - stream / 1.jpg') }}', '{{ url_for('static', filename='image / photo - stream / 2.jpg') }}', '{{ url_for('static', filename='image / photo - stream / 3.jpg') }}', '{{ url_for('static', filename='image / photo - stream / 4.jpg') }}', '{{ url_for('static', filename='image / photo - stream / 5.jpg') }}', '{{ url_for('static', filename='image / photo - stream / 6.jpg') }}', '{{ url_for('static', filename='image / photo - stream / 7.jpg') }}', '{{ url_for('static', filename='image / photo - stream / 8.jpg') }}', '{{ url_for('static', filename='image / photo - stream / 9.jpg') }}', '{{ url_for('static', filename='image / photo - stream / 10.jpg') }}'];
+                    images.forEach(function (img, index) { var imgClass = (index % 2 === 0) ? 'even' : 'odd'; var imgElement = $('<img>').addClass(imgClass).attr('src', img); var itemElement = $('<div class="photo-item p-2">').append(imgElement); $('#photo-stream').append(itemElement); });
                     function animatePhotos() {
-                        var $stream = $('#photo-stream');
-                        var $firstItem = $stream.find('.photo-item:first');
-                        var firstItemWidth = $firstItem.outerWidth(true);
-
-                        $firstItem.animate({ marginLeft: -firstItemWidth }, 5000, 'linear', function () {
-                            $firstItem.appendTo($stream);
-                            $firstItem.css('margin-left', '');
-                            animatePhotos();
-                        });
+                        var $stream = $('#photo-stream'); var $firstItem = $stream.find('.photo-item:first'); var firstItemWidth = $firstItem.outerWidth(true);
+                        $firstItem.animate({ marginLeft: -firstItemWidth }, 5000, 'linear', function () { $firstItem.appendTo($stream); $firstItem.css('margin-left', ''); animatePhotos(); });
                     }
-
                     animatePhotos();
-                });
+                });           
             </script>
         </section>
     </main>
 </div>
+
 {% endblock %}
+
 
 {% block scripts %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-<script>
-document.getElementById('searchInput').addEventListener('keypress', function(e) {
-    if (e.key === 'Enter') {
-        let query = e.target.value;
-        if (query) {
-            let xhr = new XMLHttpRequest();
-            xhr.open('GET', `/search?query=${encodeURIComponent(query)}`, true);
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState === 4) {
-                    let searchResults = document.getElementById('search-results');
-                    if (xhr.status === 200) {
-                        let data = JSON.parse(xhr.responseText);
-                        searchResults.innerHTML = '';
-                        if (data.length === 0) {
-                            searchResults.innerHTML = "<p>No results found.</p >";
-                        } else {
-                            data.forEach(result => {
-                                let item = `
-                                    <div class="result-item">
-                                        <h4><a href=" ">${result.title}</a ></h4>
-                                        <p>${result.content}</p >
-                                    </div>
-                                `;
-                                searchResults.innerHTML += item;
-                            });
-                        }
-                    } else {
-                        searchResults.innerHTML = "<p>An error occurred while fetching search results.</p >";
-                    }
-                    new bootstrap.Modal(document.getElementById('searchModal')).show();
-                }
-            };
-            xhr.send();
-        }
-    }
-});
-
-$(document).ready(function() {
-    $(".fetch-data-btn").click(function() {
-        var endpoint = $(this).data("endpoint");
-        $.ajax({
-            url: endpoint,
-            type: "GET",
-            success: function(response) {
-                console.log("Data received:", response);
-                var sortedUsers = response.users.sort((a, b) => b.answer_count - a.answer_count);
-                displayData(sortedUsers);
-            },
-            error: function(xhr, status, error) {
-                console.error("Error:", error);
-            }
-        });
-    });
-
-    function displayData(users) {
-        var modalBody = $("#modal-body");
-        modalBody.empty();
-        users.forEach(function(user, index) {
-            var userHtml = `<div class="user-card">
-                                < img src="/static/uploads/${user.avatar}" alt="User Avatar" class="img-fluid rounded-circle mb-3">
-                                <p>${user.username}</p >
-                                <p>Answer Count: ${user.answer_count}</p >
-                            </div>`;
-            modalBody.append(userHtml);
-        });
-    }
-});
-</script>
+<script>document.getElementById('searchInput').addEventListener('keypress', function (e) { if (e.key === 'Enter') { let query = e.target.value; if (query) { let xhr = new XMLHttpRequest(); xhr.open('GET', `/search?query=${encodeURIComponent(query)}`, true); xhr.onreadystatechange = function () { if (xhr.readyState === 4) { let searchResults = document.getElementById('search-results'); if (xhr.status === 200) { let data = JSON.parse(xhr.responseText); searchResults.innerHTML = ''; if (data.length === 0) { searchResults.innerHTML = "<p>No results found.</p >"; } else { data.forEach(result => { let item = `                                    <div class="result-item">                                        <h4><a href=" ">${result.title}</a ></h4>                                        <p>${result.content}</p >                                    </div>                                `; searchResults.innerHTML += item; }); } } else { searchResults.innerHTML = "<p>An error occurred while fetching search results.</p >"; } new bootstrap.Modal(document.getElementById('searchModal')).show(); } }; xhr.send(); } } });
+    $(document).ready(function () {
+        $(".fetch-data-btn").click(function () { var endpoint = $(this).data("endpoint"); $.ajax({ url: endpoint, type: "GET", success: function (response) { console.log("Data received:", response); var sortedUsers = response.users.sort((a, b) => b.answer_count - a.answer_count); displayData(sortedUsers); }, error: function (xhr, status, error) { console.error("Error:", error); } }); });
+        function displayData(users) { var modalBody = $("#modal-body"); modalBody.empty(); users.forEach(function (user, index) { var userHtml = `<div class="user-card">                                < img src="/static/uploads/${user.avatar}" alt="User Avatar" class="img-fluid rounded-circle mb-3">                                <p>${user.username}</p >                                <p>Answer Count: ${user.answer_count}</p >                            </div>`; modalBody.append(userHtml); }); }
+    });</script>
 {% endblock %}

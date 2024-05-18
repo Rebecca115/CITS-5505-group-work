@@ -31,18 +31,24 @@ body {
 
 .text-box {
     padding: 10px;
-    background-color: #fff;
+    background-color:#B8B8FA;
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.text-box h2 {
+.text-box h4 {
     font-size: 1.2em; /* 调整标题字体大小 */
     margin-bottom: 10px;
 }
 
+.text-box h5 {
+    text-decoration: none; /* 移除下划线 */
+    color:#fff; /* 设置字体颜色 */
+}
+
 .text-box p {
     font-size: 1em; /* 调整段落字体大小 */
+    background-color: #fff;
 }
 
 .row {
@@ -54,4 +60,54 @@ body {
     flex: 0 0 23%; /* 确保四个元素水平排列，稍微减少宽度以便均匀分布 */
     box-sizing: border-box;
     padding: 10px;
+}
+
+
+/* Navbar styles */
+.navbar {
+    background: linear-gradient(to right,
+            rgba(104, 92, 254, 0.4),
+            rgba(227, 233, 247, 0.4));
+    z-index: 1030;
+    width: 100%;
+    display: flex;
+    align-items: center; /* 确保内容垂直居中 */
+    padding-bottom: 0;
+    margin-bottom: 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    height: 20vh;
+}
+
+.navbar-brand {
+    font-weight: bold;
+    display: flex;
+    align-items: center; /* 确保 brand 内容垂直居中 */
+}
+
+.nav-link {
+    color: rgb(64, 71, 86);
+    font-size: 16px; /* 调整字体大小 */
+}
+
+.index-icon {
+    height: 70px;
+    width: auto;
+}
+
+.navbar-toggler {
+    display: flex;
+    align-items: center; /* 确保 toggle icon 垂直居中 */
+}
+
+.form-control {
+    font-size: 14px; /* 调整搜索栏输入框的字体大小 */
+}
+
+.btn {
+    font-size: 14px; /* 调整搜索按钮的字体大小 */
+}
+
+
+#intention_description {
+    align-items: center;
 }
