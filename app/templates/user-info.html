@@ -15,12 +15,7 @@
                     <h2 class="text-center">User Information</h2>
                     <form method="POST" action="{{ url_for('user.change_profile', id=user.id) }}">
                         {{ form.hidden_tag() }}
-                        <div class="mb-3 row">
-                            <label for="nickname" class="col-sm-3 col-form-label">Nickname</label>
-                            <div class="col-sm-9">
-                                {{ form.nickname(class="form-control") }}
-                            </div>
-                        </div>
+
                         <div class="mb-3 row">
                             <label for="username" class="col-sm-3 col-form-label">Username</label>
                             <div class="col-sm-9">
