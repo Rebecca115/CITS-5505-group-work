@@ -16,9 +16,9 @@ img {
 
 #background-video {
   position: absolute;
-  left: 50%;  
+  left: 40%;  
   transform: translateX(-50%);  
-  width: 80%;
+  width: 50%;
   height: 100%;
   object-fit: cover;
   z-index: -1;
@@ -27,6 +27,7 @@ img {
 
 #login {
   width: 300px;
+  margin-left: 50%;
   position: relative; 
   z-index: 1; 
   padding: 20px; 
@@ -38,7 +39,8 @@ img {
 
 
 #forget {
-  width: 300px;
+  margin-left: 45%;
+  width: 250px;
   position: relative; 
   z-index: 1; 
   padding: 20px; 
@@ -47,6 +49,7 @@ img {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
 }
 #register {
+  margin-left: 80%;
   width: 300px;
   position: relative; 
   z-index: 1; 
