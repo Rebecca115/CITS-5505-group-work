@@ -32,7 +32,7 @@ textarea {
     resize: none;
 }
 
-button {
+.update-btn {
     width: 100%;
     padding: 10px;
     background-color: #007bff;
@@ -44,6 +44,6 @@ button {
     transition: background-color 0.3s;
 }
 
-button:hover {
+.update-btn:hover {
     background-color: #0056b3;
 }

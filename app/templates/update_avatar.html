@@ -4,7 +4,7 @@
 
 {% block stylesheets %}
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" type="text/css">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/update-avatar.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/update_avatar.css') }}" type="text/css">
 {% endblock %}
 
 {% block content %}
@@ -27,7 +27,7 @@
                         </div>
                         <div class="row">
                             <div class="col-sm-9 offset-sm-3">
-                                {{ form.submit(class="btn btn-primary") }}
+                                {{ form.submit(class="avatar-btn btn btn-primary") }}
                             </div>
                         </div>
                     </form>

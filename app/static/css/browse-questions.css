@@ -25,6 +25,28 @@ h2 {
     color: #555;
 }
 
+.hidden {
+    display: none;
+}
+
+.show-desc, .hide-desc {
+    margin-top: 10px;
+}
+
+.card {
+    margin-bottom: 20px;
+}
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+}
+
+.card img {
+    max-width: 100%;
+    height: auto;
+}
+
 .list-group-item small {
     color: #999;
 }

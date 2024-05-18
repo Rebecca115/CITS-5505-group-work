@@ -6,24 +6,19 @@
   <component name="ChangeListManager">
     <list default="true" id="a3ab5809-4b47-49f9-aeda-b652653ab519" name="Changes" comment="bug fix and feature adjust">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/static/css/browse-questions.css" beforeDir="false" afterPath="$PROJECT_DIR$/app/static/css/browse-questions.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/static/css/update-avatar.css" beforeDir="false" afterPath="$PROJECT_DIR$/app/static/css/update_avatar.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/static/css/user-info.css" beforeDir="false" afterPath="$PROJECT_DIR$/app/static/css/user-info.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/answered-questions.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/answered-questions.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/base.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/templates/base_profile.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/base_profile.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/broswe-question.html" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/app/templates/browse-question.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/browse-question.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/change_password.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/change_password.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/profile.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/posted-questions.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/posted-questions.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/update-avatar.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/update_avatar.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/update_avatar.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/templates/user-info.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/user-info.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/user/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/user/forms.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/user/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/user/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/deliverables/version1/homepage.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/deliverables/version1/loginpage.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/deliverables/version1/postpage.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/deliverables/version1/questionpage.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/deliverables/version1/registerpage.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/instance/.ignore" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/instance/data.db" beforeDir="false" afterPath="$PROJECT_DIR$/instance/data.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/run.py" beforeDir="false" afterPath="$PROJECT_DIR$/run.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -235,7 +230,15 @@
       <option name="project" value="LOCAL" />
       <updated>1716006978815</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="bug fix and feature adjust">
+      <option name="closed" value="true" />
+      <created>1716037535462</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1716037535462</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -292,7 +295,7 @@
     <SUITE FILE_PATH="coverage/CITS_5505_group_work$conf.coverage" NAME="conf Coverage Results" MODIFIED="1715495858694" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/CITS_5505_group_work$Flask__app_py_.coverage" NAME="Flask (run.py) Coverage Results" MODIFIED="1715960456001" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/CITS_5505_group_work$database_immigration.coverage" NAME="database_immigration Coverage Results" MODIFIED="1714384794966" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/instance" />
-    <SUITE FILE_PATH="coverage/CITS_5505_group_work$Flask__run_py_.coverage" NAME="Flask (run.py) Coverage Results" MODIFIED="1716037355040" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/CITS_5505_group_work$Flask__run_py_.coverage" NAME="Flask (run.py) Coverage Results" MODIFIED="1716038795204" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/CITS_5505_group_work$CITS_5505_group_work.coverage" NAME="CITS-5505-group-work Coverage Results" MODIFIED="1713953744097" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
     <SUITE FILE_PATH="coverage/CITS_5505_group_work$Flask__app_py___1_.coverage" NAME="Flask (app.py) (1) Coverage Results" MODIFIED="1715268603953" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
     <SUITE FILE_PATH="coverage/CITS_5505_group_work$views.coverage" NAME="views Coverage Results" MODIFIED="1716003019884" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/app/user" />

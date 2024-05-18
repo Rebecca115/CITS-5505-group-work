@@ -218,7 +218,7 @@ def answered(id):
     return jsonify({'message': 'Success', 'data': [ans.to_dict() for ans in answers]}), 200
 
 
-@user.route('/<int:id>/update-avatar', methods=['GET', 'POST'])
+@user.route('/<int:id>/update_avatar', methods=['GET', 'POST'])
 @login_required
 def update_avatar(id):
     if id != current_user.id:
@@ -238,6 +238,6 @@ def update_avatar(id):
         db.session.commit()
 
         flash('Your avatar has been updated!', 'success')
-        return redirect(url_for('user_profile', id=user.id))
+        return redirect(url_for('user.info', id=user.id))
 
     return render_template('update_avatar.html', user=user, form=form)

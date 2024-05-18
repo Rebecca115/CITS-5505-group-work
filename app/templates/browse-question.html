@@ -7,8 +7,6 @@ Question Management - Study Perth Assistant
 {% block maincontent %}
 <main class="mt-5 pt-1">
     <div class="container">
-
-
         {% for question in page_data.items %}
             <div class="card mb-3">
                 <div class="row g-0">
@@ -54,13 +52,13 @@ Question Management - Study Perth Assistant
 <script>
     $(function () {
         $('.show-desc').click(function () {
-            $(this).parent('.normal').hide();
-            $(this).parent().next('.additional').removeClass('hidden');
+            $(this).closest('.normal').hide();
+            $(this).closest('.card-body').find('.additional').removeClass('hidden');
         });
 
         $('.hide-desc').click(function () {
-            $(this).parent('.additional').addClass('hidden');
-            $(this).parent().prev('.normal').show();
+            $(this).closest('.additional').addClass('hidden');
+            $(this).closest('.card-body').find('.normal').show();
         });
 
         $('#searchInput').on('keypress', function (e) {
