@@ -1,49 +1,40 @@
-main {
-    margin: 20px auto; /* 控制 main 元素的外边距 */
-    padding: 20px; /* 控制 main 元素的内边距 */
-    max-width: 1200px; /* 控制 main 元素的最大宽度 */
-    background-color: #f9f9f9; /* 背景颜色 */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 添加阴影 */
-    background-image: conic-gradient(from -90deg at 110% 100%, #fff 0deg, #ebecf0 90deg, #ebecf0 1turn);
+/* 通用样式 */
+body {
+    font-family: Arial, sans-serif;
 }
 
 .main-container {
-    display: flex; /* 使用 flex 布局 */
-    flex-direction: column; /* 垂直排列 */
-    align-items: center; /* 水平居中 */
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+main {
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-image: conic-gradient(from -90deg at 110% 100%, #fff 0deg, #ebecf0 90deg, #ebecf0 1turn);
 }
 
 .image-box {
-    margin-bottom: 20px; /* 每个图像框的底部外边距 */
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.image-box img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 10px;
 }
 
 .text-box {
-    margin-top: 10px; /* 每个文本框的顶部外边距 */
-    padding: 10px; /* 内边距 */
-    background-color: #fff; /* 背景颜色 */
-    border-radius: 5px; /* 圆角 */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 添加阴影 */
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .text-box h2 {
-    font-size: 1.5rem; /* 调整字体大小 */
-}
-
-/* 背景颜色和布局 */
-.section-title {
-    text-align: center; /* 标题居中 */
-    margin-bottom: 20px; /* 标题底部外边距 */
-}
-
-.adjustable-text {
-    background-color: #fff; /* 背景颜色 */
-    padding: 10px; /* 内边距 */
-    border-radius: 5px; /* 圆角 */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 添加阴影 */
-}
-
-@media (max-width: 767px) {
-    .row {
-        flex-direction: column; /* 小屏幕上垂直排列 */
-    }
+    font-size:
 }

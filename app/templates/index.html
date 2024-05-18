@@ -10,120 +10,103 @@
 <div class="main-container">
     <!-- Section 1 -->
     <main>
-        <section class="container">
-            <div class="row">
-                <div class="col-md-3 col-sm-6 image-box">
-                    <img src="{{ url_for('static', filename='image/Postquetion.png') }}" alt="Image 1" class="img-fluid">
-                    <div class="text-box text-center">
-                        <a href="URL_HERE" class="no-decoration"><h2>Post questions</h2></a>
-                        <p>Post your first question.</p>
-                    </div>
-                </div>
-                <div class="col-md-3 col-sm-6 image-box">
-                    <img src="{{ url_for('static', filename='image/answerquestion.png') }}" alt="Image 2" class="img-fluid">
-                    <div class="text-box text-center">
-                        <a href="URL_HERE" class="no-decoration"><h2>Answer questions</h2></a>
-                        <p>Answer your first question.</p>
-                    </div>
-                </div>
-                <div class="col-md-3 col-sm-6 image-box">
-                    <img src="{{ url_for('static', filename='image/profile.png') }}" alt="Image 3" class="img-fluid">
-                    <div class="text-box text-center">
-                        <a href="URL_HERE" class="no-decoration"><h2>Profile</h2></a>
-                        <p>Get social with friends.</p>
-                    </div>
-                </div>
-                <div class="col-md-3 col-sm-6 image-box">
-                    <img src="{{ url_for('static', filename='image/raking.png') }}" alt="Image 4" class="img-fluid">
-                    <div class="text-box text-center">
-                        <a href="URL_HERE" class="no-decoration"><h2>Ranking</h2></a>
-                        <p>Look at everyone's contributions.</p>
-                    </div>
+        <div class="row">
+            <div class="col-md-3 col-sm-6 image-box">
+                <img src="{{ url_for('static', filename='image/Postquetion.png') }}" alt="Image 1" class="img-fluid">
+                <div class="text-box text-center">
+                    <a href=" " class="no-decoration"><h2>Post questions</h2></a>
+                    <p>Post your first question.</p>
                 </div>
             </div>
-        </section>
-    </main>
-
-    <!-- Section 2 -->
-    <main>
-        <section class="container">
-            <div class="row">
-                <div class="col-md-6">
-                    <img src="{{ url_for('static', filename='image/Page6.png') }}" alt="Image" class="img-fluid">
-                </div>
-                <div class="col-md-6">
-                    <h1>We believe in the power of helping each other</h1>
-                    <div class="text-box">
-                        <h2>Our original intention</h2>
-                        <p class="adjustable-text">Study Perth Assistant hopes to help international students in Perth solve various problems encountered in life and study through voluntary mutual assistance, help them make more friends, better integrate into the University and community, and live a successful life.</p>
-                    </div>
+            <div class="col-md-3 col-sm-6 image-box">
+                <img src="{{ url_for('static', filename='image/answerquestion.png') }}" alt="Image 2" class="img-fluid">
+                <div class="text-box text-center">
+                    <a href="URL_HERE" class="no-decoration"><h2>Answer questions</h2></a>
+                    <p>Answer your first question.</p>
                 </div>
             </div>
-        </section>
-    </main>
-
-    <!-- Section 3 -->
-    <main>
-        <section class="container">
-            <h1 class="text-center">How to use? Just three simple steps</h1>
-            <div class="row">
-                <div class="col-md-3 col-sm-6">
-                    <div class="text-box text-center">
-                        <h2>Step 1</h2>
-                        <p>Create your Study Perth Assistant account.</p>
-                    </div>
-                </div>
-                <div class="col-md-3 col-sm-6">
-                    <div class="text-box text-center">
-                        <h2>Step 2</h2>
-                        <p>Post questions or Answer questions.</p>
-                    </div>
-                </div>
-                <div class="col-md-3 col-sm-6">
-                    <div class="text-box text-center">
-                        <h2>Step 3</h2>
-                        <p>Let's give each other good reviews after the questions be answered.</p>
-                    </div>
+            <div class="col-md-3 col-sm-6 image-box">
+                <img src="{{ url_for('static', filename='image/profile.png') }}" alt="Image 3" class="img-fluid">
+                <div class="text-box text-center">
+                    <a href="URL_HERE" class="no-decoration"><h2>Profile</h2></a>
+                    <p>Get social with friends.</p>
                 </div>
             </div>
-        </section>
-    </main>
+            <div class="col-md-3 col-sm-6 image-box">
+                <img src="{{ url_for('static', filename='image/raking.png') }}" alt="Image 4" class="img-fluid">
+                <div class="text-box text-center">
+                    <a href="URL_HERE" class="no-decoration"><h2>Ranking</h2></a>
+                    <p>Look at everyone's contributions.</p>
+                </div>
+            </div>
+        </div>
 
-    <!-- Section 4 -->
-    <main>
-        <section class="content">
-            <div class="container">
-                <div class="row align-items-center justify-content-between">
-                    <div class="page">
-                        <div class="container">
-                            <h1>Question Dashboard</h1>
-                            <div class="row charts">
-                                <div class="col-md-4 chart">
-                                    <h2 class="text-center">Scoreboard</h2>
-                                    <ul>
-                                        {% for user in users_data %}
-                                        <li>{{ user.username }}: {{ user.answer_count }} answers</li>
-                                        {% endfor %}
-                                    </ul>
-                                </div>
-                                <div class="col-md-4 chart">
-                                    <h2 class="text-center">Total Questions</h2>
-                                    <p class="text-center">{{ question_count }}</p>
-                                </div>
-                                <div class="col-md-4 chart">
-                                    <h2 class="text-center">Question Types</h2>
-                                    <ul>
-                                        {% for question in question_desc %}
-                                        <li>{{ question[0] }}: {{ question[1] }}</li>
-                                        {% endfor %}
-                                    </ul>
-                                </div>
+        <div class="row">
+            <div class="col-md-6">
+                <img src="{{ url_for('static', filename='image/Page6.png') }}" alt="Image" class="img-fluid">
+            </div>
+            <div class="col-md-6">
+                <h1>We believe in the power of helping each other</h1>
+                <div class="text-box">
+                    <h2>Our original intention</h2>
+                    <p class="adjustable-text">Study Perth Assistant hopes to help international students in Perth solve various problems encountered in life and study through voluntary mutual assistance, help them make more friends, better integrate into the University and community, and live a successful life.</p>
+                </div>
+            </div>
+        </div>
+
+        <h1 class="text-center">How to use? Just three simple steps</h1>
+        <div class="row">
+            <div class="col-md-3 col-sm-6">
+                <div class="text-box text-center">
+                    <h2>Step 1</h2>
+                    <p>Create your Study Perth Assistant account.</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="text-box text-center">
+                    <h2>Step 2</h2>
+                    <p>Post questions or Answer questions.</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="text-box text-center">
+                    <h2>Step 3</h2>
+                    <p>Let's give each other good reviews after the questions be answered.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row align-items-center justify-content-between">
+                <div class="page">
+                    <div class="container">
+                        <h1>Question Dashboard</h1>
+                        <div class="row charts">
+                            <div class="col-md-4 chart">
+                                <h2 class="text-center">Scoreboard</h2>
+                                <ul>
+                                    {% for user in users_data %}
+                                    <li>{{ user.username }}: {{ user.answer_count }} answers</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                            <div class="col-md-4 chart">
+                                <h2 class="text-center">Total Questions</h2>
+                                <p class="text-center">{{ question_count }}</p>
+                            </div>
+                            <div class="col-md-4 chart">
+                                <h2 class="text-center">Question Types</h2>
+                                <ul>
+                                    {% for question in question_desc %}
+                                    <li>{{ question[0] }}: {{ question[1] }}</li>
+                                    {% endfor %}
+                                </ul>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
     </main>
 </div>
 {% endblock %}
