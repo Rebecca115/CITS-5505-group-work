@@ -61,25 +61,25 @@ img {
   animation: move 6s ease infinite;
   border-radius: 50px;
   position: absolute;
-  background-color: #0088ff;
+  background-color: white;
   height: 60px;
   width: 60px;
   box-shadow: 
-    #0088ff 65px -15px 0 -5px, 
-    #0088ff 25px -25px, 
-    #0088ff 30px 10px, 
-    #0088ff 60px 15px 0 -10px, 
-    #0088ff 85px 5px 0 -5px;
+    white 65px -15px 0 -5px, 
+    white 25px -25px, 
+    white 30px 10px, 
+    white 60px 15px 0 -10px, 
+    white 85px 5px 0 -5px;
 }
 
 #cloud1 {
-  top: 130px;
+  top: 200px;
   left: 30%;
   animation-duration: 8s; /* 设置不同的动画时长 */
 }
 
 #cloud2 {
-  top: 180px;
+  top: 250px;
   left: 70%;
   animation-duration: 10s; /* 设置不同的动画时长 */
 }
