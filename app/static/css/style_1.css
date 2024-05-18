@@ -2,7 +2,7 @@
 
 .container {
   position: relative;
-  margin-top: 200px;
+  margin-top: 180px;
   z-index: 1;
 }
 
@@ -47,7 +47,7 @@ img {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
 }
 #register {
-  width: 500px;
+  width: 300px;
   position: relative; 
   z-index: 1; 
   padding: 20px; 
@@ -75,13 +75,13 @@ img {
 #cloud1 {
   top: 200px;
   left: 30%;
-  animation-duration: 8s; /* 设置不同的动画时长 */
+  animation-duration: 8s;
 }
 
 #cloud2 {
   top: 250px;
   left: 70%;
-  animation-duration: 10s; /* 设置不同的动画时长 */
+  animation-duration: 10s; 
 }
 
 
