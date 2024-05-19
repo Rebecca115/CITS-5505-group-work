@@ -6,11 +6,22 @@ This Flask application is a simple yet functional Questions and Answer platform.
 
 ## **Features**
 
-- **User Registration and Authentication**: Secure signup and login system for users.
-- **Post Questions**: Users can post questions, including descriptions, and optionally attach images.
-- **Provide Answers**: Users can answer questions posted by others.
-- **Profile Management**: Users can view and manage their profiles.
-- **Interactive Elements**: Automatic tracking of views, answers, and likes for questions and answers.
+1. **User Authentication and Authorization**
+    - Registration with email verification
+    - Login and logout functionality
+    - Password reset with email link
+    - Profile management including avatar upload
+2. **Question and Answer Management**
+    - Post, edit, and delete questions
+    - Post, edit, and delete answers
+    - Like and unlike answers
+3. **Content Browsing and Search**
+    - Paginated lists of questions
+    - Detailed question and answer pages
+    - Search functionality across questions and answers
+4. **User Interaction and Notifications**
+    - Flash messages for user feedback
+    - Email notifications for registration and password reset
 
 ## Technologies Used
 
@@ -67,7 +78,6 @@ app/
 │   │   ├── user-info.html
 │   │   └── user_answers.html
 │   ├── user/
-│   ├── .DS_Store
 │   ├── __init__.py
 │   └── conf.py
 │
@@ -92,9 +102,6 @@ app/
 │   ├── script.py.mako
 │   └── versions/
 │
-├── utils/
-│   ├── __init__.py
-│   ├── constants.py
 │
 ├── README.md
 ├── models.py
@@ -136,11 +143,9 @@ pip install -r requirements.txt
 
 4. **Configuration**
 
-Before running the application, make sure to set up the following environment variables:
+Due to the email verification feature, you need to set the email server environment variables. Missing these may cause the project to fail to start successfully:
 
 ```bash
-export FLASK_ENV=development
-export FLASK_DEBUG=1
 export MAIL_SERVER=email-smtp.ap-southeast-2.amazonaws.com
 export MAIL_PORT=587
 export MAIL_USE_TLS=1
@@ -197,30 +202,146 @@ Your application should now be running on `http://localhost:5000`.
 
 ## **URL Endpoints**
 
-### **User Endpoints**
+### **User Routes**
 
-- `/`: Homepage, displays all questions.
-- `/user/register`: User registration page.
-- `/user/login`: User login page.
-- `/user/logout`: Logs out the current user.
+- **GET /login**
+    - Display the login form.
+- **POST /login**
+    - Handle login form submission.
+- **GET /logout**
+    - Log out the current user.
+- **GET /register**
+    - Display the registration form.
+- **POST /register**
+    - Handle registration form submission.
+- **GET /int:id/info/**
+    - Display user profile information.
+- **GET /int:id/posted**
+    - List questions posted by the user.
+- **GET /change_password**
+    - Display the change password form.
+- **POST /change_password**
+    - Handle change password form submission.
+- **GET /confirm-email/<token>**
+    - Confirm user's email address.
+- **GET /forget-password**
+    - Display the forget password form.
+- **POST /forget-password**
+    - Handle forget password form submission.
+- **GET /reset-password/<token>**
+    - Display the reset password form.
+- **POST /reset-password/<token>**
+    - Handle reset password form submission.
+- **GET /int:id/answers**
+    - List answers posted by the user.
+- **GET /int:id/update_profile**
+    - Display the update profile form.
+- **POST /int:id/update_profile**
+    - Handle update profile form submission.
+- **GET /int:id/update_avatar**
+    - Display the update avatar form.
+- **POST /int:id/update_avatar**
+    - Handle update avatar form submission.
 
-### **Quest Endpoints**
+### **Question Routes**
 
-- `/post`: Allows logged-in users to post new questions. Accessible through the `Post` button once logged in.
-- `/q/list`: Provides a paginated list of all questions. This can be accessed to view questions in a list format.
-- `/detail/<int:t_id>`: Displays the detail page for a specific question, where users can view all the answers and post their own answers.
-- `/answer/like/<int:answer_id>`: Endpoint for liking an answer. Only accessible to logged-in users and increases the like count for the specified answer.
+- **GET /**
+    - Display the home page with a list of questions.
+- **GET /question**
+    - List questions in JSON format.
+- **GET /post**
+    - Display the form to post a new question.
+- **POST /post**
+    - Handle the form submission to post a new question.
+- **GET /browse**
+    - List questions with pagination.
+- **GET /question/int:q_id**
+    - Display a specific question and its answers.
+- **POST /answer/like/int:answer_id**
+    - Like an answer.
+- **POST /answer/dislike/int:answer_id**
+    - Unlike an answer.
+- **POST /answer/delete/int:answer_id**
+    - Delete an answer.
+- **GET /answer/edit/int:answer_id**
+    - Display the form to edit an answer.
+- **POST /answer/edit/int:answer_id**
+    - Handle the form submission to edit an answer.
+- **GET /answer/int:answer_id**
+    - Display details of an answer.
+- **GET /answer/list/int:q_id**
+    - List answers to a question.
+- **GET /search**
+    - Search questions and answers.
+- **POST /question/delete/int:q_id**
+    - Delete a question.
+- **GET /question/edit/int:q_id**
+    - Display the form to edit a question.
+- **POST /question/edit/int:q_id**
+    - Handle the form submission to edit a question.
 
-## **User Registration and Login**
+## **Database Schema**
 
-### **Registration Process**
+The database for this Flask Q&A platform uses SQLAlchemy for ORM (Object-Relational Mapping) and consists of the following primary tables: **`User`**, **`Question`**, **`Answer`**, and **`AnswerLike`**. Below is a detailed description of each table and its relationships.
 
-To register a new user, navigate to `/user/register`. The registration form requires a username, nickname, password, and password confirmation. Upon submission, the application checks for existing usernames and validates the data. If successful, the user's password is encrypted for security, and a new user account is created.
+### **User Table**
 
-### **Login Process**
+The **`User`** table stores information about the users of the platform.
 
-Existing users can log in by navigating to `/user/login`. The user must enter their username and password, which are validated against the stored data. If the credentials are correct, the user is authenticated and logged into the system. The application uses sessions to maintain the login state, ensuring that the user remains logged in while navigating between pages.
+- **id** (Integer, Primary Key, Auto-increment): Unique identifier for each user.
+- **username** (String, 64, Unique, Not Null): The username chosen by the user.
+- **DOB** (DateTime): The date of birth of the user.
+- **password** (String, 256, Not Null): The hashed password of the user.
+- **avatar** (String, 256): Path to the user's avatar image.
+- **gender** (String, 16): The gender of the user.
+- **email** (String, 64, Unique): The email address of the user.
+- **email_verified** (Boolean, Default False): Indicates if the user's email has been verified.
+- **created_at** (DateTime, Default datetime.now): The date and time when the user was created.
+- **updated_at** (DateTime, Default datetime.now, OnUpdate datetime.now): The date and time when the user was last updated.
+- **school** (String, 64): The school of the user.
+- **signature** (String, 256): The user's signature or personal quote.
 
+### **Question Table**
+
+The **`Question`** table stores information about the questions posted on the platform.
+
+- **id** (Integer, Primary Key, Auto-increment): Unique identifier for each question.
+- **title** (String, 128, Not Null): The title of the question.
+- **img** (String, 256): Path to an optional image associated with the question.
+- **content** (Text): The content or body of the question.
+- **category** (String, 64): The category to which the question belongs.
+- **created_at** (DateTime, Default datetime.now): The date and time when the question was created.
+- **updated_at** (DateTime, Default datetime.now, OnUpdate datetime.now): The date and time when the question was last updated.
+- **user_id** (Integer, Foreign Key **`user.id`**): The ID of the user who posted the question.
+
+### **Answer Table**
+
+The **`Answer`** table stores information about the answers posted to questions on the platform.
+
+- **id** (Integer, Primary Key, Auto-increment): Unique identifier for each answer.
+- **content** (Text, Not Null): The content or body of the answer.
+- **created_at** (DateTime, Default datetime.now): The date and time when the answer was created.
+- **updated_at** (DateTime, Default datetime.now, OnUpdate datetime.now): The date and time when the answer was last updated.
+- **user_id** (Integer, Foreign Key **`user.id`**): The ID of the user who posted the answer.
+- **q_id** (Integer, Foreign Key **`question.id`**): The ID of the question to which the answer belongs.
+
+### **AnswerLike Table**
+
+The **`AnswerLike`** table stores information about the likes given to answers on the platform.
+
+- **id** (Integer, Primary Key, Auto-increment): Unique identifier for each like.
+- **created_at** (DateTime, Default datetime.now): The date and time when the like was created.
+- **user_id** (Integer, Foreign Key **`user.id`**): The ID of the user who liked the answer.
+- **answer_id** (Integer, Foreign Key **`answer.id`**): The ID of the answer that was liked.
+- **q_id** (Integer, Foreign Key **`question.id`**): The ID of the question to which the answer belongs.
+
+### **Relationships**
+
+- **User** to **Question**: One-to-Many relationship. A user can post multiple questions.
+- **User** to **Answer**: One-to-Many relationship. A user can post multiple answers.
+- **User** to **AnswerLike**: One-to-Many relationship. A user can like multiple answers.
+- **Question** to **Answer**: One-to-Many relationship. A question can have multiple answers.
+- **Answer** to **AnswerLike**: One-to-Many relationship. An answer can have multiple likes.
 
 ## **Group members**
 
