@@ -48,14 +48,24 @@ Study Perth Assistant is a web application designed to assist students in Perth 
 8. **Compatibility and Performance**:
     - Utilizes CDN for loading Bootstrap and FontAwesome, improving page load speed and resource availability.
     - Static resources (CSS and images) are organized in the **`static`** folder and referenced with Flask's **`url_for`** function for reliable loading.
+9. **Flask-WTF for Form Handling**
+    - Provides robust form validation and rendering using WTForms.
+10. **Flask-Login for User Management**
+    - Manages user sessions and authentication.
+11. **Flask-Mail for Email Integration**
+    - Handles email sending for user registration and password resets.
+12. **SQLAlchemy for Database Management**
+    - ORM for database interactions with models for User, Question, Answer, and related entities.
+13. **CKEditor for Rich Text Editing**
+    - Enables rich text editing in questions and answers.
+14. **URLSafeTimedSerializer for Token Management**
+    - Generates secure tokens for email confirmation and password resets.
+15. **Flash Messages for User Feedback**
+    - Provides immediate feedback to users on their actions.
+16. **File Upload Handling with Werkzeug**
+    - Manages file uploads securely, including user avatars and question images.
 
-## Technologies Used
 
-- Flask
-- Flask-SQLAlchemy
-- Flask-Login
-- Flask-WTF
-- SQLite (default database)
 
 ## Project Structure
 
