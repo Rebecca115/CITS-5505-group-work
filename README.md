@@ -2,6 +2,8 @@
 
 This Flask application is a simple yet functional Task and Answer platform. It allows users to register, log in, post tasks, and provide answers. The application uses Flask, Flask-SQLAlchemy, and Flask-Login for managing user sessions and interactions.
 
+
+
 ## **Features**
 
 - **User Registration and Authentication**: Secure signup and login system for users.
@@ -21,7 +23,7 @@ This Flask application is a simple yet functional Task and Answer platform. It a
 ## Project Structure
 
 ```
-Copy codeproject/
+CITS5505-group-project/
 ├── app.py
 ├── conf.py
 ├── models.py
@@ -141,3 +143,13 @@ To register a new user, navigate to `/user/register`. The registration form requ
 
 Existing users can log in by navigating to `/user/login`. The user must enter their username and password, which are validated against the stored data. If the credentials are correct, the user is authenticated and logged into the system. The application uses sessions to maintain the login state, ensuring that the user remains logged in while navigating between pages.
 
+
+## **Group members**
+
+
+  UWA ID   | Name         | GitHub Username |
+|--------- |--------------|-----------------|
+| 23992836 | Fudong Qin   | qincode         |
+| 23856227 | Ziqi Chen    | ziqichen55555   |
+| 23918117 | Clare Li     | ClareUWA        |
+| 23766091 | Yunzhi Chen  | Rebecca115      |
