@@ -40,7 +40,7 @@ class AppTestCase(unittest.TestCase):
 
     def test_register(self):
         response = self.register_user('testuser', 'testuser@example.com', 'testpassword')
-        self.assertEqual(response.status_code, 200)  # Should be redirected to home page after registration
+        self.assertEqual(response.status_code, 200)
         # pdb.set_trace()
         user = User.query.filter_by(email='testuser@example.com').first()
         self.assertIsNotNone(user)
