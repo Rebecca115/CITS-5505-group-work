@@ -42,47 +42,54 @@
                     <!-- Search Icon -->
                     <li class="nav-item d-md-none">
                         <a class="nav-link" href="/search">
-                            <span class="ms-2">Search</span>
-                            <i class="fas fa-search navbar-icon"></i>
+                            <i class="fas fa-search navbar-icon"> </i>
+
+                            Search
                         </a>
                     </li>
-                    <li class="nav-item d-md-none">
-                        <div class="user-info-mobile">
-                            {% if current_user.is_authenticated %}
-                                <span class="ms-2">{{ current_user.username }}</span>
-                                {% if current_user.avatar %}
-                                    <img src="{{ url_for('static', filename='uploads/' + current_user.avatar) }}"
-                                         alt="User Avatar">
-                                {% else %}
-                                    <img src="{{ url_for('static', filename='uploads/default_avatar.png') }}"
-                                         alt="Default Avatar">
-                                {% endif %}
+
+
+                    <li class="nav-item">
+                        {% if current_user.is_authenticated %}
+                            <span class="ms-2">{{ current_user.username }}</span>
+                            {% if current_user.avatar %}
+                                <img src="{{ url_for('static', filename='uploads/' + current_user.avatar) }}"
+                                     alt="User Avatar">
                             {% else %}
-                                <span class="ms-2">Guest</span>
-                                <img src="{{ url_for('static', filename='image/user-avatar.jpg') }}" alt="User Avatar"
-                                     class="rounded-circle" width="30">
+                                <img src="{{ url_for('static', filename='uploads/default_avatar.png') }}"
+                                     alt="Default Avatar">
                             {% endif %}
-                        </div>
+                        {% else %}
+                            <a class="nav-link" href="/"><i class="fas fa-solid fa-face-smile"></i> Guest</a>
+
+
+
+                        {% endif %}
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/"><i class="fas fa-home navbar-icon"></i> Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/browse"><i class="fas fa-search navbar-icon"></i> Browse Questions</a>
+                        <a class="nav-link" href="/browse"><i class="fas fa-solid fa-book"></i> Browse
+                            Questions</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/post"><i class="fas fa-question-circle navbar-icon"></i> Post a Question</a>
+                        <a class="nav-link" href="/post"><i class="fas fa-question-circle navbar-icon"></i> Post a
+                            Question</a>
                     </li>
                     {% if current_user.is_authenticated %}
                         <li class="nav-item">
-                            <a class="nav-link" href="/user/{{ current_user.id }}/info"><i class="fas fa-user navbar-icon"></i> Profile</a>
+                            <a class="nav-link" href="/user/{{ current_user.id }}/info"><i
+                                    class="fas fa-user navbar-icon"></i> Profile</a>
                         </li>
                         <!-- Sidebar items for small screens -->
                         <li class="nav-item d-md-none">
-                            <a class="nav-link" href="/user/{{ current_user.id }}/answers"><i class="fas fa-calendar-check"></i> Answered Questions</a>
+                            <a class="nav-link" href="/user/{{ current_user.id }}/answers"><i
+                                    class="fas fa-calendar-check"></i> Answered Questions</a>
                         </li>
                         <li class="nav-item d-md-none">
-                            <a class="nav-link" href="/user/{{ current_user.id }}/posted"><i class="fas fa-question-circle"></i> Posted Questions</a>
+                            <a class="nav-link" href="/user/{{ current_user.id }}/posted"><i
+                                    class="fas fa-question-circle"></i> Posted Questions</a>
                         </li>
                         <li class="nav-item d-md-none">
                             <a class="nav-link" href="/user/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
@@ -92,7 +99,8 @@
                             <a class="nav-link" href="/user/login"><i class="fas fa-sign-in-alt navbar-icon"></i> Login</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/user/register"><i class="fas fa-user-plus navbar-icon"></i> Register</a>
+                            <a class="nav-link" href="/user/register"><i class="fas fa-user-plus navbar-icon"></i>
+                                Register</a>
                         </li>
                     {% endif %}
                 </ul>

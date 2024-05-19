@@ -415,6 +415,8 @@ footer {
     .navbar .navbar-collapse {
         justify-content: space-between;
         background-color: #E3E9F7; /* 设置导航栏折叠后的背景色为白色 */
+                box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* 添加阴影效果 */
+
     }
 
     .navbar .nav-item {
