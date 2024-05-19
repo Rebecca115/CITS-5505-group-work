@@ -4,12 +4,12 @@
 Question Management - Study Perth Assistant
 {% endblock %}
 
-{% block stylesheets %}
+{% block head %}
     <link rel="stylesheet" href="{{ url_for('static', filename='css/browse-questions.css') }}" type="text/css">
 {% endblock %}
 
 {% block maincontent %}
-<main class="mt-1 pt-1">
+<main class="pt-1" style="margin-top: 10px">
     <div class="container">
         {% for question in page_data.items %}
             <div class="card mb-3">
@@ -36,17 +36,16 @@ Question Management - Study Perth Assistant
             </div>
         {% endfor %}
 
-<nav aria-label="Page navigation">
-    <ul class="pagination justify-content-center">
-        <li class="page-item{% if not page_data.has_prev %} disabled{% endif %}">
-            <a class="page-link" href="{{ url_for('question.question_list', page=page_data.page-1 if page_data.has_prev else page_data.page, per_page=10) }}">Previous</a>
-        </li>
-        <li class="page-item{% if not page_data.has_next %} disabled{% endif %}">
-            <a class="page-link" href="{{ url_for('question.question_list', page=page_data.page+1 if page_data.has_next else page_data.page, per_page=10) }}">Next</a>
-        </li>
-    </ul>
-</nav>
-
+        <nav aria-label="Page navigation">
+            <ul class="pagination justify-content-center">
+                <li class="page-item{% if not page_data.has_prev %} disabled{% endif %}">
+                    <a class="page-link" href="{{ url_for('question.question_list', page=page_data.page-1 if page_data.has_prev else page_data.page, per_page=10) }}">Previous</a>
+                </li>
+                <li class="page-item{% if not page_data.has_next %} disabled{% endif %}">
+                    <a class="page-link" href="{{ url_for('question.question_list', page=page_data.page+1 if page_data.has_next else page_data.page, per_page=10) }}">Next</a>
+                </li>
+            </ul>
+        </nav>
     </div>
 </main>
 {% endblock %}

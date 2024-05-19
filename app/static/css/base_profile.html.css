@@ -1,0 +1,10 @@
+
+#main {
+    margin-left: 160px; /* Adjust margin-left according to the sidebar width and left margin */
+    padding: 20px;
+    /*padding-top: calc(15vh + 20px); !* Ensure content is not blocked by the navbar *!*/
+    background-color: #E3E9F7;
+    transition: margin-left 0.3s;
+    min-height: calc(90vh - 15vh - 40px); /* Adjust for navbar and footer */
+
+}
