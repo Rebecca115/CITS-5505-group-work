@@ -4,10 +4,12 @@
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    max-width: 600px; /* Center and limit the container width */
+    margin: auto; /* Center the container horizontally */
 }
 
 h2 {
-    text-align: left;
+    text-align: center; /* Center the heading text */
     margin-bottom: 20px;
     color: #333;
 }

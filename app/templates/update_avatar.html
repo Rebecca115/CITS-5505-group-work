@@ -10,23 +10,22 @@
 <main id="main" class="mt-5 pt-3">
     <section class="content">
         <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <h2>Update Avatar</h2>
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <h2 class="text-center">Update Avatar</h2>
                     <form method="POST" action="{{ url_for('user.update_avatar', id=user.id) }}" enctype="multipart/form-data">
                         {{ form.hidden_tag() }}
                         <div class="mb-3 text-center">
                             <img src="{{ url_for('static', filename='uploads/' ~ user.avatar) }}" alt="User Avatar" class="rounded-circle img-thumbnail" width="150">
                         </div>
-                        <div class="mb-3 row">
-                            <label for="avatar" class="col-sm-3 col-form-label">Upload new avatar</label>
+                        <div class="mb-3 row justify-content-center">
                             <div class="col-sm-9">
                                 {{ form.avatar(class="form-control") }}
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-sm-9 offset-sm-3">
-                                {{ form.submit(class="avatar-btn btn btn-primary") }}
+                        <div class="row justify-content-center">
+                            <div class="col-sm-9">
+                                {{ form.submit(class="avatar-btn btn btn-primary btn-block") }}
                             </div>
                         </div>
                     </form>
