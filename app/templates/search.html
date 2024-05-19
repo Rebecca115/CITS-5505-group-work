@@ -3,27 +3,34 @@
 {% block title %}Search Results{% endblock %}
 
 {% block maincontent %}
-<div class="container mt-5">
-    <h2 class="mb-4">Search Results for "{{ query }}"</h2>
+    <div class="container mt-5">
+        {% if query %}
+            <h2 class="mb-4">Search Results for "{{ query }}"</h2>
 
-    {% if results %}
-        <ul class="list-group">
-            {% for result in results %}
-                {% if result.type == 'question' %}
-                    <li class="list-group-item">
-                        <h5><a href="/question/{{ result.id }}">{{ result.title }}</a></h5>
-                        <p>{{ result.content }}</p>
-                    </li>
-                {% elif result.type == 'answer' %}
-                    <li class="list-group-item">
-                        <h5>Answer to Question ID: <a href="/question/{{ result.question_id }}">{{ result.question_id }}</a></h5>
-                        <p>{{ result.content }}</p>
-                    </li>
-                {% endif %}
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>No results found for "{{ query }}".</p>
-    {% endif %}
-</div>
+            {% if results %}
+                <ul class="list-group">
+                    {% for result in results %}
+                        {% if result.type == 'question' %}
+                            <li class="list-group-item">
+                                <h5><a href="/question/{{ result.id }}">{{ result.title }}</a></h5>
+                                <p>{{ result.content }}</p>
+                            </li>
+                        {% elif result.type == 'answer' %}
+                            <li class="list-group-item">
+                                <h5>Answer to Question ID: <a
+                                        href="/question/{{ result.question_id }}">{{ result.question_id }}</a></h5>
+                                <p>{{ result.content }}</p>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No results found for "{{ query }}".</p>
+            {% endif %}
+
+        {% else %}
+            <h2 class="mb-4">Search question or answer</h2>
+        {% endif %}
+
+    </div>
 {% endblock %}
