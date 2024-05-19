@@ -270,7 +270,7 @@ def search():
     query = request.args.get('query', '')
 
     if not query:
-        return jsonify({'error': 'Empty search query'}), 400
+        return render_template('search.html')
 
     try:
         matched_questions = Question.query.filter(
