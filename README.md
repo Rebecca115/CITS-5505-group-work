@@ -1,16 +1,16 @@
-#  CITS5505 Flask Task and Answer Application
+#  CITS5505 Flask Questions and Answer Application
 
-This Flask application is a simple yet functional Task and Answer platform. It allows users to register, log in, post tasks, and provide answers. The application uses Flask, Flask-SQLAlchemy, and Flask-Login for managing user sessions and interactions.
+This Flask application is a simple yet functional Questions and Answer platform. It allows users to register, log in, post questions, and provide answers. The application uses Flask, Flask-SQLAlchemy, and Flask-Login for managing user sessions and interactions.
 
 
 
 ## **Features**
 
 - **User Registration and Authentication**: Secure signup and login system for users.
-- **Post Tasks**: Users can post tasks including descriptions and optionally attach images.
-- **Provide Answers**: Users can answer tasks posted by others.
+- **Post Questions**: Users can post questions, including descriptions, and optionally attach images.
+- **Provide Answers**: Users can answer questions posted by others.
 - **Profile Management**: Users can view and manage their profiles.
-- **Interactive Elements**: Automatic tracking of views, answers, and likes for tasks and answers.
+- **Interactive Elements**: Automatic tracking of views, answers, and likes for questions and answers.
 
 ## Technologies Used
 
@@ -24,29 +24,82 @@ This Flask application is a simple yet functional Task and Answer platform. It a
 
 ```
 CITS5505-group-project/
-├── app.py
-├── conf.py
+app/
+│   ├── question/
+│   │   ├── form.py
+│   │   └── views.py
+│   ├── static/
+│   │   ├── css/
+│   │   │   ├── answered-questions.css
+│   │   │   ├── base.css
+│   │   │   ├── base_profile.html.css
+│   │   │   ├── browse-questions.css
+│   │   │   ├── index.css
+│   │   │   ├── posted-questions.css
+│   │   │   ├── style_1.css
+│   │   │   ├── update_avatar.css
+│   │   │   └── user-info.css
+│   │   ├── font/
+│   │   │   └── Inter.ttf
+│   │   ├── image/
+│   │   │   └── photo-stream/
+│   │   ├── js/
+│   │   │   └── script.js
+│   │   └── uploads/
+│   ├── templates/
+│   │   ├── answered-questions.html
+│   │   ├── base.html
+│   │   ├── base_profile.html
+│   │   ├── browse-question.html
+│   │   ├── change_password.html
+│   │   ├── confirm_email.html
+│   │   ├── detail.html
+│   │   ├── forget_password.html
+│   │   ├── index.html
+│   │   ├── login.html
+│   │   ├── post_question.html
+│   │   ├── posted-questions.html
+│   │   ├── profile.html
+│   │   ├── question_page.html
+│   │   ├── register.html
+│   │   ├── search.html
+│   │   ├── update_avatar.html
+│   │   ├── user-info.html
+│   │   └── user_answers.html
+│   ├── user/
+│   ├── .DS_Store
+│   ├── __init__.py
+│   └── conf.py
+│
+├── deliverables/
+│   ├── version1/
+│   │   ├── homepage.png
+│   │   ├── loginpage.png
+│   │   ├── postpage.jpg
+│   │   ├── questionpage.jpg
+│   │   └── registerpage.png
+│   ├── version2/
+│   │   ├── browse_questions.jpg
+│   │   ├── user_answered_questions.jpg
+│   │   ├── user_avatar_change.jpg
+│   │   └── user_posted_questions.jpg
+│   └── version3/
+
+├── migrations/
+│   ├── README
+│   ├── alembic.ini
+│   ├── env.py
+│   ├── script.py.mako
+│   └── versions/
+│
+├── utils/
+│   ├── __init__.py
+│   ├── constants.py
+│
+├── README.md
 ├── models.py
-├── quest/
-│   ├── __init__.py
-│   └── view.py
-├── static/
-├── templates/
-│   ├── base.html
-│   ├── index.html
-│   ├── login.html
-│   ├── profile.html
-│   ├── task_detail.html
-│   └── register.html
-├── user/
-│   ├── __init__.py
-│   ├── forms.py
-│   └── views.py
-└── utils/
-    ├── __init__.py
-    ├── constants.py
-    ├── database_creator.py
-    └── validators.py
+└── requirements.txt
+└── run.py
 
 ```
 
@@ -83,7 +136,21 @@ pip install -r requirements.txt
 
 4. **Configuration**
 
+Before running the application, make sure to set up the following environment variables:
+
+```bash
+export FLASK_ENV=development
+export FLASK_DEBUG=1
+export MAIL_SERVER=email-smtp.ap-southeast-2.amazonaws.com
+export MAIL_PORT=587
+export MAIL_USE_TLS=1
+export MAIL_USERNAME=your_mail_username
+export MAIL_PASSWORD=your_mail_password
+export MAIL_DEFAULT_SENDER=confirm@fudongs.com
+
+
 Create a `conf.py` file in your project directory and update it with your settings:
+
 
 ```python
 pythonCopy code
@@ -115,29 +182,40 @@ flask run
 
 ```
 
+7. **Testing Database**
+
+If you want to quickly test the application, we provide a simple SQLite testing database for you to use. You can follow these steps to use it:
+
+Download the test database file data.db（https://drive.google.com/file/d/18a2zQ2vd96gkPifCYkYMYLA4948NT5wK/view?usp=sharing）.
+After downloading the db file data.db, create a new folder named instance in the root directory of the project and place the data.db file inside this folder.
+Ensure you have set up your development environment as described in the "Installation" section.
+Run the application using the command provided in step 6.
+You can now access the application by visiting http://localhost:5000 and start testing.
+Please note that this testing database is only intended for development and testing purposes and should not be used in production. If you plan to deploy the application to a production environment, you will need to configure a real database and ensure it meets your requirements.
+
 Your application should now be running on `http://localhost:5000`.
 
 ## **URL Endpoints**
 
 ### **User Endpoints**
 
-- `/`: Home page, displays all tasks.
+- `/`: Homepage, displays all questions.
 - `/user/register`: User registration page.
 - `/user/login`: User login page.
 - `/user/logout`: Logs out the current user.
 
 ### **Quest Endpoints**
 
-- `/post`: Allows logged-in users to post new tasks. Accessible through the `Post` button once logged in.
-- `/q/list`: Provides a paginated list of all tasks. This can be accessed to view tasks in a list format.
-- `/detail/<int:t_id>`: Displays the detail page for a specific task, where users can view all the answers and post their own answer.
+- `/post`: Allows logged-in users to post new questions. Accessible through the `Post` button once logged in.
+- `/q/list`: Provides a paginated list of all questions. This can be accessed to view questions in a list format.
+- `/detail/<int:t_id>`: Displays the detail page for a specific question, where users can view all the answers and post their own answers.
 - `/answer/like/<int:answer_id>`: Endpoint for liking an answer. Only accessible to logged-in users and increases the like count for the specified answer.
 
 ## **User Registration and Login**
 
 ### **Registration Process**
 
-To register a new user, navigate to `/user/register`. The registration form requires a username, nickname, password, and password confirmation. Upon submission, the application checks for existing usernames and validates the data. If successful, the user's password is encrypted for security and the new user account is created.
+To register a new user, navigate to `/user/register`. The registration form requires a username, nickname, password, and password confirmation. Upon submission, the application checks for existing usernames and validates the data. If successful, the user's password is encrypted for security, and a new user account is created.
 
 ### **Login Process**
 
