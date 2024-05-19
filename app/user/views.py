@@ -71,7 +71,7 @@ def register():
 
 
 @user.route('/<int:id>/info/')
-# @login_required
+@login_required
 def info(id):
     """Route for displaying user profile information"""
     # Fetch user by ID

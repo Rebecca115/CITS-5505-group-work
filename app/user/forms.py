@@ -77,12 +77,14 @@ class RegisterForm(FlaskForm):
                                                              self.email.data, self.avatar.data)
         password = hashlib.sha256(password.encode()).hexdigest()
 
-        file_extension = os.path.splitext(avatar_file.filename)[1]
-        random_filename = str(uuid.uuid4()) + file_extension
-        secure_random_filename = secure_filename(random_filename)
+        secure_random_filename = ""
+        if self.avatar.data is None:
+            file_extension = os.path.splitext(avatar_file.filename)[1]
+            random_filename = str(uuid.uuid4()) + file_extension
+            secure_random_filename = secure_filename(random_filename)
 
-        save_path = os.path.join(current_app.config['UPLOAD_FOLDER'], secure_random_filename)
-        avatar_file.save(save_path)
+            save_path = os.path.join(current_app.config['UPLOAD_FOLDER'], secure_random_filename)
+            avatar_file.save(save_path)
 
         user_obj = User(username=username, password=password,
                         email=email, email_verified=False, avatar=secure_random_filename)
@@ -104,11 +106,11 @@ class LoginForm(FlaskForm):
     """Form for user login with validations."""
     FORM_CLASS = 'form-group'
 
-    username = StringField('Username', render_kw={
+    username_or_email = StringField('Username or Email', render_kw={
         'class': FORM_CLASS,
-        'placeholder': 'Please enter username',
-        'id': 'username'
-    }, validators=[DataRequired('Please enter username')])
+        'placeholder': 'Please enter username or email',
+        'id': 'username_or_email'
+    }, validators=[DataRequired('Please enter username or email')])
 
     password = PasswordField('Password', render_kw={
         'class': FORM_CLASS,
@@ -116,19 +118,21 @@ class LoginForm(FlaskForm):
         'id': 'password'
     }, validators=[DataRequired('Please enter password')])
 
-    def validate_username(self, username):
-        """Validate the existence of username."""
-        if not User.query.filter_by(username=username.data).first():
-            raise ValidationError('Username or password is incorrect')
+    def validate_username_or_email(self, username_or_email):
+        """Validate the existence of username or email."""
+        if not (User.query.filter_by(username=username_or_email.data).first() or
+                User.query.filter_by(email=username_or_email.data).first()):
+            raise ValidationError('Username or email does not exist')
 
     def do_login(self):
         """Performs user login."""
-        username, password = self.username.data, self.password.data
-        user = User.query.filter_by(username=username).first()
+        username_or_email, password = self.username_or_email.data, self.password.data
+        user = User.query.filter((User.username == username_or_email) | (User.email == username_or_email)).first()
         if user and user.check_password(password):
             login_user(user)
             return user
         return None
+
 
 
 class RestPassForm(FlaskForm):

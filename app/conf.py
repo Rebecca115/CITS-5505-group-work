@@ -17,8 +17,24 @@ class Config(object):
     MAIL_DEFAULT_SENDER = os.environ.get('MAIL_DEFAULT_SENDER')
     UPLOAD_FOLDER = os.path.join(os.path.dirname(__file__), 'static/uploads')
     DEBUG = os.environ.get('FLASK_DEBUG')
-
+    WTF_CSRF_ENABLED = True
 
 
     # File upload path
     MEDIA_PATH = os.path.join(os.path.dirname(__file__), 'static/uploads')
+
+class TestConfig(Config):
+    SECRET_KEY = 'abcdsacb12312'
+
+    MAIL_SERVER = os.environ.get('MAIL_SERVER')
+    MAIL_PORT = os.environ.get('MAIL_PORT')
+    MAIL_USE_TLS = os.environ.get('MAIL_USE_TLS')
+    MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
+    MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
+    MAIL_DEFAULT_SENDER = os.environ.get('MAIL_DEFAULT_SENDER')
+    UPLOAD_FOLDER = os.path.join(os.path.dirname(__file__), 'static/uploads')
+
+    TESTING = True
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///:memory:'
+    WTF_CSRF_ENABLED = False
+    DEBUG = True

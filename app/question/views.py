@@ -82,7 +82,7 @@ def post():
             que_obj = form.save()
             if que_obj:
                 flash('Quest has been posted successfully', 'success')
-                return redirect(url_for('question.index_page'))
+                return redirect(url_for('question.question_page', q_id=que_obj.id))
         except Exception as e:
             flash('Error posting Quest: {}'.format(e), 'danger')
     return render_template('post_question.html', form=form)
@@ -97,8 +97,7 @@ def question_list():
     per_page = request.args.get('per_page',10, type=int)
     page = request.args.get('page', 1, type=int)
     page_data = Question.query.order_by(desc(Question.created_at)).paginate(page=page, per_page=per_page)
-    print(len(page_data.items))
-    print(page)
+
     return render_template('browse-question.html', page_data=page_data)
 
 

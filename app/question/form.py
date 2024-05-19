@@ -32,6 +32,17 @@ class WriteQuestionForm(FlaskForm):
         ]
     )
 
+    category = StringField(
+        'Category',
+        render_kw={
+            'class': "form-group",
+            'placeholder': "Enter category"
+        },
+        validators=[
+            Length(min=3, message='Category must be at least 3 characters')
+        ]
+    )
+
     content = CKEditorField(
         'Content',
         render_kw={

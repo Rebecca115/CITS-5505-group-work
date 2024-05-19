@@ -1,49 +1,44 @@
-import os
 
-from flask import Flask, url_for, send_from_directory
+from flask import Flask
 from flask_ckeditor import CKEditor
 from flask_login import LoginManager
 from flask_mail import Mail
 from flask_migrate import Migrate
-from itsdangerous import URLSafeTimedSerializer
+
 
 from app.question.views import quest
-from models import db, User
 from app.user.views import user
-# from utils import initialize_database
+from models import db, User
 
 
-app = Flask(__name__, static_folder='/app/static', static_url_path='/../static')
-app.config.from_object('app.conf.Config')
+def create_app(config_class='app.conf.Config'):
+    app = Flask(__name__, static_folder='/app/static', static_url_path='/../static')
+    app.config.from_object(config_class)
 
-ckeditor = CKEditor()
-ckeditor.init_app(app)
+    # Initialize extensions
+    ckeditor = CKEditor(app)
+    db.init_app(app)
+    migrate = Migrate(app, db)
+    mail = Mail(app)
 
-# init database
-db.init_app(app)
-migrate = Migrate(app, db)
+    # Register blueprints
+    app.register_blueprint(quest, url_prefix='/')
+    app.register_blueprint(user, url_prefix='/user')
 
-mail = Mail(app)
-s = URLSafeTimedSerializer(app.config['SECRET_KEY'])
-app.config['WTF_CSRF_ENABLED'] = True
+    # Setup login manager
+    login_manager = LoginManager(app)
+    login_manager.login_view = "user.login"
+    login_manager.login_message = 'Please login'
+    login_manager.login_message_category = "danger"
 
-app.register_blueprint(quest, url_prefix='/')
-app.register_blueprint(user, url_prefix='/user')
+    @login_manager.user_loader
+    def load_user(user_id):
+        return User.query.get(user_id)
 
-# Login
-login_manager = LoginManager()
-login_manager.login_view = "user.login"
-login_manager.login_message = 'Please login'
-login_manager.login_message_category = "danger"
-login_manager.init_app(app)
-
-
-
-@login_manager.user_loader
-def load_user(user_id):
-    return User.query.get(user_id)
-
+    # CSRF protection
+    return app
 
 
 if __name__ == '__main__':
+    app = create_app()
     app.run(host="0.0.0.0", port=8080, debug=True)

@@ -33,6 +33,18 @@
                     {% endif %}
                 </div>
 
+                            <div class="mb-3">
+                    {{ form.category.label(class="form-label") }}
+                    {{ form.category(**{'class': 'form-control', 'placeholder': 'Enter your category'}) }}
+                    {% if form.category.errors %}
+                        <div class="alert alert-danger mt-2">
+                            {% for error in form.category.errors %}
+                                <p>{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+
                 <div class="mb-3">
                     {{ form.content.label(class="form-label") }}
                     {{ form.content(**{'class': 'form-control', 'placeholder': 'Enter your content'}) }}
