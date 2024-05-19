@@ -1,7 +1,0 @@
-*.log
-
-*.tmp
-
-build/
-
-node_modules/
