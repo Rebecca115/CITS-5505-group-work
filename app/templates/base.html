@@ -50,23 +50,6 @@
 
 
                     <li class="nav-item">
-                        {% if current_user.is_authenticated %}
-                            <span class="ms-2">{{ current_user.username }}</span>
-                            {% if current_user.avatar %}
-                                <img src="{{ url_for('static', filename='uploads/' + current_user.avatar) }}"
-                                     alt="User Avatar">
-                            {% else %}
-                                <img src="{{ url_for('static', filename='uploads/default_avatar.png') }}"
-                                     alt="Default Avatar">
-                            {% endif %}
-                        {% else %}
-                            <a class="nav-link" href="/"><i class="fas fa-solid fa-face-smile"></i> Guest</a>
-
-
-
-                        {% endif %}
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link" href="/"><i class="fas fa-home navbar-icon"></i> Home</a>
                     </li>
                     <li class="nav-item">
@@ -83,6 +66,22 @@
                                     class="fas fa-user navbar-icon"></i> Profile</a>
                         </li>
                         <!-- Sidebar items for small screens -->
+                        <li class="nav-item d-md-none">
+                            {% if current_user.is_authenticated %}
+                                <span class="ms-2">{{ current_user.username }}</span>
+                                {% if current_user.avatar %}
+                                    <img src="{{ url_for('static', filename='uploads/' + current_user.avatar) }}"
+                                         alt="User Avatar">
+                                {% else %}
+                                    <img src="{{ url_for('static', filename='uploads/default_avatar.png') }}"
+                                         alt="Default Avatar">
+                                {% endif %}
+                            {% else %}
+                                <a class="nav-link" href="/"><i class="fas fa-solid fa-face-smile"></i> Guest</a>
+
+
+                            {% endif %}
+                        </li>
                         <li class="nav-item d-md-none">
                             <a class="nav-link" href="/user/{{ current_user.id }}/answers"><i
                                     class="fas fa-calendar-check"></i> Answered Questions</a>

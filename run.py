@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask
+from flask import Flask, url_for, send_from_directory
 from flask_ckeditor import CKEditor
 from flask_login import LoginManager
 from flask_mail import Mail
@@ -37,8 +37,6 @@ login_manager.login_message = 'Please login'
 login_manager.login_message_category = "danger"
 login_manager.init_app(app)
 
-with app.app_context():
-    db.create_all()
 
 
 @login_manager.user_loader
