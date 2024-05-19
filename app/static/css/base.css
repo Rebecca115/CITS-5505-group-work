@@ -29,7 +29,7 @@ body {
     z-index: 1030;
     width: 100%;
     display: flex;
-    align-items: center; /* 确保内容垂直居中 */
+    align-items: center; 
     padding-bottom: 0;
     margin-bottom: 0;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
@@ -39,12 +39,12 @@ body {
 .navbar-brand {
     font-weight: bold;
     display: flex;
-    align-items: center; /* 确保 brand 内容垂直居中 */
+    align-items: center; 
 }
 
 .nav-link {
     color: rgb(64, 71, 86);
-    font-size: 16px; /* 调整字体大小 */
+    font-size: 16px;
 }
 
 .index-icon {
@@ -54,15 +54,15 @@ body {
 
 .navbar-toggler {
     display: flex;
-    align-items: center; /* 确保 toggle icon 垂直居中 */
+    align-items: center; 
 }
 
 .form-control {
-    font-size: 14px; /* 调整搜索栏输入框的字体大小 */
+    font-size: 14px; 
 }
 
 .btn {
-    font-size: 14px; /* 调整搜索按钮的字体大小 */
+    font-size: 14px; 
 }
 
 
@@ -394,19 +394,12 @@ button,
 .btn {
     background-color: #695DFB;
     color: white;
-    /* 设置按钮文本颜色 *
-    padding: 10px 20px; /* 设置按钮内边距 */
+    padding: 10px 20px; 
     border: none;
-    /* 移除按钮边框 */
     border-radius: 5px;
-    /* 设置按钮圆角 */
     cursor: pointer;
-    /* 设置鼠标悬停时的指针样式 */
     font-size: 14px;
-    /* 设置按钮字体大小 */
     transition: background-color 0.3s;
-    /* 添加背景色过渡效果 */
-
 }
 
 
@@ -416,7 +409,6 @@ button:hover {
 
 .btn:hover {
     background-color: #B8B8FA
-        /* 设置鼠标悬停时的背景色 */
 }
 
 
