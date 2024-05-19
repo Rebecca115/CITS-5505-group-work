@@ -19,8 +19,8 @@
                         <div class="text-box text-center">
                             <a href="{{'question.post' }}" class="no-decoration">
                                 <h5>Post questions</h5>
-                            </a >
-                            <p>Post your first question.</p >
+                            </a>
+                            <p>Post your first question.</p>
                         </div>
                 </div>
                 <div class="col-md-3 col-sm-6 image-box">
@@ -29,8 +29,8 @@
                         <div class="text-box text-center">
                             <a href="#" class="no-decoration">
                                 <h5>Answer questions</h5>
-                            </a >
-                            <p>Answer your first question.</p >
+                            </a>
+                            <p>Answer your first question.</p>
                         </div>
                 </div>
                 <div class="col-md-3 col-sm-6 image-box">
@@ -38,16 +38,16 @@
                         <div class="text-box text-center">
                             <a href="{{ url_for('user.info', id=current_user.id)  }}" class="no-decoration">
                                 <h5>Profile</h5>
-                            </a >
-                            <p>Get social with friends.</p >
+                            </a>
+                            <p>Get social with friends.</p>
                         </div>
                 </div>
                 <div class="col-md-3 col-sm-6 image-box">
                     <img src="{{ url_for('static', filename='image/raking.png') }}" alt="Image 4" class="img-fluid">
-                        <div class="text-box text-center"> <a href="URL_HERE" class="no-decoration">
+                        <div class="text-box text-center"> <a href="#ranking" class="no-decoration">
                                 <h5>Ranking</h5>
-                            </a >
-                            <p>Look at everyone's contributions.</p >
+                            </a>
+                            <p>Look at everyone's contributions.</p>
                         </div>
                 </div>
             </div>
@@ -68,7 +68,7 @@
                         <p class="adjustable-text">Study Perth Assistant hopes to help international students in Perth
                             solve various problems encountered in life and study through voluntary mutual assistance,
                             help them make more friends, better integrate into the University and community, and live a
-                            successful life.</p >
+                            successful life.</p>
                     </div>
                 </div>
             </div>
@@ -82,19 +82,19 @@
                 <div class="col-md-4 col-sm-6">
                     <div class="text-box text-center">
                         <h5>Step 1</h5>
-                        <p>Create your Study Perth Assistant account.</p >
+                        <p>Create your Study Perth Assistant account.</p>
                     </div>
                 </div>
                 <div class="col-md-4 col-sm-6">
                     <div class="text-box text-center">
                         <h5>Step 2</h5>
-                        <p>Post questions or Answer questions.</p >
+                        <p>Post questions or Answer questions.</p>
                     </div>
                 </div>
                 <div class="col-md-4 col-sm-6">
                     <div class="text-box text-center">
                         <h5>Step 3</h5>
-                        <p>Let's give each other good reviews after the questions be answered.</p >
+                        <p>Let's give each other good reviews after the questions be answered.</p>
                     </div>
                 </div>
             </div>
@@ -106,7 +106,7 @@
             <div class="row align-items-center justify-content-between">
                 <div class="page">
                     <div class="container">
-                        <h4>Question Dashboard</h4>
+                        <h4 id="ranking">Question Dashboard</h4>
                         <div class="row charts">
                             <div class="col-md-4 chart">
                                 <h4 class="text-center">Scoreboard</h4>
@@ -115,7 +115,7 @@
                             </div>
                             <div class="col-md-4 chart">
                                 <h5 class="text-center">Total Questions</h5>
-                                <p class="text-center">{{ question_count }}</p >
+                                <p class="text-center">{{ question_count }}</p>
                             </div>
                             <div class="col-md-4 chart">
                                 <h5 class="text-center">Question Types</h5>
@@ -132,7 +132,7 @@
     <main>
         <section class="container my-5 section-5">
             <div id="Welcome" class="container pb-3">
-                <h4 class="pb-2">My adventure in Australia</h4>
+                <h4 class="pb-2 text-center">My adventure in Australia</h4>
                 <div class="container-fluid p-0">
                     <div id="photo-stream" class="d-flex"> </div>
                 </div>
@@ -158,19 +158,16 @@
              // Define photo stream list, cannot read local storage files due to security reasons. HAve to add 
              // the image manually
              var images = [
-                 'image/photo-stream/1.jpg',
-                 'image/photo-stream/2.jpg',
-                 'image/photo-stream/3.jpg',
-                 'image/photo-stream/4.jpg',
-                 'image/photo-stream/5.jpg',
-                 'image/photo-stream/6.jpg',
-                 'image/photo-stream/7.jpg',
-                 'image/photo-stream/8.jpg',
-                 'image/photo-stream/9.jpg',
-                 'image/photo-stream/10.jpg',
-                 'image/photo-stream/11.jpg',
-                 'image/photo-stream/12.jpg',
-                 'image/photo-stream/13.jpg'
+                 'static/image/photo-stream/1.png',
+                 'static/image/photo-stream/2.png',
+                 'static/image/photo-stream/3.png',
+                 'static/image/photo-stream/4.png',
+                 'static/image/photo-stream/5.png',
+                 'static/image/photo-stream/6.png',
+                 'static/image/photo-stream/7.png',
+                 'static/image/photo-stream/8.png',
+                 'static/image/photo-stream/9.png',
+                 'static/image/photo-stream/10.png',
              ];
 
              // Loop through each image source in the image array, and mark each image as even or odd
