@@ -13,7 +13,7 @@
         <aside id="mySidebar" class="sidebar">
             <button class="menu-btn" onclick="toggleSidebar()">
                 <img src="{{ url_for('static', filename='image/sidebaricon.png') }}" alt="sidebar Image"
-                     style="max-width: 100%; height: auto;">
+                     style="max-width: 50%; height: auto;">
             </button>
             <div class="user-info d-none d-md-block">
                 {% if current_user.avatar %}

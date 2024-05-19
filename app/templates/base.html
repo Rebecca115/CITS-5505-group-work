@@ -13,8 +13,7 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
           integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous"/>
 
-
-    <link rel="icon" href="{{ url_for('static', filename='image/logo.png') }}" type="images/png">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='image/logo.png') }}" type="images/png">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}" type="text/css">
     {% block head %}{% endblock %}
 </head>
@@ -24,7 +23,7 @@
 <header>
     <nav class="navbar navbar-expand-md navbar-light bg-light fixed-top shadow-sm w-100">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#top">
+            <a class="navbar-brand" href="/">
                 <img src="{{ url_for('static', filename='image/logo.png') }}" alt="logo"
                      class="index-icon d-inline-block align-top img-fluid">
                 Study Perth Assistant
