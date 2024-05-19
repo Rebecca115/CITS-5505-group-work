@@ -106,7 +106,6 @@ app/
 │   │   ├── login.html
 │   │   ├── post_question.html
 │   │   ├── posted-questions.html
-│   │   ├── profile.html
 │   │   ├── question_page.html
 │   │   ├── register.html
 │   │   ├── search.html
@@ -129,7 +128,7 @@ app/
 │   │   ├── user_answered_questions.jpg
 │   │   ├── user_avatar_change.jpg
 │   │   └── user_posted_questions.jpg
-│   └── version3/
+│   └── version3.mp4
 
 ├── migrations/
 │   ├── README
