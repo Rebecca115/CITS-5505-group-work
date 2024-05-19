@@ -17,8 +17,9 @@
                     <img src="{{ url_for('static', filename='image/Postquestion.png') }}" alt="Image 1"
                         class="img-fluid">
                         <div class="text-box text-center">
+                            <a href="{{'question.post' }}" class="no-decoration">
                                 <h5>Post questions</h5>
-                        
+                            </a>
                             <p>Post your first question.</p>
                         </div>
                 </div>
@@ -26,9 +27,9 @@
                     <img src="{{ url_for('static', filename='image/answerquestion.png') }}" alt="Image 2"
                         class="img-fluid">
                         <div class="text-box text-center">
-
+                            <a href="#" class="no-decoration">
                                 <h5>Answer questions</h5>
-                            
+                            </a>
                             <p>Answer your first question.</p>
                         </div>
                 </div>
@@ -38,10 +39,10 @@
                             {% if current_user.is_authenticated %}
                           <a href="/user/login" class="no-decoration">
                             {% else %}
-
+                            <a href="/user/{{ current_user.id }}/info" class="no-decoration">
                                 {% endif %}
                                 <h5>Profile</h5>
-                          
+                            </a>
                             <p>Get social with friends.</p>
                         </div>
                 </div>
