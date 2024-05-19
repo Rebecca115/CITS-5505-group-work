@@ -11,7 +11,7 @@ class User(db.Model):
     __tablename__ = 'user'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     username = db.Column(db.String(64), unique=True, nullable=False)
-    DOB = db.Column(db.String(64))
+    DOB = db.Column(db.DateTime)
     password = db.Column(db.String(256), nullable=False)
     avatar = db.Column(db.String(256))
     gender = db.Column(db.String(16))
@@ -21,6 +21,7 @@ class User(db.Model):
     updated_at = db.Column(db.DateTime,
                            default=datetime.now, onupdate=datetime.now)
     school = db.Column(db.String(64))
+    signature = db.Column(db.String(256))
 
     @property
     def is_authenticated(self):

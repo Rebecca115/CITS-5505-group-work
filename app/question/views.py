@@ -90,9 +90,11 @@ def question_list():
     Route to list questions in a paginated manner and return as JSON.
     Questions are sorted by their creation time in descending order.
     """
-    per_page = 5  # Define the number of items per page.
+    per_page = request.args.get('per_page',10, type=int)
     page = request.args.get('page', 1, type=int)
     page_data = Question.query.order_by(desc(Question.created_at)).paginate(page=page, per_page=per_page)
+    print(len(page_data.items))
+    print(page)
     return render_template('browse-question.html', page_data=page_data)
 
 

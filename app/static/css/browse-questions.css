@@ -1,4 +1,9 @@
 /* Style for the Browse Questions page */
+main{
+    padding: 30px;
+    margin-top: 50px;
+}
+
 .container {
     background-color: #fff;
     padding: 20px;
@@ -23,6 +28,28 @@ h2 {
 .list-group-item p {
     margin-bottom: 5px;
     color: #555;
+}
+
+.hidden {
+    display: none;
+}
+
+.show-desc, .hide-desc {
+    margin-top: 10px;
+}
+
+.card {
+    margin-bottom: 20px;
+}
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+}
+
+.card img {
+    max-width: 100%;
+    height: auto;
 }
 
 .list-group-item small {

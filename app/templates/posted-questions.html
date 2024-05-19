@@ -15,7 +15,7 @@
                     <h2 class="text-center">Posted Questions</h2>
                     <div class="list-group">
                         {% for question in questions %}
-                            <a href="{{ url_for('question.detail', q_id=question.id) }}" class="list-group-item list-group-item-action">
+                            <a href="{{ url_for('question.question_page', q_id=question.id) }}" class="list-group-item list-group-item-action">
                                 <h5 class="mb-1">{{ question.title }}</h5>
                             </a>
                         {% endfor %}
