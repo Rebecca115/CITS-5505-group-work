@@ -4,17 +4,19 @@
 Create Account - Study Perth Assistant
 {% endblock %}
 
-{% block header %}
-<!-- Link to custom CSS file -->
-<link rel="stylesheet" href="{{ url_for('static', filename='style_2.css') }}">
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style_1.css') }}">
 {% endblock %}
 
 {% block maincontent %}
 <main class="mt-5 pt-1">
+    <div id="cloud1"></div>
+    <div id="cloud2"></div>
     <div class="container">
-        <img src="{{ url_for('static', filename='Picture1.png') }}" alt="left_decoration">
-        <div id="cloud"></div>
         <div id="central_from" class="col-md-6 offset-md-3">
+            <video autoplay muted loop id="background-video">
+                <source src="{{ url_for('static', filename='image/background6.mp4') }}" type="video/mp4">
+            </video>
             <div id="register">
                 <h1 class="text-center">Create New Account</h1>
                 <p class="text-center">
@@ -51,7 +53,10 @@ Create Account - Study Perth Assistant
                 </form>
             </div>
         </div>
-        <img src="{{ url_for('static', filename='Picture2.png') }}" alt="right_decoration" id="img2" style="float: right;">
     </div>
 </main>
+{% endblock %}
+{% block script %}
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
 {% endblock %}

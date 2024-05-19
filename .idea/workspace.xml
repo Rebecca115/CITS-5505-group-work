@@ -5,38 +5,57 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a3ab5809-4b47-49f9-aeda-b652653ab519" name="Changes" comment="bug fix and feature adjust">
+      <change afterPath="$PROJECT_DIR$/app/static/image/background1.mp4" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/image/background2.mp4" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/image/background3.mp4" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/image/background4.mp4" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/image/background5.mp4" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/image/background6.mp4" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/image/homepage_cartoon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/image/photo-stream/1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/image/photo-stream/10.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/image/photo-stream/2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/image/photo-stream/3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/image/photo-stream/4.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/image/photo-stream/5.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/image/photo-stream/6.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/image/photo-stream/7.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/image/photo-stream/8.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/image/photo-stream/9.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/image/sidebaricon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/templates/--.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/deliverables/version2/browse_questions.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/deliverables/version2/user_answered_questions.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/deliverables/version2/user_avatar_change.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/deliverables/version2/user_posted_questions.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/style_1.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/static/css/browse-questions.css" beforeDir="false" afterPath="$PROJECT_DIR$/app/static/css/browse-questions.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/static/css/update-avatar.css" beforeDir="false" afterPath="$PROJECT_DIR$/app/static/css/update_avatar.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/static/css/base.css" beforeDir="false" afterPath="$PROJECT_DIR$/app/static/css/base.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/static/css/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/app/static/css/index.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/static/css/style_1.css" beforeDir="false" afterPath="$PROJECT_DIR$/app/static/css/style_1.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/static/css/user-info.css" beforeDir="false" afterPath="$PROJECT_DIR$/app/static/css/user-info.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/static/image/cloud up.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/static/image/cloud_up.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/static/image/clound down.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/static/image/cloud_down.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/templates/answered-questions.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/answered-questions.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/base.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/templates/base_profile.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/base_profile.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/browse-question.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/browse-question.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/posted-questions.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/posted-questions.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/update-avatar.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/update_avatar.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/update_avatar.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/user-info.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/user-info.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/user/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/user/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/instance/data.db" beforeDir="false" afterPath="$PROJECT_DIR$/instance/data.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/change_password.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/change_password.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/forget_password.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/forget_password.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/index_new.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/index_new.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/login.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/profile.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/profile.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/register.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/register.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="Python Script" />
-        <option value="HTML File" />
-      </list>
-    </option>
-  </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="5af691a0466549a01a89b368d49baaaf37275e4a" />
+        <entry key="$PROJECT_DIR$" value="ecc7eaa6fbd571f0c82b342ab0cd3b5822de4191" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -57,7 +76,7 @@
                 <list>
                   <RecentBranch>
                     <option name="branchName" value="feature_new_front_end" />
-                    <option name="lastUsedInstant" value="1716002764" />
+                    <option name="lastUsedInstant" value="1716002609" />
                   </RecentBranch>
                 </list>
               </option>
@@ -68,22 +87,12 @@
       </RecentBranches>
     </option>
   </component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/Rebecca115/CITS-5505-group-work.git",
-    "accountId": "2c0615a0-25e3-42e7-949f-74e1f8c348a1"
-  },
-  "recentNewPullRequestHead": {
-    "server": {
-      "useHttp": false,
-      "host": "github.com",
-      "port": null,
-      "suffix": null
-    },
-    "owner": "Rebecca115",
-    "repository": "CITS-5505-group-work"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/Rebecca115/CITS-5505-group-work.git&quot;,
+    &quot;accountId&quot;: &quot;2c0615a0-25e3-42e7-949f-74e1f8c348a1&quot;
   }
-}]]></component>
+}</component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
   &quot;associatedIndex&quot;: 3
@@ -98,16 +107,10 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "DefaultHtmlFileTemplate": "HTML File",
-    "Flask server.Flask (run.py).executor": "Run",
     "Python.app.executor": "Run",
     "Python.conf.executor": "Run",
-    "Python.db_script.executor": "Run",
-    "Python.models.executor": "Run",
-    "Python.views.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "#92 on feature__new__front__end",
-    "last_opened_file_path": "/Users/fudong/CITS-5505-group-work/instance",
+    "git-widget-placeholder": "#96 on Merging feature__new__front__end",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -116,69 +119,6 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/instance" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/app/uploads" />
-      <recent name="$PROJECT_DIR$" />
-    </key>
-  </component>
-  <component name="RunManager" selected="Flask server.Flask (run.py)">
-    <configuration name="db_script" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="CITS-5505-group-work" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/instance" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/db_script.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Flask (run.py)" type="Python.FlaskServer" temporary="true" nameIsGenerated="true">
-      <module name="CITS-5505-group-work" />
-      <option name="target" value="$PROJECT_DIR$/run.py" />
-      <option name="targetType" value="PATH" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="FLASK_DEBUG" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="launchJavascriptDebuger" value="false" />
-      <method v="2" />
-    </configuration>
-    <list>
-      <item itemvalue="Flask server.Flask (run.py)" />
-      <item itemvalue="Python.db_script" />
-    </list>
-    <recent_temporary>
-      <list>
-        <item itemvalue="Flask server.Flask (run.py)" />
-        <item itemvalue="Python.db_script" />
-      </list>
-    </recent_temporary>
-  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -198,47 +138,6 @@
       <workItem from="1715495122533" duration="8012000" />
       <workItem from="1715681193501" duration="4848000" />
     </task>
-    <task id="LOCAL-00001" summary="bug fix and feature adjust">
-      <option name="closed" value="true" />
-      <created>1716002907077</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1716002907077</updated>
-    </task>
-    <task id="LOCAL-00002" summary="bug fix and feature adjust">
-      <option name="closed" value="true" />
-      <created>1716003123270</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1716003123270</updated>
-    </task>
-    <task id="LOCAL-00003" summary="bug fix and feature adjust">
-      <option name="closed" value="true" />
-      <created>1716004953310</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1716004953310</updated>
-    </task>
-    <task id="LOCAL-00004" summary="bug fix and feature adjust">
-      <option name="closed" value="true" />
-      <created>1716006978815</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1716006978815</updated>
-    </task>
-    <task id="LOCAL-00005" summary="bug fix and feature adjust">
-      <option name="closed" value="true" />
-      <created>1716037535462</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1716037535462</updated>
-    </task>
-    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -276,17 +175,6 @@
     <MESSAGE value="bug fix and feature adjust" />
     <option name="LAST_COMMIT_MESSAGE" value="bug fix and feature adjust" />
   </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/app/user/forms.py</url>
-          <line>230</line>
-          <option name="timeStamp" value="30" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
-  </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/CITS_5505_group_work$models.coverage" NAME="models Coverage Results" MODIFIED="1716002924085" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/CITS_5505_group_work$app.coverage" NAME="app Coverage Results" MODIFIED="1715497085577" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
@@ -295,7 +183,7 @@
     <SUITE FILE_PATH="coverage/CITS_5505_group_work$conf.coverage" NAME="conf Coverage Results" MODIFIED="1715495858694" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/CITS_5505_group_work$Flask__app_py_.coverage" NAME="Flask (run.py) Coverage Results" MODIFIED="1715960456001" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/CITS_5505_group_work$database_immigration.coverage" NAME="database_immigration Coverage Results" MODIFIED="1714384794966" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/instance" />
-    <SUITE FILE_PATH="coverage/CITS_5505_group_work$Flask__run_py_.coverage" NAME="Flask (run.py) Coverage Results" MODIFIED="1716038795204" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/CITS_5505_group_work$Flask__run_py_.coverage" NAME="Flask (run.py) Coverage Results" MODIFIED="1716083781150" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
     <SUITE FILE_PATH="coverage/CITS_5505_group_work$CITS_5505_group_work.coverage" NAME="CITS-5505-group-work Coverage Results" MODIFIED="1713953744097" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
     <SUITE FILE_PATH="coverage/CITS_5505_group_work$Flask__app_py___1_.coverage" NAME="Flask (app.py) (1) Coverage Results" MODIFIED="1715268603953" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
     <SUITE FILE_PATH="coverage/CITS_5505_group_work$views.coverage" NAME="views Coverage Results" MODIFIED="1716003019884" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/app/user" />

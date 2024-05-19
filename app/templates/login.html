@@ -4,11 +4,21 @@
 Login - Study Perth Assistant
 {% endblock %}
 
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style_1.css') }}">
+{% endblock %}
+
 {% block maincontent %}
 <main class="mt-5 pt-1">
+    <div id="cloud1"></div>
+    <div id="cloud2"></div>
     <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-6">
+        <div class="row justify-content-center" >
+            <video autoplay muted loop id="background-video">
+                <source src="{{ url_for('static', filename='image/background4.mp4') }}" type="video/mp4">
+            </video>
+            <div class="col-md-6" id="login">
+                
                 <h1 class="text-center">Login</h1>
                 <p class="text-center">
                     <a href="{{ url_for('user.register') }}">Sign up to Continue</a>
@@ -50,7 +60,7 @@ Login - Study Perth Assistant
                             </div>
                         {% endif %}
                         <div class="text-center mt-2">
-                            <a href="{{ url_for('user.forget_password') }}">Forgot Password</a>
+                            <a href="{{ url_for('user.forget_password') }}" >Forgot Password</a>
                         </div>
                     </div>
 
@@ -61,9 +71,11 @@ Login - Study Perth Assistant
             </div>
         </div>
     </div>
+    
 </main>
 {% endblock %}
 
 {% block script %}
-
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
 {% endblock %}
