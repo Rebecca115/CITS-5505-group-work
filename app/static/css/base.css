@@ -402,23 +402,51 @@ footer {
     z-index: 1030;
 }
 
-/* Media queries for responsive design */
+/* Responsive adjustments */
 @media (max-width: 768px) {
     .sidebar {
-        width: 100%;
-        height: auto;
-        position: relative;
-        top: 0;
-        bottom: 0;
-        border-radius: 0;
+        display: none;
     }
 
     #main {
         margin-left: 0;
-        padding-top: 15vh;
     }
-}
 
-#navbarCollapse {
-    text-align: left;
+    .navbar .navbar-collapse {
+        justify-content: space-between;
+        background-color: #E3E9F7; /* 设置导航栏折叠后的背景色为白色 */
+    }
+
+    .navbar .nav-item {
+        display: flex;
+        align-items: center;
+    }
+
+    .navbar .nav-item .nav-link {
+        display: flex;
+        align-items: center;
+        padding: 0.5rem 1rem;
+    }
+
+    .navbar .nav-item .nav-link .fas {
+        margin-right: 10px;
+    }
+
+    .navbar .nav-item .user-info {
+        display: none;
+    }
+
+    .navbar .nav-item .user-info-mobile {
+        display: flex;
+        align-items: center;
+        padding: 0.5rem 1rem;
+    }
+
+    .navbar .nav-item.d-md-none {
+        display: none;
+    }
+
+    .navbar .nav-item.d-md-none {
+        display: block;
+    }
 }

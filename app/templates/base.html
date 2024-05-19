@@ -31,12 +31,20 @@
 
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
+                    <!-- 搜索表单 -->
+                    <li class="nav-item d-none d-md-block">
                         <form class="d-flex" action="/search" method="GET">
                             <input class="form-control me-2" type="search" name="query" placeholder="Search"
                                    aria-label="Search">
                             <button class="btn btn-outline-success" type="submit">Search</button>
                         </form>
+                    </li>
+                    <!-- Search Icon -->
+                    <li class="nav-item d-md-none">
+                        <a class="nav-link" href="/search">
+                            <span class="ms-2">Search</span>
+                            <i class="fas fa-search navbar-icon"></i>
+                        </a>
                     </li>
                     <li class="nav-item d-md-none">
                         <div class="user-info-mobile">
