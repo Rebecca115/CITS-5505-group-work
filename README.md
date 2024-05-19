@@ -1,27 +1,53 @@
-#  CITS5505 Flask Questions and Answer Application
+#  Study Perth Assistant
 
-This Flask application is a simple yet functional Questions and Answer platform. It allows users to register, log in, post questions, and provide answers. The application uses Flask, Flask-SQLAlchemy, and Flask-Login for managing user sessions and interactions.
-
+Study Perth Assistant is a web application designed to assist students in Perth with managing and accessing educational resources. The application allows users to register, log in, and manage their profiles, as well as browse and post questions.
 
 
 ## **Features**
 
-1. **User Authentication and Authorization**
+- **Responsive Design**: Built with Bootstrap 5 for a fully responsive design, ensuring the application works well on all devices.
+- **Dynamic Content**: Utilizes Jinja2 templating for dynamic content generation.
+- **User Interface**: Modern UI with FontAwesome icons and custom CSS for a sleek look.
+- **User Authentication and Authorization**
     - Registration with email verification
     - Login and logout functionality
     - Password reset with email link
     - Profile management including avatar upload
-2. **Question and Answer Management**
+- **Question and Answer Management**
     - Post, edit, and delete questions
     - Post, edit, and delete answers
     - Like and unlike answers
-3. **Content Browsing and Search**
+- **Content Browsing and Search**
     - Paginated lists of questions
     - Detailed question and answer pages
     - Search functionality across questions and answers
-4. **User Interaction and Notifications**
-    - Flash messages for user feedback
-    - Email notifications for registration and password reset
+
+## **Technical Highlights**
+
+1. **Modular Design**:
+    - Utilizes Flask's Jinja2 templating engine with template inheritance to maintain a clean and organized code structure.
+    - Different blocks (e.g., **`title`**, **`head`**, **`maincontent`**, **`scripts`**) are defined for flexible reuse and overriding.
+2. **Responsive Design**:
+    - Built with Bootstrap 5 framework for a fully responsive design.
+    - Navigation bar adapts for different screen sizes with a hamburger menu for smaller screens.
+3. **User Authentication and Authorization**:
+    - Supports user login, registration, and logout features.
+    - Displays different navigation menu items based on user authentication status using the **`current_user`** object.
+4. **Dynamic Content Loading**:
+    - Dynamic content generation using Jinja2 template engine with conditionals and loops for user information and navigation items.
+    - Dynamic URL generation with Flask's **`url_for`** function ensures correct and maintainable resource linking.
+5. **Form Handling**:
+    - Manages forms with Flask-WTF extension, including form validation and rendering.
+    - Provides user profile update forms with multiple fields and Bootstrap styling for a clean and user-friendly interface.
+6. **Front-End Interactivity**:
+    - JavaScript is used for front-end interactions, such as toggling the sidebar.
+    - FontAwesome icons are incorporated for enhanced visual aesthetics.
+7. **User Experience**:
+    - Navigation bar includes a search form for quick access to content.
+    - Layout and typography are enhanced using Bootstrap's grid system and custom CSS for an improved user experience.
+8. **Compatibility and Performance**:
+    - Utilizes CDN for loading Bootstrap and FontAwesome, improving page load speed and resource availability.
+    - Static resources (CSS and images) are organized in the **`static`** folder and referenced with Flask's **`url_for`** function for reliable loading.
 
 ## Technologies Used
 
