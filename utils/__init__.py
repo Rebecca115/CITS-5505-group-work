@@ -1,2 +1,0 @@
-def validators():
-    return None
