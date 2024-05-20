@@ -15,7 +15,6 @@ from wtforms.fields.simple import TextAreaField, SubmitField
 from wtforms.validators import DataRequired, Length, EqualTo, Optional
 
 from models import User, db
-from utils import constants
 
 
 class RegisterForm(FlaskForm):
