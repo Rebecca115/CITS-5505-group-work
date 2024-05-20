@@ -70,7 +70,7 @@ body {
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
     padding-top: 20px;
     overflow-x: hidden;
-    overflow-y: hidden;
+    overflow-y: auto;
     transition: width 0.3s;
     z-index: 1040;
     display: flex;
