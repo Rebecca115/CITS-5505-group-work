@@ -61,7 +61,7 @@
 <!-- Modal for writing an answer -->
 <div class="modal fade" id="addComment" tabindex="-1" role="dialog" aria-labelledby="addCommentLabel">
     <div class="modal-dialog" role="document">
-        <form method="post" action="{{ url_for('question.question_edit', q_id=question.id) }}">
+        <form method="post" action="{{ url_for('question.question_page', q_id=question.id) }}">
             {{ form.csrf_token }}
             <div class="modal-content">
                 <div class="modal-header">
